@@ -5,32 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wonk Meme Coin</title>
   <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gradient-to-b from-yellow-100 via-orange-200 to-pink-100 min-h-screen text-gray-800 font-sans">
+  <style>
+    body {
+      background: linear-gradient(135deg, #ff0040, #ffd700, #00ff9f);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+    }
 
-  <div class="max-w-4xl mx-auto p-6">
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .field-box {
+      background-color: #0a2540; /* أزرق بارد ثابت */
+    }
+
+    .police-glow {
+      animation: policeLights 0.5s infinite alternate;
+      font-weight: bold;
+      text-shadow: 0 0 10px #fff, 0 0 20px currentColor, 0 0 30px currentColor;
+    }
+
+    @keyframes policeLights {
+      0% {
+        color: #ff0000;
+        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+      }
+      50% {
+        color: #0000ff;
+        text-shadow: 0 0 10px #0000ff, 0 0 20px #0000ff, 0 0 30px #0000ff;
+      }
+      100% {
+        color: #ff0000;
+        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+      }
+    }
+
+    .red-glow {
+      color: #ff0000;
+      font-size: 1.2rem;
+      text-shadow:
+        0 0 5px #ff0000,
+        0 0 10px #ff0000,
+        0 0 20px #ff0000,
+        0 0 40px #ff0000;
+    }
+  </style>
+</head>
+<body class="text-white font-sans min-h-screen">
+
+  <div class="max-w-6xl mx-auto p-6">
+
     <!-- Header -->
     <header class="text-center mb-10">
       <img src="wonk-logo.png" alt="Wonk Logo" class="w-24 h-24 mx-auto rounded-full shadow-lg mb-4">
-      <h1 class="text-4xl font-bold text-orange-600">Wonk Meme Coin</h1>
-      <p class="text-lg mt-2 italic text-gray-600">A chaotic meme with no rules. Just laughs, just Wonk!</p>
+      <h1 class="text-4xl police-glow">Wonk Meme Coin</h1>
+      <p class="red-glow mt-2 italic">A chaotic meme with no rules. Just laughs, just Wonk!</p>
     </header>
 
-    <!-- Meme Image -->
-    <div class="flex justify-center mb-8">
-      <img src="wonk-meme.png" alt="Wonk Meme" class="rounded-xl shadow-xl w-full max-w-md">
+    <!-- Roadmap Images -->
+    <div class="flex flex-wrap justify-center gap-6 mb-10">
+      <div class="w-full sm:w-[45%] rounded-xl overflow-hidden shadow-md field-box p-4">
+        <img src="roadmap-1.png" alt="Roadmap Phase 1" class="w-full h-auto rounded-lg">
+      </div>
+      <div class="w-full sm:w-[45%] rounded-xl overflow-hidden shadow-md field-box p-4">
+        <img src="roadmap-2.png" alt="Roadmap Phase 2" class="w-full h-auto rounded-lg">
+      </div>
     </div>
 
-    <!-- About Section -->
-    <section class="bg-white p-6 rounded-xl shadow-md mb-8">
-      <h2 class="text-2xl font-bold mb-2 text-orange-500">What is Wonk?</h2>
-      <p class="text-gray-700">Wonk is a pure meme coin — no dev wallet, no team allocation, no BS. Just chaos, creativity, and pure internet fun. If the community embraces it, I’ll jump in. If not, it's just a story for our future kids.</p>
+    <!-- About -->
+    <section class="field-box p-6 rounded-xl shadow-md mb-8">
+      <h2 class="text-2xl font-bold mb-2 text-yellow-300">What is Wonk?</h2>
+      <p class="text-gray-200">WONK – Project & Token Overview:
+
+WONK is a milestone toward building a strong, united community of investors and traders — a growing network of believers in a safer, decentralized future. The project empowers the community to make decisions, including voting to support new tokens or launch secure, rug-pull-free initiatives. Its success will lay the foundation for a truly decentralized, open-source collective — a resilient force capable of standing against market whales.
+
+The project’s vision is clear: “If I’m going to invest, I want to have a share in it.” Since this is a community-driven initiative, allocation proposals have already been shared transparently. If you believe in WONK, the rewards will go far beyond token distribution. It’s not the developer but the community itself that drives the momentum and long-term success.
+
+As for the community presence, Telegram and Twitter will evolve into a powerful coordination force — enabling pre-call strategies for pumps, whether by supporting promising tokens or launching new ones through collective voting.
+
+Just imagine: whales with inside calls controlling the market — now imagine the opposite, a community of small traders uniting, becoming together a force as powerful as any whale. A new kind of whale — a community whale.
+
+With WONK, the pump is no longer a privilege. This token becomes the symbol of collective strength. It’s the voice of the people that moves the charts.
+</p>
     </section>
 
     <!-- Tokenomics -->
-    <section class="bg-white p-6 rounded-xl shadow-md mb-8">
-      <h2 class="text-2xl font-bold mb-2 text-orange-500">Tokenomics</h2>
-      <ul class="list-disc list-inside text-gray-700 space-y-1">
+    <section class="field-box p-6 rounded-xl shadow-md mb-8">
+      <h2 class="text-2xl font-bold mb-2 text-yellow-300">Tokenomics</h2>
+      <ul class="list-disc list-inside text-gray-200 space-y-1">
         <li>Total Supply: 1,000,000,000 WONK</li>
         <li>0% Developer Wallet</li>
         <li>100% to Community</li>
@@ -39,9 +104,9 @@
     </section>
 
     <!-- Roadmap -->
-    <section class="bg-white p-6 rounded-xl shadow-md mb-8">
-      <h2 class="text-2xl font-bold mb-2 text-orange-500">Roadmap</h2>
-      <ol class="list-decimal list-inside text-gray-700 space-y-1">
+    <section class="field-box p-6 rounded-xl shadow-md mb-8">
+      <h2 class="text-2xl font-bold mb-2 text-yellow-300">Roadmap</h2>
+      <ol class="list-decimal list-inside text-gray-200 space-y-1">
         <li>Reach 100 Twitter Followers</li>
         <li>Deploy on Base or Solana</li>
         <li>Let the community vote on direction</li>
@@ -49,12 +114,31 @@
       </ol>
     </section>
 
-    <!-- Call to Action -->
+    <!-- Wallets -->
+    <section class="field-box p-6 rounded-xl shadow-md mb-8">
+      <h2 class="text-2xl font-bold mb-4 text-yellow-300">Wonk Wallets</h2>
+
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold text-white mb-2">Main Wallet (Public):</h3>
+        <div class="flex items-center bg-yellow-400 text-gray-900 px-4 py-2 rounded-full cursor-pointer hover:bg-yellow-300 transition"
+             onclick="navigator.clipboard.writeText('0xYourMainWalletAddressHere'); alert('Copied!');">
+          <span class="truncate">Coming Soon...</span>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-white mb-2">Holder Wallets:</h3>
+        <p class="italic text-gray-300">Coming Soon...</p>
+      </div>
+    </section>
+
+    <!-- CTA -->
     <div class="text-center mt-10">
-      <a href="https://t.me/wonk_meme" target="_blank" class="bg-orange-500 text-white px-6 py-3 rounded-full shadow hover:bg-orange-600 transition">
+      <a href="https://t.me/yourgroup" target="_blank" class="bg-yellow-400 text-gray-900 px-6 py-3 rounded-full shadow hover:bg-yellow-300 transition">
         Join the Wonk Telegram
       </a>
     </div>
+
   </div>
 
 </body>
