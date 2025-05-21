@@ -1,15 +1,21 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wonk Meme Coin</title>
+  <title>Wonk Meme Coin  Community Driven Crypto</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.8/countUp.min.js"></script>
   <style>
+    /* Main Background Animation */
     body {
       background: linear-gradient(135deg, #ff0040, #ffd700, #00ff9f);
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
+      font-family: 'Poppins', sans-serif;
     }
 
     @keyframes gradientBG {
@@ -18,10 +24,25 @@
       100% {background-position: 0% 50%;}
     }
 
-    .field-box {
-      background-color: #0a2540; /* أزرق بارد ثابت */
+    /* Glass Morphism Effect */
+    .glass {
+      background: rgba(10, 37, 64, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
 
+    /* Animated Logo */
+    .logo-pulse {
+      animation: logoPulse 3s infinite alternate;
+    }
+
+    @keyframes logoPulse {
+      0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7)); }
+      100% { transform: scale(1.1); filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9)); }
+    }
+
+    /* Police Style Glow Effect */
     .police-glow {
       animation: policeLights 0.5s infinite alternate;
       font-weight: bold;
@@ -43,6 +64,7 @@
       }
     }
 
+    /* Other Glow Effects */
     .red-glow {
       color: #ff0000;
       font-size: 1.2rem;
@@ -52,159 +74,470 @@
         0 0 20px #ff0000,
         0 0 40px #ff0000;
     }
+
+    .yellow-glow {
+      color: #ffd700;
+      text-shadow:
+        0 0 5px #ffd700,
+        0 0 10px #ffd700,
+        0 0 20px #ffd700;
+    }
+
+    /* Roadmap Timeline */
+    .timeline-container {
+      position: relative;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, #ffd700, #ff0040);
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .timeline-point {
+      position: absolute;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffd700;
+      transform: translateX(-50%);
+      z-index: 1;
+      box-shadow: 0 0 10px #ffd700;
+    }
+
+    /* Voting System Styles */
+    .vote-btn {
+      background: linear-gradient(135deg, #ff0040, #ffd700);
+      transition: all 0.3s ease;
+      transform: translateY(0);
+    }
+
+    .vote-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(255, 0, 64, 0.3);
+    }
+
+    .vote-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Coin Animation */
+    .coin-float {
+      animation: floatCoin 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatCoin {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-10px) rotate(10deg); }
+    }
+
+    /* Stats Counter Animation */
+    .stat-count {
+      font-weight: bold;
+      color: #ffd700;
+    }
+
+    /* Navbar Animation */
+    .nav-item {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #ffd700;
+      transition: width 0.3s ease;
+    }
+
+    .nav-item:hover::after {
+      width: 100%;
+    }
+
+    /* Particles Container */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    /* Smooth Scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Animated Flip Cards */
+    .flip-card {
+      perspective: 1000px;
+      height: 300px;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
   </style>
 </head>
-<body class="text-white font-sans min-h-screen">
+<body class="text-white font-sans min-h-screen relative">
+  <!-- Particles Background -->
+  <div id="particles-js"></div>
 
-  <div class="max-w-6xl mx-auto p-6">
-
-    <!-- Header -->
-    <header class="text-center mb-10">
-      <img src="wonk-logo.png" alt="Wonk Logo" class="w-24 h-24 mx-auto rounded-full shadow-lg mb-4">
-      <h1 class="text-4xl police-glow">Wonk Meme Coin</h1>
-      <p class="red-glow mt-2 italic">A chaotic meme with no rules. Just laughs, just Wonk!</p>
-    </header>
-
-    <!-- Roadmap Images -->
-    <div class="flex flex-wrap justify-center gap-6 mb-10">
-      <div class="w-full sm:w-[45%] rounded-xl overflow-hidden shadow-md field-box p-4">
-        <img src="roadmap-1.png" alt="Roadmap Phase 1" class="w-full h-auto rounded-lg">
+  <!-- Fixed Navigation Bar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass px-6 py-4">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <img src="wonk-logo.png" alt="Wonk Logo" class="w-10 h-10 rounded-full logo-pulse">
+        <span class="font-bold text-xl police-glow">WONK</span>
       </div>
-      <div class="w-full sm:w-[45%] rounded-xl overflow-hidden shadow-md field-box p-4">
-        <img src="roadmap-2.png" alt="Roadmap Phase 2" class="w-full h-auto rounded-lg">
+      <div class="hidden md:flex space-x-6">
+        <a href="#about" class="nav-item px-2 py-1">About</a>
+        <a href="#tokenomics" class="nav-item px-2 py-1">Tokenomics</a>
+        <a href="#roadmap" class="nav-item px-2 py-1">Roadmap</a>
+        <a href="#vote" class="nav-item px-2 py-1">Vote</a>
+        <a href="#community" class="nav-item px-2 py-1">Community</a>
+      </div>
+      <div class="md:hidden">
+        <button id="mobile-menu-button" class="text-white">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+      <a href="#about" class="block py-2 text-center">About</a>
+      <a href="#tokenomics" class="block py-2 text-center">Tokenomics</a>
+      <a href="#roadmap" class="block py-2 text-center">Roadmap</a>
+      <a href="#vote" class="block py-2 text-center">Vote</a>
+      <a href="#community" class="block py-2 text-center">Community</a>
+    </div>
+  </nav>
+
+  <!-- Main Content Container -->
+  <div class="max-w-6xl mx-auto p-6 pt-24">
+
+    <!-- Hero Section -->
+    <header class="text-center mb-16 animate__animated animate__fadeIn">
+      <div class="flex justify-center mb-6">
+        <img src="wonk-logo.png" alt="Wonk Logo" class="w-32 h-32 rounded-full shadow-lg coin-float">
+      </div>
+      <h1 class="text-5xl font-bold police-glow mb-4">Wonk Meme Coin</h1>
+      <p class="red-glow mt-2 italic text-xl mb-8">A chaotic meme with no rules. Just laughs, just Wonk!</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#vote" class="vote-btn px-8 py-3 rounded-full font-bold text-lg shadow-lg">
+          <i class="fas fa-vote-yea mr-2"></i> Vote Now
+        </a>
+        <a href="https://t.me/wonk_meme" target="_blank" class="bg-[#0088cc] hover:bg-[#0077b5] px-8 py-3 rounded-full font-bold text-lg shadow-lg transition">
+          <i class="fab fa-telegram mr-2"></i> Join Telegram
+        </a>
+      </div>
+    </header>
+<!-- Stats Counters -->
+    <div class="flex flex-wrap justify-between mb-16">
+      <div class="w-full md:w-1/4 glass p-6 rounded-xl text-center mb-4 md:mb-0 animate__animated animate__fadeInUp">
+        <i class="fas fa-users text-3xl yellow-glow mb-2"></i>
+        <h3 class="text-lg">Community Members</h3>
+        <p class="stat-count text-3xl" id="community-counter">0</p>
+      </div>
+      <div class="w-full md:w-1/4 glass p-6 rounded-xl text-center mb-4 md:mb-0 animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+        <i class="fas fa-chart-line text-3xl yellow-glow mb-2"></i>
+        <h3 class="text-lg">Price Growth</h3>
+        <p class="stat-count text-3xl" id="growth-counter">0</p><span>%</span>
+      </div>
+      <div class="w-full md:w-1/4 glass p-6 rounded-xl text-center mb-4 md:mb-0 animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
+        <i class="fas fa-fire-alt text-3xl yellow-glow mb-2"></i>
+        <h3 class="text-lg">Tokens Burned</h3>
+        <p class="stat-count text-3xl" id="burned-counter">0</p><span>M</span>
+      </div>
+      <div class="w-full md:w-1/4 glass p-6 rounded-xl text-center animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
+        <i class="fas fa-vote-yea text-3xl yellow-glow mb-2"></i>
+        <h3 class="text-lg">Active Votes</h3>
+        <p class="stat-count text-3xl" id="vote-counter">0</p>
       </div>
     </div>
 
     <!-- About -->
-    <section class="field-box p-6 rounded-xl shadow-md mb-8">
-      <h2 class="text-2xl font-bold mb-2 text-yellow-300">What is Wonk?</h2>
-      <p class="text-gray-200">WONK – Project & Token Overview:
-
-WONK is a milestone toward building a strong, united community of investors and traders — a growing network of believers in a safer, decentralized future. The project empowers the community to make decisions, including voting to support new tokens or launch secure, rug-pull-free initiatives. Its success will lay the foundation for a truly decentralized, open-source collective — a resilient force capable of standing against market whales.
-
-The project’s vision is clear: “If I’m going to invest, I want to have a share in it.” Since this is a community-driven initiative, allocation proposals have already been shared transparently. If you believe in WONK, the rewards will go far beyond token distribution. It’s not the developer but the community itself that drives the momentum and long-term success.
-
-As for the community presence, Telegram and Twitter will evolve into a powerful coordination force — enabling pre-call strategies for pumps, whether by supporting promising tokens or launching new ones through collective voting.
-
-Just imagine: whales with inside calls controlling the market — now imagine the opposite, a community of small traders uniting, becoming together a force as powerful as any whale. A new kind of whale — a community whale.
-
-With WONK, the pump is no longer a privilege. This token becomes the symbol of collective strength. It’s the voice of the people that moves the charts.
-</p>
+    <section id="about" class="glass p-8 rounded-xl shadow-lg mb-16 animate__animated animate__fadeIn">
+      <h2 class="text-3xl font-bold mb-6 yellow-glow text-center">What is Wonk?</h2>
+      
+      <div class="space-y-6 text-gray-200">
+        <p class="leading-relaxed">
+          <span class="font-bold text-yellow-300">WONK</span> is a milestone toward building a strong, united community of investors and traders a growing network of believers in a safer, decentralized future.
+        </p>
+        
+        <p class="leading-relaxed">
+          The project empowers the community to make decisions, including voting to support new tokens or launch secure, rug-pull-free initiatives. Its success will lay the foundation for a truly decentralized, open-source collective  a resilient force capable of standing against market whales.
+        </p>
+        
+        <div class="flex flex-col md:flex-row gap-8 my-8">
+          <div class="md:w-1/2 glass p-6 rounded-lg">
+            <i class="fas fa-bullhorn text-3xl text-yellow-300 mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">The Vision</h3>
+            <p>"If I'm going to invest, I want to have a share in it." Since this is a community-driven initiative, allocation proposals have already been shared transparently.</p>
+          </div>
+          
+          <div class="md:w-1/2 glass p-6 rounded-lg">
+            <i class="fas fa-users text-3xl text-yellow-300 mb-4"></i>
+            <h3 class="text-xl font-bold mb-2">Community Power</h3>
+            <p>Telegram and Twitter will evolve into a powerful coordination force  enabling pre-call strategies for pumps, whether by supporting promising tokens or launching new ones through collective voting.</p>
+          </div>
+        </div>
+        
+        <p class="leading-relaxed font-bold text-center text-lg">
+          Just imagine: whales with inside calls controlling the market  now imagine the opposite, a community of small traders uniting, becoming together a force as powerful as any whale. A new kind of whale  a community whale.
+        </p>
+        
+        <p class="leading-relaxed text-center">
+          With WONK, the pump is no longer a privilege. This token becomes the symbol of collective strength. <br>
+          <span class="text-yellow-300 font-bold">It's the voice of the people that moves the charts.</span>
+        </p>
+      </div>
     </section>
 
     <!-- Tokenomics -->
-    <section class="field-box p-6 rounded-xl shadow-md mb-8">
-      <h2 class="text-2xl font-bold mb-2 text-yellow-300">Tokenomics</h2>
-      <ul class="list-disc list-inside text-gray-200 space-y-1">
-        <li>Total Supply: 1,000,000,000 WONK</li>
-        <li>0% Developer Wallet</li>
-        <li>100% to Community</li>
-        <li>Liquidity will be locked post-launch</li>
-      </ul>
+    <section id="tokenomics" class="mb-16">
+      <h2 class="text-3xl font-bold mb-8 yellow-glow text-center">Tokenomics</h2>
+      
+      <div class="flex flex-col md:flex-row gap-6">
+        <!-- Main Tokenomics -->
+        <div class="md:w-1/2 glass p-8 rounded-xl shadow-lg animate__animated animate__fadeInLeft">
+          <h3 class="text-2xl font-bold mb-4 text-center">Token Distribution</h3>
+          
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span>Total Supply:</span>
+              <span class="font-bold">1,000,000,000 WONK</span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <span>Developer Wallet:</span>
+              <span class="font-bold text-green-400">0%</span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <span>Community Allocation:</span>
+              <span class="font-bold text-yellow-300">100%</span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <span>Transaction Tax (Dev Fee):</span>
+              <span class="font-bold">1.2%</span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <span>Marketing & Investor Rewards:</span>
+              <span class="font-bold">10%</span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <span>Monthly Holder Rewards:</span>
+              <span class="font-bold">1.33%</span>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-gray-600">
+              <p class="text-center text-yellow-300">Liquidity will be locked post-launch</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Burn Plan -->
+        <div class="md:w-1/2 glass p-8 rounded-xl shadow-lg animate__animated animate__fadeInRight">
+          <h3 class="text-2xl font-bold mb-4 text-center">Strategic Burn Plan</h3>
+          <p class="mb-4 text-center">Total Planned Burn: <span class="text-red-400 font-bold">31%</span> of Supply</p>
+          
+          <div class="space-y-6">
+            <div class="relative pt-1">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-red-200 text-red-900">
+                    5% at $1M MC
+                  </span>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs font-semibold inline-block text-red-400">
+                    <i class="fas fa-fire"></i> 50M WONK
+                  </span>
+                </div>
+              </div>
+              <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-700 mt-1">
+                <div style="width:16%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
+              </div>
+            </div>
+            
+            <div class="relative pt-1">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-red-200 text-red-900">
+                    5% at $10M MC
+                  </span>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs font-semibold inline-block text-red-400">
+                    <i class="fas fa-fire"></i> 50M WONK
+                  </span>
+                </div>
+              </div>
+              <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-700 mt-1">
+                <div style="width:16%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
+              </div>
+            </div>
+            
+            <div class="relative pt-1">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-red-200 text-red-900">
+                    15% at $50M MC
+                  </span>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs font-semibold inline-block text-red-400">
+                    <i class="fas fa-fire"></i> 150M WONK
+                  </span>
+                </div>
+              </div>
+              <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-700 mt-1">
+                <div style="width:48%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
+              </div>
+            </div>
+            
+            <div class="relative pt-1">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-red-200 text-red-900">
+                    6% at $100M MC
+                  </span>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs font-semibold inline-block text-red-400">
+                    <i class="fas fa-fire"></i> 60M WONK
+                  </span>
+                </div>
+              </div>
+              <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-700 mt-1">
+                <div style="width:20%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
+              </div>
+            </div>
+            
+            <div class="relative pt-1">
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-yellow-200 text-yellow-900">
+                    2% per CEX Listing
+                  </span>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs font-semibold inline-block text-yellow-400">
+                    <i class="fas fa-fire"></i> 20M WONK each
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Roadmap -->
-    <section class="field-box p-6 rounded-xl shadow-md mb-8">
-      <h2 class="text-2xl font-bold mb-2 text-yellow-300">Roadmap</h2>
-      <ol class="list-decimal list-inside text-gray-200 space-y-1">
-        <li>WONK is an innovative meme token designed to deliver a fun and rewarding experience, fully driven by its community. The token was launched with no presale, focusing instead on organic growth and active community engagement. The project features a well-thought-out distribution model, holder rewards, and a progressive burn plan aimed at creating positive deflationary pressure.
-
-          The main goal is to build a strong community against scams and manipulation groups, where the community itself becomes the biggest whale. The community will have the power to vote transparently on future pump targets or even the creation of new tokens.
-
-
-          General Info:
-          Name: WONK
-          Type: Meme Token
-Total Supply: 1,000,000,000 tokens
-Presale: None
-Focus: 100% Community-Driven
-Token Distribution (Tokenomics):
-The token distribution is designed strategically to support stability and growth. A portion is allocated for burning based on market milestones, while other portions support marketing, investor rewards, holder incentives, development, and open liquidity for free trading.
-
-Marketing & Investor Rewards:
-10% of the total supply is allocated for marketing and investor support. This includes pre-launch and post-launch promoters, as well as liquidity supporters. Distribution is based on performance and continuous engagement.
-
-Holder Rewards:
-Holder 8% rewards are distributed over six months at a rate of 1.33% monthly, using an AI-based algorithm that considers:
-Holding duration
-Investment value
-Current market price
-Wallet activity
-Transaction Tax:
-Dev Fee: 1.2% from each transaction
-Others: No additional taxes
-Burn Plan:
-The burn strategy is linked to key market milestones and CEX listings. The total planned burn is 31% of the total supply.
-
-5% burn at $1M Market Cap
-5% burn at $10M Market Cap
-2% burn per CEX listing
-15% burn at $50M Market Cap
-6% burn at $100M Market Cap
-Dev Wallet Usage:
-2% of the total supply is reserved for project development, to be released smartly based on:
-
-Development needs
-Market stability
-Liquidity levels
-Roadmap:
-Phase 1: Launch
-
-Smart contract deployment on BSC
-Full liquidity lock
-Early promoter rewards
-First 5% burn
-Phase 2: Community Expansion
-
-Grow Telegram & Twitter communities
-Start monthly holder rewards
-Launch marketing campaigns
-Phase 3: Growth
-
-Launch official dynamic website
-Listing on CoinMarketCap & CoinGecko
-5% burn at $10M MC
-Phase 4: Partnerships
-
-CEX listings with 2% burn each
-Develop NFT tools and Web3 services
-15% burn at $50M MC
-Phase 5: Vision
-
-Governance system for community voting
-AI-powered reward engine
-6% burn at $100M MC
-</li>
-
-      </ol>
-    </section>
-
-    <!-- Wallets -->
-    <section class="field-box p-6 rounded-xl shadow-md mb-8">
-      <h2 class="text-2xl font-bold mb-4 text-yellow-300">Wonk Wallets</h2>
-
-      <div class="mb-6">
-        <h3 class="text-lg font-semibold text-white mb-2">Main Wallet (Public):</h3>
-        <div class="flex items-center bg-yellow-400 text-gray-900 px-4 py-2 rounded-full cursor-pointer hover:bg-yellow-300 transition"
-             onclick="navigator.clipboard.writeText('0xYourMainWalletAddressHere'); alert('Copied!');">
-          <span class="truncate">Coming Soon...</span>
+    <section id="roadmap" class="mb-16">
+      <h2 class="text-3xl font-bold mb-12 yellow-glow text-center">Roadmap</h2>
+      
+      <div class="timeline-container relative pb-8">
+        <div class="timeline-line"></div>
+        
+        <!-- Phase 1 -->
+        <div class="timeline-item flex flex-col md:flex-row items-center">
+          <div class="timeline-point"></div>
+          <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
+            <h3 class="text-2xl font-bold text-yellow-300 mb-2">Phase 1: Launch</h3>
+            <div class="glass p-6 rounded-xl inline-block">
+              <ul class="list-disc list-inside text-gray-200 space-y-2">
+                <li>Smart contract deployment on BSC</li>
+                <li>Full liquidity lock</li>
+                <li>Early promoter rewards</li>
+                <li>First 5% burn</li>
+              </ul>
+            </div>
+          </div>
+          <div class="md:w-1/2"></div>
         </div>
-      </div>
-
-      <div>
-        <h3 class="text-lg font-semibold text-white mb-2">Holder Wallets:</h3>
-        <p class="italic text-gray-300">Coming Soon...</p>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <div class="text-center mt-10">
-      <a href="https://t.me/wonk_meme" target="_blank" class="bg-yellow-400 text-gray-900 px-6 py-3 rounded-full shadow hover:bg-yellow-300 transition">
-        Join the Wonk Telegram
-      </a>
-    </div>
-
-  </div>
-
-</body>
-</html>
+        
+        <!-- Phase 2 -->
+        <div class="timeline-item flex flex-col md:flex-row items-center mt-16">
+          <div class="timeline-point"></div>
+          <div class="md:w-1/2"></div>
+          <div class="md:w-1/2 md:pl-12">
+            <h3 class="text-2xl font-bold text-yellow-300 mb-2">Phase 2: Community Expansion</h3>
+            <div class="glass p-6 rounded-xl inline-block">
+              <ul class="list-disc list-inside text-gray-200 space-y-2">
+                <li>Grow Telegram & Twitter communities</li>
+                <li>Start monthly holder rewards</li>
+                <li>Launch marketing campaigns</li>
+                <li>Community voting system launch</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Phase 3 -->
+        <div class="timeline-item flex flex-col md:flex-row items-center mt-16">
+          <div class="timeline-point"></div>
+          <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
+            <h3 class="text-2xl font-bold text-yellow-300 mb-2">Phase 3: Growth</h3>
+            <div class="glass p-6 rounded-xl inline-block">
+              <ul class="list-disc list-inside text-gray-200 space-y-2">
+                <li>Launch official dynamic website</li>
+                <li>Listing on CoinMarketCap & CoinGecko</li>
+                <li>5% burn at $10M MC</li>
+                <li>First community-voted token support</li>
+              </ul>
+            </div>
+          </div>
+          <div class="md:w-1/2"></div>
+        </div>
