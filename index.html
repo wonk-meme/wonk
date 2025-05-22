@@ -1,846 +1,1304 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wonk Meme Coin  Community Driven Crypto</title>
+  <title>Wonk - Community Driven Crypto Revolution</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.8/countUp.min.js"></script>
+  
   <style>
-    /* Main Background Animation */
+    :root {
+      --primary-blue: #00d4ff;
+      --secondary-blue: #0099cc;
+      --primary-gold: #ffd700;
+      --secondary-gold: #ffb347;
+      --dark-bg: #0a0e1a;
+      --darker-bg: #050810;
+      --glass-blue: rgba(0, 212, 255, 0.1);
+      --glass-gold: rgba(255, 215, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      background: linear-gradient(135deg, #ff0040, #ffd700, #00ff9f);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-
-    /* Glass Morphism Effect */
-    .glass {
-      background: rgba(10, 37, 64, 0.8);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Animated Logo */
-    .logo-pulse {
-      animation: logoPulse 3s infinite alternate;
-    }
-
-    @keyframes logoPulse {
-      0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7)); }
-      100% { transform: scale(1.1); filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9)); }
-    }
-
-    /* Police Style Glow Effect */
-    .police-glow {
-      animation: policeLights 0.5s infinite alternate;
-      font-weight: bold;
-      text-shadow: 0 0 10px #fff, 0 0 20px currentColor, 0 0 30px currentColor;
-    }
-
-    @keyframes policeLights {
-      0% {
-        color: #ff0000;
-        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
-      }
-      50% {
-        color: #0000ff;
-        text-shadow: 0 0 10px #0000ff, 0 0 20px #0000ff, 0 0 30px #0000ff;
-      }
-      100% {
-        color: #ff0000;
-        text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
-      }
-    }
-
-    /* Other Glow Effects */
-    .red-glow {
-      color: #ff0000;
-      font-size: 1.2rem;
-      text-shadow:
-        0 0 5px #ff0000,
-        0 0 10px #ff0000,
-        0 0 20px #ff0000,
-        0 0 40px #ff0000;
-    }
-
-    .yellow-glow {
-      color: #ffd700;
-      text-shadow:
-        0 0 5px #ffd700,
-        0 0 10px #ffd700,
-        0 0 20px #ffd700;
-    }
-
-    /* Roadmap Timeline */
-    .timeline-container {
+      background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 50%, #1a0f2e 100%);
+      font-family: 'Rajdhani', sans-serif;
+      color: #ffffff;
+      overflow-x: hidden;
       position: relative;
     }
 
-    .timeline-line {
-      position: absolute;
-      left: 50%;
+    /* Animated Background Grid */
+    .grid-bg {
+      position: fixed;
       top: 0;
-      bottom: 0;
-      width: 4px;
-      background: linear-gradient(to bottom, #ffd700, #ff0040);
-      transform: translateX(-50%);
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.1;
+      background-image: 
+        linear-gradient(var(--primary-blue) 1px, transparent 1px),
+        linear-gradient(90deg, var(--primary-blue) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridMove 20s linear infinite;
+      z-index: -1;
     }
 
-    .timeline-item {
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    /* Glowing Effects */
+    .glow-blue {
+      color: var(--primary-blue);
+      text-shadow: 0 0 10px var(--primary-blue), 0 0 20px var(--primary-blue), 0 0 40px var(--primary-blue);
+    }
+
+    .glow-gold {
+      color: var(--primary-gold);
+      text-shadow: 0 0 10px var(--primary-gold), 0 0 20px var(--primary-gold), 0 0 40px var(--primary-gold);
+    }
+
+    .glow-border-blue {
+      border: 2px solid var(--primary-blue);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.5), inset 0 0 20px rgba(0, 212, 255, 0.1);
+    }
+
+    .glow-border-gold {
+      border: 2px solid var(--primary-gold);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.1);
+    }
+
+    /* Advanced Glass Morphism */
+    .glass-panel {
+      background: linear-gradient(135deg, var(--glass-blue) 0%, var(--glass-gold) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .glass-dark {
+      background: rgba(10, 14, 26, 0.8);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 15px;
+    }
+
+    /* Cyber Header */
+    .cyber-header {
       position: relative;
-      margin-bottom: 2rem;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s ease;
+      background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+      border-bottom: 2px solid var(--primary-blue);
+      box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
     }
 
-    .timeline-item.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .timeline-point {
-      position: absolute;
-      left: 50%;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #ffd700;
-      transform: translateX(-50%);
-      z-index: 1;
-      box-shadow: 0 0 10px #ffd700;
-    }
-
-    /* Voting System Styles */
-    .vote-btn {
-      background: linear-gradient(135deg, #ff0040, #ffd700);
-      transition: all 0.3s ease;
-      transform: translateY(0);
-    }
-
-    .vote-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(255, 0, 64, 0.3);
-    }
-
-    .vote-btn:active {
-      transform: translateY(1px);
-    }
-
-    /* Coin Animation */
-    .coin-float {
-      animation: floatCoin 3s ease-in-out infinite alternate;
-    }
-
-    @keyframes floatCoin {
-      0% { transform: translateY(0) rotate(0deg); }
-      100% { transform: translateY(-10px) rotate(10deg); }
-    }
-
-    /* Stats Counter Animation */
-    .stat-count {
-      font-weight: bold;
-      color: #ffd700;
-    }
-
-    /* Navbar Animation */
-    .nav-item {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .nav-item::after {
+    .cyber-header::before {
       content: '';
       position: absolute;
-      bottom: 0;
+      top: 0;
       left: 0;
-      width: 0;
+      right: 0;
       height: 2px;
-      background: #ffd700;
-      transition: width 0.3s ease;
+      background: linear-gradient(90deg, transparent 0%, var(--primary-blue) 50%, transparent 100%);
+      animation: scan 3s linear infinite;
     }
 
-    .nav-item:hover::after {
+    @keyframes scan {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Logo Animation */
+    .logo-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .logo-glow {
+      animation: logoGlow 2s ease-in-out infinite alternate;
+      border-radius: 50%;
+      padding: 5px;
+    }
+
+    @keyframes logoGlow {
+      0% { 
+        box-shadow: 0 0 20px var(--primary-blue);
+        transform: scale(1);
+      }
+      100% { 
+        box-shadow: 0 0 40px var(--primary-gold), 0 0 60px var(--primary-blue);
+        transform: scale(1.05);
+      }
+    }
+
+    /* Futuristic Navigation */
+    .nav-item {
+      position: relative;
+      padding: 10px 20px;
+      margin: 0 5px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      font-family: 'Orbitron', monospace;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+    }
+
+    .nav-item:hover {
+      background: linear-gradient(45deg, var(--glass-blue), var(--glass-gold));
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, var(--primary-blue), var(--primary-gold));
+      border-radius: 25px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .nav-item:hover::before {
+      opacity: 0.1;
+    }
+
+    /* Hero Section */
+    .hero-title {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: 4rem;
+      background: linear-gradient(45deg, var(--primary-blue), var(--primary-gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: titlePulse 3s ease-in-out infinite alternate;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes titlePulse {
+      0% { 
+        filter: brightness(1);
+        transform: scale(1);
+      }
+      100% { 
+        filter: brightness(1.2);
+        transform: scale(1.02);
+      }
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: subtitleGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes subtitleGlow {
+      0% { color: var(--primary-blue); }
+      100% { color: var(--primary-gold); }
+    }
+
+    /* Floating Elements */
+    .float-element {
+      animation: floatUpDown 4s ease-in-out infinite;
+    }
+
+    @keyframes floatUpDown {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Project Images Container */
+    .project-images {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 60px 0;
+      flex-wrap: wrap;
+    }
+
+    .project-image {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .project-image:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+    }
+
+    .project-image::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, var(--glass-blue), var(--glass-gold));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1;
+    }
+
+    .project-image:hover::before {
+      opacity: 0.3;
+    }
+
+    .project-number {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, var(--primary-blue), var(--primary-gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', monospace;
+      font-weight: bold;
+      font-size: 1.2rem;
+      z-index: 2;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    }
+
+    /* Action Buttons */
+    .action-btn {
+      position: relative;
+      padding: 15px 30px;
+      margin: 10px;
+      background: linear-gradient(45deg, var(--primary-blue), var(--secondary-blue));
+      border: 2px solid var(--primary-blue);
+      border-radius: 30px;
+      color: white;
+      font-family: 'Orbitron', monospace;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .action-btn:hover {
+      background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+      border-color: var(--primary-gold);
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+      transform: translateY(-3px);
+    }
+
+    .action-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
       width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
     }
 
-    /* Particles Container */
+    .action-btn:hover::before {
+      left: 100%;
+    }
+
+    /* Sound Control */
+    .sound-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: var(--glass-blue);
+      border: 2px solid var(--primary-blue);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .sound-toggle:hover {
+      background: var(--glass-gold);
+      border-color: var(--primary-gold);
+      box-shadow: 0 0 20px var(--primary-gold);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .project-images {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .project-image {
+        width: 90%;
+        max-width: 300px;
+      }
+    }
+
+    /* Particle Container */
     #particles-js {
       position: fixed;
       width: 100%;
       height: 100%;
+      background-color: transparent;
+      z-index: -2;
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
       top: 0;
       left: 0;
-      z-index: -1;
-    }
-
-    /* Smooth Scroll */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* Animated Flip Cards */
-    .flip-card {
-      perspective: 1000px;
-      height: 300px;
-    }
-
-    .flip-card-inner {
-      position: relative;
       width: 100%;
       height: 100%;
-      text-align: center;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
-    }
-
-    .flip-card:hover .flip-card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .flip-card-front, .flip-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
+      background: var(--darker-bg);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
     }
 
-    .flip-card-back {
-      transform: rotateY(180deg);
+    .loading-spinner {
+      width: 80px;
+      height: 80px;
+      border: 4px solid rgba(0, 212, 255, 0.3);
+      border-top: 4px solid var(--primary-blue);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.5rem;
+      color: var(--primary-blue);
+      animation: loadingPulse 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes loadingPulse {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
-<body class="text-white font-sans min-h-screen relative">
+
+<body>
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Initializing WONK Protocol...</div>
+  </div>
+
   <!-- Particles Background -->
   <div id="particles-js"></div>
+  
+  <!-- Animated Grid Background -->
+  <div class="grid-bg"></div>
 
-  <!-- Fixed Navigation Bar -->
-  <nav class="fixed top-0 left-0 right-0 z-50 glass px-6 py-4">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <div class="flex items-center space-x-2">
-        <img src="wonk-logo.png" alt="Wonk Logo" class="w-10 h-10 rounded-full logo-pulse">
-        <span class="font-bold text-xl police-glow">WONK</span>
-      </div>
-      <div class="hidden md:flex space-x-6">
-        <a href="#about" class="nav-item px-2 py-1">About</a>
-        <a href="#tokenomics" class="nav-item px-2 py-1">Tokenomics</a>
-        <a href="#roadmap" class="nav-item px-2 py-1">Roadmap</a>
-        <a href="#vote" class="nav-item px-2 py-1">Vote</a>
-        <a href="#community" class="nav-item px-2 py-1">Community</a>
-      </div>
-      <div class="md:hidden">
-        <button id="mobile-menu-button" class="text-white">
-          <i class="fas fa-bars text-2xl"></i>
-        </button>
+  <!-- Sound Toggle -->
+  <div class="sound-toggle" id="soundToggle">
+    <i class="fas fa-volume-up glow-blue" id="soundIcon"></i>
+  </div>
+
+  <!-- Navigation Header -->
+  <header class="cyber-header fixed w-full top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+      <nav class="flex items-center justify-between">
+        <!-- Logo -->
+        <div class="logo-container">
+          <div class="logo-glow">
+            <img src="wonk-logo.png" alt="WONK" class="w-12 h-12 rounded-full">
+          </div>
+          <span class="ml-3 text-2xl font-bold glow-blue font-mono">WONK</span>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center space-x-2">
+          <a href="#about" class="nav-item">About</a>
+          <a href="#tokenomics" class="nav-item">Tokenomics</a>
+          <a href="#roadmap" class="nav-item">Roadmap</a>
+          <a href="#voting" class="nav-item">Vote</a>
+          <a href="#community" class="nav-item">Community</a>
+          <a href="#whitepaper" class="nav-item">Whitepaper</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button id="mobileMenuBtn" class="nav-item">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Mobile Navigation -->
+      <div id="mobileMenu" class="hidden md:hidden mt-4 glass-panel p-4 rounded-2xl">
+        <div class="flex flex-col space-y-2">
+          <a href="#about" class="nav-item text-center">About</a>
+          <a href="#tokenomics" class="nav-item text-center">Tokenomics</a>
+          <a href="#roadmap" class="nav-item text-center">Roadmap</a>
+          <a href="#voting" class="nav-item text-center">Vote</a>
+          <a href="#community" class="nav-item text-center">Community</a>
+          <a href="#whitepaper" class="nav-item text-center">Whitepaper</a>
+        </div>
       </div>
     </div>
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
-      <a href="#about" class="block py-2 text-center">About</a>
-      <a href="#tokenomics" class="block py-2 text-center">Tokenomics</a>
-      <a href="#roadmap" class="block py-2 text-center">Roadmap</a>
-      <a href="#vote" class="block py-2 text-center">Vote</a>
-      <a href="#community" class="block py-2 text-center">Community</a>
-    </div>
-  </nav>
+  </header>
 
-  <!-- Main Content Container -->
-  <div class="max-w-6xl mx-auto p-6 pt-24">
-
+  <!-- Main Content -->
+  <main class="pt-24">
     <!-- Hero Section -->
-    <header class="text-center mb-16 animate__animated animate__fadeIn">
-      <div class="flex justify-center mb-6">
-        <img src="wonk-logo.png" alt="Wonk Logo" class="w-32 h-32 rounded-full shadow-lg coin-float">
-      </div>
-      <h1 class="text-5xl font-bold police-glow mb-4">Wonk Meme Coin</h1>
-      <p class="red-glow mt-2 italic text-xl mb-8">A chaotic meme with no rules. Just laughs, just Wonk!</p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="#vote" class="vote-btn px-8 py-3 rounded-full font-bold text-lg shadow-lg">
-          <i class="fas fa-vote-yea mr-2"></i> Vote Now
-        </a>
-        <a href="https://t.me/wonk_meme" target="_blank" class="bg-[#0088cc] hover:bg-[#0077b5] px-8 py-3 rounded-full font-bold text-lg shadow-lg transition">
-          <i class="fab fa-telegram mr-2"></i> Join Telegram
-        </a>
-      </div>
-    </header>
-<!-- Stats Counters -->
-    <div class="flex flex-wrap justify-between mb-16">
-      <div class="w-full md:w-1/4 glass p-6 rounded-xl text-center mb-4 md:mb-0 animate__animated animate__fadeInUp">
-        <i class="fas fa-users text-3xl yellow-glow mb-2"></i>
-        <h3 class="text-lg">Community Members</h3>
-        <p class="stat-count text-3xl" id="community-counter">0</p>
-      </div>
-      <div class="w-full md:w-1/4 glass p-6 rounded-xl text-center mb-4 md:mb-0 animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
-        <i class="fas fa-chart-line text-3xl yellow-glow mb-2"></i>
-        <h3 class="text-lg">Price Growth</h3>
-        <p class="stat-count text-3xl" id="growth-counter">0</p><span>%</span>
-      </div>
-      <div class="w-full md:w-1/4 glass p-6 rounded-xl text-center mb-4 md:mb-0 animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
-        <i class="fas fa-fire-alt text-3xl yellow-glow mb-2"></i>
-        <h3 class="text-lg">Tokens Burned</h3>
-        <p class="stat-count text-3xl" id="burned-counter">0</p><span>M</span>
-      </div>
-      <div class="w-full md:w-1/4 glass p-6 rounded-xl text-center animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
-        <i class="fas fa-vote-yea text-3xl yellow-glow mb-2"></i>
-        <h3 class="text-lg">Active Votes</h3>
-        <p class="stat-count text-3xl" id="vote-counter">0</p>
-      </div>
-    </div>
-
-    <!-- About -->
-    <section id="about" class="glass p-8 rounded-xl shadow-lg mb-16 animate__animated animate__fadeIn">
-      <h2 class="text-3xl font-bold mb-6 yellow-glow text-center">What is Wonk?</h2>
-      
-      <div class="space-y-6 text-gray-200">
-        <p class="leading-relaxed">
-          <span class="font-bold text-yellow-300">WONK</span> is a milestone toward building a strong, united community of investors and traders a growing network of believers in a safer, decentralized future.
-        </p>
+    <section class="min-h-screen flex items-center justify-center px-6">
+      <div class="text-center max-w-6xl mx-auto">
+        <h1 class="hero-title">WONK PROTOCOL</h1>
+        <p class="hero-subtitle">The Community Whale Revolution</p>
         
-        <p class="leading-relaxed">
-          The project empowers the community to make decisions, including voting to support new tokens or launch secure, rug-pull-free initiatives. Its success will lay the foundation for a truly decentralized, open-source collective  a resilient force capable of standing against market whales.
-        </p>
-        
-        <div class="flex flex-col md:flex-row gap-8 my-8">
-          <div class="md:w-1/2 glass p-6 rounded-lg">
-            <i class="fas fa-bullhorn text-3xl text-yellow-300 mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">The Vision</h3>
-            <p>"If I'm going to invest, I want to have a share in it." Since this is a community-driven initiative, allocation proposals have already been shared transparently.</p>
+        <!-- Project Images -->
+        <div class="project-images">
+          <div class="project-image glass-panel">
+            <div class="project-number">1</div>
+            <img src="1.png" alt="Project Overview" class="w-full h-full object-cover">
           </div>
-          
-          <div class="md:w-1/2 glass p-6 rounded-lg">
-            <i class="fas fa-users text-3xl text-yellow-300 mb-4"></i>
-            <h3 class="text-xl font-bold mb-2">Community Power</h3>
-            <p>Telegram and Twitter will evolve into a powerful coordination force  enabling pre-call strategies for pumps, whether by supporting promising tokens or launching new ones through collective voting.</p>
+          <div class="project-image glass-panel">
+            <div class="project-number">2</div>
+            <img src="2.png" alt="Community Power" class="w-full h-full object-cover">
+          </div>
+          <div class="project-image glass-panel">
+            <div class="project-number">3</div>
+            <img src="3.png" alt="Future Vision" class="w-full h-full object-cover">
           </div>
         </div>
-        
-        <p class="leading-relaxed font-bold text-center text-lg">
-          Just imagine: whales with inside calls controlling the market  now imagine the opposite, a community of small traders uniting, becoming together a force as powerful as any whale. A new kind of whale  a community whale.
-        </p>
-        
-        <p class="leading-relaxed text-center">
-          With WONK, the pump is no longer a privilege. This token becomes the symbol of collective strength. <br>
-          <span class="text-yellow-300 font-bold">It's the voice of the people that moves the charts.</span>
-        </p>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap justify-center mt-12">
+          <a href="#voting" class="action-btn">
+            <i class="fas fa-vote-yea mr-2"></i>
+            Vote Now
+          </a>
+          <a href="https://t.me/wonk_meme" target="_blank" class="action-btn">
+            <i class="fab fa-telegram mr-2"></i>
+            Join Community
+          </a>
+          <a href="#whitepaper" class="action-btn">
+            <i class="fas fa-file-alt mr-2"></i>
+            Whitepaper
+          </a>
+        </div>
       </div>
     </section>
-
-    <!-- Tokenomics -->
-    <section id="tokenomics" class="mb-16">
-      <h2 class="text-3xl font-bold mb-8 yellow-glow text-center">Tokenomics</h2>
-      
-      <div class="flex flex-col md:flex-row gap-6">
-        <!-- Main Tokenomics -->
-        <div class="md:w-1/2 glass p-8 rounded-xl shadow-lg animate__animated animate__fadeInLeft">
-          <h3 class="text-2xl font-bold mb-4 text-center">Token Distribution</h3>
-          
-          <div class="space-y-4">
-            <div class="flex justify-between items-center">
-              <span>Total Supply:</span>
-              <span class="font-bold">1,000,000,000 WONK</span>
-            </div>
-            
-            <div class="flex justify-between items-center">
-              <span>Developer Wallet:</span>
-              <span class="font-bold text-green-400">0%</span>
-            </div>
-            
-            <div class="flex justify-between items-center">
-              <span>Community Allocation:</span>
-              <span class="font-bold text-yellow-300">100%</span>
-            </div>
-            
-            <div class="flex justify-between items-center">
-              <span>Transaction Tax (Dev Fee):</span>
-              <span class="font-bold">1.2%</span>
-            </div>
-            
-            <div class="flex justify-between items-center">
-              <span>Marketing & Investor Rewards:</span>
-              <span class="font-bold">10%</span>
-            </div>
-            
-            <div class="flex justify-between items-center">
-              <span>Monthly Holder Rewards:</span>
-              <span class="font-bold">1.33%</span>
-            </div>
-            
-            <div class="mt-6 pt-4 border-t border-gray-600">
-              <p class="text-center text-yellow-300">Liquidity will be locked post-launch</p>
+<!-- WONK Bot Dashboard -->
+    <section class="py-20 px-6">
+      <div class="container mx-auto max-w-6xl">
+        <h2 class="text-4xl font-bold text-center mb-16 glow-gold font-mono">WONK BURN BOT</h2>
+        
+        <div class="glass-panel p-8 rounded-3xl relative overflow-hidden">
+          <!-- Bot Character -->
+          <div class="absolute top-4 right-4 z-10">
+            <div class="bot-character">
+              <div class="bot-head relative">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center border-2 border-blue-300 shadow-lg">
+                  <div class="bot-eyes flex space-x-2">
+                    <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                    <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
+                  </div>
+                </div>
+                <!-- Bot Speech Bubble -->
+                <div class="speech-bubble absolute -left-48 -top-8 bg-blue-900 text-white p-3 rounded-lg text-sm max-w-40 opacity-0 animate-bounce-in" id="botMessage">
+                  Welcome to WONK! 🔥
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <!-- Burn Plan -->
-        <div class="md:w-1/2 glass p-8 rounded-xl shadow-lg animate__animated animate__fadeInRight">
-          <h3 class="text-2xl font-bold mb-4 text-center">Strategic Burn Plan</h3>
-          <p class="mb-4 text-center">Total Planned Burn: <span class="text-red-400 font-bold">31%</span> of Supply</p>
-          
-          <div class="space-y-6">
-            <div class="relative pt-1">
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-red-200 text-red-900">
-                    5% at $1M MC
-                  </span>
-                </div>
-                <div class="text-right">
-                  <span class="text-xs font-semibold inline-block text-red-400">
-                    <i class="fas fa-fire"></i> 50M WONK
-                  </span>
-                </div>
+
+          <!-- Advanced Dashboard -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Total Supply -->
+            <div class="glass-dark p-6 rounded-2xl text-center">
+              <div class="text-blue-400 text-sm font-mono mb-2">TOTAL SUPPLY</div>
+              <div class="text-3xl font-bold glow-blue" id="totalSupply">1,000,000,000</div>
+              <div class="text-xs text-gray-400 mt-1">WONK</div>
+            </div>
+
+            <!-- Circulating Supply -->
+            <div class="glass-dark p-6 rounded-2xl text-center">
+              <div class="text-gold-400 text-sm font-mono mb-2">CIRCULATING SUPPLY</div>
+              <div class="text-3xl font-bold glow-gold" id="circulatingSupply">950,000,000</div>
+              <div class="text-xs text-gray-400 mt-1">WONK</div>
+            </div>
+
+            <!-- Market Cap -->
+            <div class="glass-dark p-6 rounded-2xl text-center">
+              <div class="text-green-400 text-sm font-mono mb-2">MARKET CAP</div>
+              <div class="text-3xl font-bold text-green-400" id="marketCap">$2,450,000</div>
+              <div class="text-xs text-gray-400 mt-1">USD</div>
+            </div>
+
+            <!-- Burned Amount -->
+            <div class="glass-dark p-6 rounded-2xl text-center">
+              <div class="text-red-400 text-sm font-mono mb-2">TOKENS BURNED</div>
+              <div class="text-3xl font-bold text-red-400" id="burnedAmount">50,000,000</div>
+              <div class="text-xs text-gray-400 mt-1">WONK (5%)</div>
+            </div>
+
+            <!-- Current Price -->
+            <div class="glass-dark p-6 rounded-2xl text-center">
+              <div class="text-purple-400 text-sm font-mono mb-2">CURRENT PRICE</div>
+              <div class="text-3xl font-bold text-purple-400" id="currentPrice">$0.00245</div>
+              <div class="text-xs text-green-400 mt-1">+12.5%</div>
+            </div>
+
+            <!-- Next Burn Progress -->
+            <div class="glass-dark p-6 rounded-2xl text-center">
+              <div class="text-orange-400 text-sm font-mono mb-2">NEXT BURN AT</div>
+              <div class="text-2xl font-bold text-orange-400">$10M MC</div>
+              <div class="w-full bg-gray-700 rounded-full h-3 mt-3">
+                <div class="bg-gradient-to-r from-orange-400 to-red-500 h-3 rounded-full" style="width: 24.5%"></div>
               </div>
-              <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-700 mt-1">
-                <div style="width:16%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
+              <div class="text-xs text-gray-400 mt-1">24.5% Complete</div>
+            </div>
+          </div>
+
+          <!-- Burn Schedule -->
+          <div class="bg-black bg-opacity-50 rounded-2xl p-6 mb-6">
+            <h3 class="text-xl font-bold text-center mb-4 glow-gold">BURN SCHEDULE</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="flex justify-between items-center py-2">
+                <span class="text-red-400">🔥 5% at $1M MC</span>
+                <span class="text-green-400 font-bold">✓ COMPLETED</span>
+              </div>
+              <div class="flex justify-between items-center py-2">
+                <span class="text-orange-400">🔥 5% at $10M MC</span>
+                <span class="text-yellow-400 font-bold loading-dots">LOADING</span>
+              </div>
+              <div class="flex justify-between items-center py-2">
+                <span class="text-yellow-400">🔥 15% at $50M MC</span>
+                <span class="text-gray-400">PENDING</span>
+              </div>
+              <div class="flex justify-between items-center py-2">
+                <span class="text-blue-400">🔥 6% at $100M MC</span>
+                <span class="text-gray-400">PENDING</span>
               </div>
             </div>
-            
-            <div class="relative pt-1">
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-red-200 text-red-900">
-                    5% at $10M MC
-                  </span>
-                </div>
-                <div class="text-right">
-                  <span class="text-xs font-semibold inline-block text-red-400">
-                    <i class="fas fa-fire"></i> 50M WONK
-                  </span>
-                </div>
-              </div>
-              <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-700 mt-1">
-                <div style="width:16%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
-              </div>
+          </div>
+
+          <!-- Real-time Graph Simulation -->
+          <div class="bg-black bg-opacity-70 rounded-2xl p-6">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-lg font-bold glow-blue">LIVE CHART</h3>
+              <div class="text-green-400 text-sm">🟢 LIVE</div>
             </div>
-            
-            <div class="relative pt-1">
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-red-200 text-red-900">
-                    15% at $50M MC
-                  </span>
-                </div>
-                <div class="text-right">
-                  <span class="text-xs font-semibold inline-block text-red-400">
-                    <i class="fas fa-fire"></i> 150M WONK
-                  </span>
-                </div>
-              </div>
-              <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-700 mt-1">
-                <div style="width:48%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
-              </div>
-            </div>
-            
-            <div class="relative pt-1">
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-red-200 text-red-900">
-                    6% at $100M MC
-                  </span>
-                </div>
-                <div class="text-right">
-                  <span class="text-xs font-semibold inline-block text-red-400">
-                    <i class="fas fa-fire"></i> 60M WONK
-                  </span>
-                </div>
-              </div>
-              <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-700 mt-1">
-                <div style="width:20%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
-              </div>
-            </div>
-            
-            <div class="relative pt-1">
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full bg-yellow-200 text-yellow-900">
-                    2% per CEX Listing
-                  </span>
-                </div>
-                <div class="text-right">
-                  <span class="text-xs font-semibold inline-block text-yellow-400">
-                    <i class="fas fa-fire"></i> 20M WONK each
-                  </span>
-                </div>
-              </div>
+            <div class="chart-container h-32 relative overflow-hidden rounded-lg bg-gray-900">
+              <canvas id="priceChart" class="w-full h-full"></canvas>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Roadmap -->
-    <section id="roadmap" class="mb-16">
-      <h2 class="text-3xl font-bold mb-12 yellow-glow text-center">Roadmap</h2>
-      
-      <div class="timeline-container relative pb-8">
-        <div class="timeline-line"></div>
-        
-        <!-- Phase 1 -->
-        <div class="timeline-item flex flex-col md:flex-row items-center">
-          <div class="timeline-point"></div>
-          <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
-            <h3 class="text-2xl font-bold text-yellow-300 mb-2">Phase 1: Launch</h3>
-            <div class="glass p-6 rounded-xl inline-block">
-              <ul class="list-disc list-inside text-gray-200 space-y-2">
-                <li>Smart contract deployment on BSC</li>
-                <li>Full liquidity lock</li>
-                <li>Early promoter rewards</li>
-                <li>First 5% burn</li>
-              </ul>
-            </div>
-          </div>
-          <div class="md:w-1/2"></div>
-        </div>
-        
-        <!-- Phase 2 -->
-        <div class="timeline-item flex flex-col md:flex-row items-center mt-16">
-          <div class="timeline-point"></div>
-          <div class="md:w-1/2"></div>
-          <div class="md:w-1/2 md:pl-12">
-            <h3 class="text-2xl font-bold text-yellow-300 mb-2">Phase 2: Community Expansion</h3>
-            <div class="glass p-6 rounded-xl inline-block">
-              <ul class="list-disc list-inside text-gray-200 space-y-2">
-                <li>Grow Telegram & Twitter communities</li>
-                <li>Start monthly holder rewards</li>
-                <li>Launch marketing campaigns</li>
-                <li>Community voting system launch</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Phase 3 -->
-        <div class="timeline-item flex flex-col md:flex-row items-center mt-16">
-          <div class="timeline-point"></div>
-          <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
-            <h3 class="text-2xl font-bold text-yellow-300 mb-2">Phase 3: Growth</h3>
-            <div class="glass p-6 rounded-xl inline-block">
-              <ul class="list-disc list-inside text-gray-200 space-y-2">
-                <li>Launch official dynamic website</li>
-                <li>Listing on CoinMarketCap & CoinGecko</li>
-                <li>5% burn at $10M MC</li>
-                <li>First community-voted token support</li>
-              </ul>
-            </div>
-          </div>
-          <div class="md:w-1/2"></div>
-        </div>
-<div class="timeline-item flex flex-col md:flex-row items-center mt-16">
-          <div class="timeline-point"></div>
-          <div class="md:w-1/2"></div>
-          <div class="md:w-1/2 md:pl-12">
-            <h3 class="text-2xl font-bold text-yellow-300 mb-2">Phase 4: Partnerships</h3>
-            <div class="glass p-6 rounded-xl inline-block">
-              <ul class="list-disc list-inside text-gray-200 space-y-2">
-                <li>CEX listings with 2% burn each</li>
-                <li>Develop NFT tools and Web3 services</li>
-                <li>15% burn at $50M MC</li>
-                <li>Launch community-created tokens</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Phase 5 -->
-        <div class="timeline-item flex flex-col md:flex-row items-center mt-16">
-          <div class="timeline-point"></div>
-          <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
-            <h3 class="text-2xl font-bold text-yellow-300 mb-2">Phase 5: Vision</h3>
-            <div class="glass p-6 rounded-xl inline-block">
-              <ul class="list-disc list-inside text-gray-200 space-y-2">
-                <li>Governance system for community voting</li>
-                <li>AI-powered reward engine</li>
-                <li>6% burn at $100M MC</li>
-                <li>Become the largest community-driven crypto force</li>
-              </ul>
-            </div>
-          </div>
-          <div class="md:w-1/2"></div>
-        </div>
-      </div>
-    </section>
+    <!-- Community Voting Section -->
+    <section id="voting" class="py-20 px-6 bg-gradient-to-b from-transparent to-blue-900 bg-opacity-10">
+      <div class="container mx-auto max-w-6xl">
+        <h2 class="text-4xl font-bold text-center mb-4 glow-blue font-mono">COMMUNITY VOTING</h2>
+        <p class="text-center text-xl mb-16 text-gray-300">Vote for the next token to pump! Community decides everything.</p>
 
-    <!-- Community Voting System -->
-    <section id="vote" class="glass p-8 rounded-xl shadow-lg mb-16 animate__animated animate__fadeIn">
-      <h2 class="text-3xl font-bold mb-8 yellow-glow text-center">Community Voting System</h2>
-      <p class="text-center mb-8">Vote on which tokens we should support next as a community! This is where we unite our strength.</p>
-      
-      <!-- Current Vote -->
-      <div class="mb-12">
-        <h3 class="text-2xl font-bold mb-4 text-center">Current Vote: <span class="text-yellow-300">Next Pump Target</span></h3>
-        
-        <div class="flex flex-wrap justify-center gap-6 mt-8">
+        <!-- Winner Display -->
+        <div class="glass-panel p-8 rounded-3xl mb-12 text-center">
+          <h3 class="text-2xl font-bold mb-6 glow-gold">🏆 CURRENT WINNER 🏆</h3>
+          <div class="glass-dark p-6 rounded-2xl inline-block min-w-80">
+            <div class="flex items-center justify-center mb-4">
+              <div class="w-16 h-16 bg-gradient-to-br from-gold-400 to-yellow-500 rounded-full flex items-center justify-center text-2xl font-bold">
+                🎯
+              </div>
+              <div class="ml-4 text-left">
+                <h4 class="text-2xl font-bold glow-gold" id="winnerName">MEMECOIN</h4>
+                <p class="text-gray-400">Leading with 65% votes</p>
+              </div>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg">
+              <div class="text-sm text-gray-400 mb-2">CONTRACT ADDRESS:</div>
+              <div class="flex items-center justify-between bg-black p-3 rounded-lg">
+                <span class="font-mono text-sm text-blue-400 truncate" id="winnerContract">0x742d35Cc6634C0532925a3b8D0C1d0c9b</span>
+                <button class="action-btn-small ml-2" onclick="copyContract('winner')">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Voting Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <!-- Token 1 -->
-          <div class="w-full sm:w-64 glass p-6 rounded-xl">
-            <div class="flex items-center justify-center mb-4">
-              <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center">
-                <span class="font-bold">T1</span>
+          <div class="glass-panel p-6 rounded-2xl hover:scale-105 transition-all duration-300">
+            <div class="text-center mb-4">
+              <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-3">
+                🚀
               </div>
-              <h4 class="ml-3 text-xl font-bold">TokenOne</h4>
+              <h4 class="text-xl font-bold glow-blue">MOONSHOT</h4>
+              <p class="text-gray-400 text-sm">The Next Big Thing</p>
             </div>
+            
             <div class="mb-4">
-              <div class="w-full bg-gray-700 rounded-full h-4">
-                <div class="bg-blue-500 h-4 rounded-full" style="width: 65%"></div>
+              <div class="flex justify-between text-sm mb-2">
+                <span>Votes: 2,150</span>
+                <span>35%</span>
               </div>
-              <div class="flex justify-between mt-1">
-                <span>65%</span>
-                <span>3250 votes</span>
+              <div class="w-full bg-gray-700 rounded-full h-3">
+                <div class="bg-gradient-to-r from-blue-400 to-blue-600 h-3 rounded-full transition-all duration-500" style="width: 35%"></div>
               </div>
             </div>
-            <button class="vote-btn w-full py-2 rounded-lg font-bold" onclick="voteForToken('token1')">
-              <i class="fas fa-vote-yea mr-2"></i> Vote
+
+            <div class="bg-black bg-opacity-50 p-3 rounded-lg mb-4">
+              <div class="text-xs text-gray-400 mb-1">CONTRACT:</div>
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-xs text-blue-400 truncate">0xA1B2C3D4E5F6789...</span>
+                <button class="text-blue-400 hover:text-blue-300 ml-2" onclick="copyContract('moonshot')">
+                  <i class="fas fa-copy text-sm"></i>
+                </button>
+              </div>
+            </div>
+
+            <button class="action-btn w-full" onclick="vote('moonshot')">
+              <i class="fas fa-vote-yea mr-2"></i>
+              VOTE
             </button>
           </div>
-          
+
           <!-- Token 2 -->
-          <div class="w-full sm:w-64 glass p-6 rounded-xl">
-            <div class="flex items-center justify-center mb-4">
-              <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
-                <span class="font-bold">T2</span>
+          <div class="glass-panel p-6 rounded-2xl hover:scale-105 transition-all duration-300">
+            <div class="text-center mb-4">
+              <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-3">
+                💎
               </div>
-              <h4 class="ml-3 text-xl font-bold">TokenTwo</h4>
+              <h4 class="text-xl font-bold text-green-400">DIAMOND</h4>
+              <p class="text-gray-400 text-sm">Hodlers Paradise</p>
             </div>
+            
             <div class="mb-4">
-              <div class="w-full bg-gray-700 rounded-full h-4">
-                <div class="bg-green-500 h-4 rounded-full" style="width: 25%"></div>
+              <div class="flex justify-between text-sm mb-2">
+                <span>Votes: 1,250</span>
+                <span>20%</span>
               </div>
-              <div class="flex justify-between mt-1">
-                <span>25%</span>
-                <span>1250 votes</span>
+              <div class="w-full bg-gray-700 rounded-full h-3">
+                <div class="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all duration-500" style="width: 20%"></div>
               </div>
             </div>
-            <button class="vote-btn w-full py-2 rounded-lg font-bold" onclick="voteForToken('token2')">
-              <i class="fas fa-vote-yea mr-2"></i> Vote
+
+            <div class="bg-black bg-opacity-50 p-3 rounded-lg mb-4">
+              <div class="text-xs text-gray-400 mb-1">CONTRACT:</div>
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-xs text-green-400 truncate">0xB2C3D4E5F67891A...</span>
+                <button class="text-green-400 hover:text-green-300 ml-2" onclick="copyContract('diamond')">
+                  <i class="fas fa-copy text-sm"></i>
+                </button>
+              </div>
+            </div>
+
+            <button class="action-btn w-full bg-gradient-to-r from-green-400 to-green-600" onclick="vote('diamond')">
+              <i class="fas fa-vote-yea mr-2"></i>
+              VOTE
             </button>
           </div>
-          
+
           <!-- Token 3 -->
-          <div class="w-full sm:w-64 glass p-6 rounded-xl">
-            <div class="flex items-center justify-center mb-4">
-              <div class="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center">
-                <span class="font-bold">T3</span>
+          <div class="glass-panel p-6 rounded-2xl hover:scale-105 transition-all duration-300">
+            <div class="text-center mb-4">
+              <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-3">
+                ⚡
               </div>
-              <h4 class="ml-3 text-xl font-bold">TokenThree</h4>
+              <h4 class="text-xl font-bold text-purple-400">LIGHTNING</h4>
+              <p class="text-gray-400 text-sm">Fast & Furious</p>
             </div>
+            
             <div class="mb-4">
-              <div class="w-full bg-gray-700 rounded-full h-4">
-                <div class="bg-purple-500 h-4 rounded-full" style="width: 10%"></div>
+              <div class="flex justify-between text-sm mb-2">
+                <span>Votes: 750</span>
+                <span>12%</span>
               </div>
-              <div class="flex justify-between mt-1">
-                <span>10%</span>
-                <span>500 votes</span>
+              <div class="w-full bg-gray-700 rounded-full h-3">
+                <div class="bg-gradient-to-r from-purple-400 to-purple-600 h-3 rounded-full transition-all duration-500" style="width: 12%"></div>
               </div>
             </div>
-            <button class="vote-btn w-full py-2 rounded-lg font-bold" onclick="voteForToken('token3')">
-              <i class="fas fa-vote-yea mr-2"></i> Vote
+
+            <div class="bg-black bg-opacity-50 p-3 rounded-lg mb-4">
+              <div class="text-xs text-gray-400 mb-1">CONTRACT:</div>
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-xs text-purple-400 truncate">0xC3D4E5F67891AB2...</span>
+                <button class="text-purple-400 hover:text-purple-300 ml-2" onclick="copyContract('lightning')">
+                  <i class="fas fa-copy text-sm"></i>
+                </button>
+              </div>
+            </div>
+
+            <button class="action-btn w-full bg-gradient-to-r from-purple-400 to-purple-600" onclick="vote('lightning')">
+              <i class="fas fa-vote-yea mr-2"></i>
+              VOTE
             </button>
           </div>
         </div>
-      </div>
 
-      <!-- Vote History -->
-      <div class="mt-12">
-        <h3 class="text-2xl font-bold mb-6 text-center">Recent Community Decisions</h3>
-        <div class="space-y-4">
-          <div class="flex justify-between items-center glass p-4 rounded-lg">
+        <!-- Voting Stats -->
+        <div class="mt-16 glass-dark p-8 rounded-2xl">
+          <h3 class="text-2xl font-bold text-center mb-8 glow-gold">VOTING STATISTICS</h3>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
             <div>
-              <span class="font-bold text-green-400">✓ MEMECOIN</span>
-              <span class="ml-2">- Community voted to support</span>
+              <div class="text-3xl font-bold glow-blue" id="totalVotes">6,150</div>
+              <div class="text-gray-400">Total Votes</div>
             </div>
-            <span class="text-sm text-gray-400">2 days ago</span>
-          </div>
-          <div class="flex justify-between items-center glass p-4 rounded-lg">
             <div>
-              <span class="font-bold text-green-400">✓ DOGECOIN</span>
-              <span class="ml-2">- Community voted to support</span>
+              <div class="text-3xl font-bold glow-gold" id="activeVoters">2,847</div>
+              <div class="text-gray-400">Active Voters</div>
             </div>
-            <span class="text-sm text-gray-400">1 week ago</span>
-          </div>
-          <div class="flex justify-between items-center glass p-4 rounded-lg">
             <div>
-              <span class="font-bold text-red-400">✗ SCAMCOIN</span>
-              <span class="ml-2">- Community voted against</span>
+              <div class="text-3xl font-bold text-green-400" id="completedPumps">12</div>
+              <div class="text-gray-400">Successful Pumps</div>
             </div>
-            <span class="text-sm text-gray-400">2 weeks ago</span>
+            <div>
+              <div class="text-3xl font-bold text-red-400">72h</div>
+              <div class="text-gray-400">Time Remaining</div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Wallets Section -->
-    <section class="glass p-8 rounded-xl shadow-lg mb-16">
-      <h2 class="text-3xl font-bold mb-6 yellow-glow text-center">Wonk Wallets</h2>
-
-      <div class="flex flex-col md:flex-row gap-8">
-        <div class="md:w-1/2">
-          <h3 class="text-xl font-semibold text-white mb-4">Main Wallet (Public):</h3>
-          <div class="flex items-center bg-yellow-400 text-gray-900 px-4 py-3 rounded-lg cursor-pointer hover:bg-yellow-300 transition"
-               onclick="copyToClipboard('main-wallet', 'Coming Soon...')">
-            <span class="truncate font-mono">Coming Soon...</span>
-            <i class="fas fa-copy ml-2"></i>
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6">
+      <div class="container mx-auto max-w-6xl">
+        <h2 class="text-4xl font-bold text-center mb-16 glow-blue font-mono">ABOUT WONK</h2>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="glass-panel p-8 rounded-3xl">
+            <h3 class="text-2xl font-bold mb-6 glow-gold">The Community Whale</h3>
+            <p class="text-gray-300 leading-relaxed mb-6">
+              WONK represents a revolutionary approach to cryptocurrency - where the community becomes the whale. 
+              No more inside trading, no more market manipulation by big players. Here, small traders unite to 
+              become a force as powerful as any whale.
+            </p>
+            <p class="text-gray-300 leading-relaxed mb-6">
+              Through transparent voting and collective decision-making, WONK holders determine which projects 
+              to support, when to launch new initiatives, and how to grow the ecosystem together.
+            </p>
+            <div class="flex flex-wrap gap-4">
+              <div class="bg-blue-900 bg-opacity-50 px-4 py-2 rounded-full text-sm">
+                <i class="fas fa-users mr-2"></i>Community Driven
+              </div>
+              <div class="bg-gold-900 bg-opacity-50 px-4 py-2 rounded-full text-sm">
+                <i class="fas fa-shield-alt mr-2"></i>Rug-Pull Free
+              </div>
+              <div class="bg-green-900 bg-opacity-50 px-4 py-2 rounded-full text-sm">
+                <i class="fas fa-vote-yea mr-2"></i>Democratic
+              </div>
+            </div>
           </div>
-          <p class="text-sm text-gray-400 mt-2">Click to copy address</p>
+
+          <div class="glass-panel p-8 rounded-3xl">
+            <h3 class="text-2xl font-bold mb-6 glow-gold">Our Mission</h3>
+            <div class="space-y-4">
+              <div class="flex items-start space-x-4">
+                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <i class="fas fa-target text-sm"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-blue-400">Unite Small Traders</h4>
+                  <p class="text-gray-400 text-sm">Bring together individual investors to create collective market power.</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start space-x-4">
+                <div class="w-8 h-8 bg-gold-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <i class="fas fa-handshake text-sm"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-gold-400">Fair Market Access</h4>
+                  <p class="text-gray-400 text-sm">Democratize access to profitable trading opportunities for everyone.</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start space-x-4">
+                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <i class="fas fa-rocket text-sm"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-green-400">Sustainable Growth</h4>
+                  <p class="text-gray-400 text-sm">Build long-term value through strategic burns and community rewards.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <div class="md:w-1/2">
-          <h3 class="text-xl font-semibold text-white mb-4">Holder Rewards Wallet:</h3>
-          <div class="flex items-center bg-green-400 text-gray-900 px-4 py-3 rounded-lg cursor-pointer hover:bg-green-300 transition"
-               onclick="copyToClipboard('rewards-wallet', 'Coming Soon...')">
-            <span class="truncate font-mono">Coming Soon...</span>
-            <i class="fas fa-copy ml-2"></i>
+    <!-- Additional Styles -->
+    <style>
+      .action-btn-small {
+        padding: 8px 12px;
+        background: linear-gradient(45deg, var(--primary-blue), var(--secondary-blue));
+        border: 1px solid var(--primary-blue);
+        border-radius: 15px;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .action-btn-small:hover {
+        background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+        border-color: var(--primary-gold);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+      }
+
+      .loading-dots::after {
+        content: '...';
+        animation: dots 1.5s steps(4, end) infinite;
+      }
+
+      @keyframes dots {
+        0%, 20% { content: '.'; }
+        40% { content: '..'; }
+        60%, 100% { content: '...'; }
+      }
+
+      .speech-bubble::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: -8px;
+        transform: translateY(-50%);
+        border: 8px solid transparent;
+        border-left-color: #1e3a8a;
+      }
+
+      .animate-bounce-in {
+        animation: bounceIn 2s ease-out;
+      }
+
+      @keyframes bounceIn {
+        0% { opacity: 0; transform: scale(0.3); }
+        50% { opacity: 1; transform: scale(1.05); }
+        70% { transform: scale(0.9); }
+        100% { opacity: 1; transform: scale(1); }
+      }
+    </style>
+<!-- Tokenomics Section -->
+    <section id="tokenomics" class="py-20 px-6 bg-gradient-to-b from-blue-900 bg-opacity-10 to-transparent">
+      <div class="container mx-auto max-w-6xl">
+        <h2 class="text-4xl font-bold text-center mb-16 glow-gold font-mono">TOKENOMICS</h2>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <!-- Token Distribution -->
+          <div class="glass-panel p-8 rounded-3xl">
+            <h3 class="text-2xl font-bold mb-8 text-center glow-blue">Token Distribution</h3>
+            <div class="space-y-6">
+              <div class="flex justify-between items-center p-4 bg-black bg-opacity-30 rounded-lg">
+                <span class="text-lg">Total Supply</span>
+                <span class="text-xl font-bold glow-gold">1,000,000,000 WONK</span>
+              </div>
+              <div class="flex justify-between items-center p-4 bg-black bg-opacity-30 rounded-lg">
+                <span class="text-lg">Developer Wallet</span>
+                <span class="text-xl font-bold text-green-400">0%</span>
+              </div>
+              <div class="flex justify-between items-center p-4 bg-black bg-opacity-30 rounded-lg">
+                <span class="text-lg">Community Allocation</span>
+                <span class="text-xl font-bold glow-blue">100%</span>
+              </div>
+              <div class="flex justify-between items-center p-4 bg-black bg-opacity-30 rounded-lg">
+                <span class="text-lg">Transaction Tax</span>
+                <span class="text-xl font-bold text-orange-400">1.2%</span>
+              </div>
+            </div>
           </div>
-          <p class="text-sm text-gray-400 mt-2">Monthly rewards distribution wallet</p>
+
+          <!-- Burn Schedule Visual -->
+          <div class="glass-panel p-8 rounded-3xl">
+            <h3 class="text-2xl font-bold mb-8 text-center glow-gold">Burn Roadmap</h3>
+            <div class="space-y-4">
+              <div class="burn-milestone completed">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-green-400">🔥 5% at $1M MC</span>
+                  <span class="text-green-400 font-bold">✓ DONE</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                  <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                </div>
+              </div>
+              
+              <div class="burn-milestone active">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-orange-400">🔥 5% at $10M MC</span>
+                  <span class="text-orange-400 font-bold">24.5%</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                  <div class="bg-orange-500 h-2 rounded-full animate-pulse" style="width: 24.5%"></div>
+                </div>
+              </div>
+              
+              <div class="burn-milestone">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-yellow-400">🔥 15% at $50M MC</span>
+                  <span class="text-gray-400">PENDING</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                  <div class="bg-gray-600 h-2 rounded-full" style="width: 0%"></div>
+                </div>
+              </div>
+              
+              <div class="burn-milestone">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-blue-400">🔥 6% at $100M MC</span>
+                  <span class="text-gray-400">PENDING</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2">
+                  <div class="bg-gray-600 h-2 rounded-full" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Whitepaper Section -->
+    <section id="whitepaper" class="py-20 px-6">
+      <div class="container mx-auto max-w-4xl">
+        <h2 class="text-4xl font-bold text-center mb-16 glow-blue font-mono">WHITEPAPER</h2>
+        
+        <div class="glass-panel p-8 rounded-3xl">
+          <div class="text-center mb-12">
+            <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-gold-400 rounded-full flex items-center justify-center mx-auto mb-6">
+              <i class="fas fa-file-alt text-3xl text-white"></i>
+            </div>
+            <h3 class="text-3xl font-bold glow-gold mb-4">WONK Protocol Whitepaper</h3>
+            <p class="text-xl text-gray-300">The Complete Guide to Community-Driven Cryptocurrency</p>
+          </div>
+
+          <div class="space-y-8">
+            <!-- Executive Summary -->
+            <div class="glass-dark p-6 rounded-2xl">
+              <h4 class="text-xl font-bold glow-blue mb-4">Executive Summary</h4>
+              <p class="text-gray-300 leading-relaxed">
+                WONK Protocol introduces a revolutionary paradigm in cryptocurrency where community governance 
+                drives all major decisions. Unlike traditional tokens controlled by developers or whales, 
+                WONK empowers small investors to collectively become market makers through transparent voting 
+                mechanisms and strategic token burns.
+              </p>
+            </div>
+
+            <!-- Key Features -->
+            <div class="glass-dark p-6 rounded-2xl">
+              <h4 class="text-xl font-bold glow-gold mb-4">Key Features</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-black bg-opacity-50 p-4 rounded-lg">
+                  <h5 class="font-bold text-blue-400 mb-2">🗳️ Democratic Voting</h5>
+                  <p class="text-gray-400 text-sm">Community votes on pump targets and project decisions</p>
+                </div>
+                <div class="bg-black bg-opacity-50 p-4 rounded-lg">
+                  <h5 class="font-bold text-green-400 mb-2">🔥 Strategic Burns</h5>
+                  <p class="text-gray-400 text-sm">Milestone-based token burning reduces supply</p>
+                </div>
+                <div class="bg-black bg-opacity-50 p-4 rounded-lg">
+                  <h5 class="font-bold text-purple-400 mb-2">💎 Holder Rewards</h5>
+                  <p class="text-gray-400 text-sm">Monthly rewards for long-term holders</p>
+                </div>
+                <div class="bg-black bg-opacity-50 p-4 rounded-lg">
+                  <h5 class="font-bold text-orange-400 mb-2">🛡️ Rug-Pull Protection</h5>
+                  <p class="text-gray-400 text-sm">0% developer allocation ensures security</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Technical Specifications -->
+            <div class="glass-dark p-6 rounded-2xl">
+              <h4 class="text-xl font-bold glow-blue mb-4">Technical Specifications</h4>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div>
+                  <div class="text-2xl font-bold glow-gold">BSC</div>
+                  <div class="text-gray-400 text-sm">Blockchain</div>
+                </div>
+                <div>
+                  <div class="text-2xl font-bold text-green-400">BEP-20</div>
+                  <div class="text-gray-400 text-sm">Token Standard</div>
+                </div>
+                <div>
+                  <div class="text-2xl font-bold text-blue-400">1.2%</div>
+                  <div class="text-gray-400 text-sm">Transaction Fee</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Roadmap -->
+            <div class="glass-dark p-6 rounded-2xl">
+              <h4 class="text-xl font-bold glow-gold mb-4">Development Roadmap</h4>
+              <div class="space-y-4">
+                <div class="flex items-center space-x-4">
+                  <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-check text-sm"></i>
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-green-400">Phase 1: Launch ✓</h5>
+                    <p class="text-gray-400 text-sm">Token deployment, liquidity lock, community building</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                  <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-clock text-sm"></i>
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-orange-400">Phase 2: Voting System 🔄</h5>
+                    <p class="text-gray-400 text-sm">Democratic voting platform, first community decisions</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                  <div class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-hourglass text-sm"></i>
+                  </div>
+                  <div>
+                    <h5 class="font-bold text-gray-400">Phase 3: Expansion</h5>
+                    <p class="text-gray-400 text-sm">CEX listings, partnerships, ecosystem growth</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Download Button -->
+            <div class="text-center pt-8">
+              <button class="action-btn" onclick="downloadWhitepaper()">
+                <i class="fas fa-download mr-2"></i>
+                Download Full Whitepaper
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Community Section -->
-    <section id="community" class="mb-16">
-      <h2 class="text-3xl font-bold mb-8 yellow-glow text-center">Join Our Community</h2>
-      
-      <div class="flex flex-wrap justify-center gap-6">
-        <!-- Telegram -->
-        <div class="flip-card w-64 h-64">
-          <div class="flip-card-inner glass rounded-xl">
-            <div class="flip-card-front glass rounded-xl">
-              <i class="fab fa-telegram text-6xl text-[#0088cc] mb-4"></i>
-              <h3 class="text-xl font-bold">Telegram</h3>
-              <p class="text-gray-300">Join our main community</p>
+    <section id="community" class="py-20 px-6 bg-gradient-to-b from-transparent to-blue-900 bg-opacity-10">
+      <div class="container mx-auto max-w-6xl">
+        <h2 class="text-4xl font-bold text-center mb-16 glow-gold font-mono">JOIN THE REVOLUTION</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Telegram -->
+          <div class="glass-panel p-8 rounded-3xl text-center hover:scale-105 transition-all duration-300">
+            <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <i class="fab fa-telegram text-3xl text-white"></i>
             </div>
-            <div class="flip-card-back glass rounded-xl">
-              <p class="mb-4">Connect with thousands of Wonk supporters!</p>
-              <a href="https://t.me/wonk_meme" target="_blank" class="bg-[#0088cc] hover:bg-[#0077b5] px-6 py-3 rounded-full font-bold transition">
-                Join Now
-              </a>
-            </div>
+            <h3 class="text-xl font-bold glow-blue mb-4">Telegram</h3>
+            <p class="text-gray-400 mb-6">Join our main community hub for real-time discussions and voting coordination.</p>
+            <a href="https://t.me/wonk_meme" target="_blank" class="action-btn">
+              Join Community
+            </a>
           </div>
-        </div>
 
-        <!-- Twitter -->
-        <div class="flip-card w-64 h-64">
-          <div class="flip-card-inner glass rounded-xl">
-            <div class="flip-card-front glass rounded-xl">
-              <i class="fab fa-twitter text-6xl text-[#1da1f2] mb-4"></i>
-              <h3 class="text-xl font-bold">Twitter</h3>
-              <p class="text-gray-300">Follow for updates</p>
+          <!-- Twitter -->
+          <div class="glass-panel p-8 rounded-3xl text-center hover:scale-105 transition-all duration-300">
+            <div class="w-20 h-20 bg-gradient-to-br from-sky-400 to-sky-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <i class="fab fa-twitter text-3xl text-white"></i>
             </div>
-            <div class="flip-card-back glass rounded-xl">
-              <p class="mb-4">Get the latest news and pump calls!</p>
-              <a href="#" target="_blank" class="bg-[#1da1f2] hover:bg-[#0d8bd9] px-6 py-3 rounded-full font-bold transition">
-                Follow Us
-              </a>
-            </div>
+            <h3 class="text-xl font-bold text-sky-400 mb-4">Twitter</h3>
+            <p class="text-gray-400 mb-6">Follow us for updates, announcements, and community highlights.</p>
+            <a href="#" target="_blank" class="action-btn bg-gradient-to-r from-sky-400 to-sky-600">
+              Follow Us
+            </a>
           </div>
-        </div>
 
-        <!-- Discord -->
-        <div class="flip-card w-64 h-64">
-          <div class="flip-card-inner glass rounded-xl">
-            <div class="flip-card-front glass rounded-xl">
-              <i class="fab fa-discord text-6xl text-[#7289da] mb-4"></i>
-              <h3 class="text-xl font-bold">Discord</h3>
-              <p class="text-gray-300">Chat & coordinate</p>
+          <!-- Discord -->
+          <div class="glass-panel p-8 rounded-3xl text-center hover:scale-105 transition-all duration-300">
+            <div class="w-20 h-20 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <i class="fab fa-discord text-3xl text-white"></i>
             </div>
-            <div class="flip-card-back glass rounded-xl">
-              <p class="mb-4">Real-time discussions and voting!</p>
-              <a href="#" target="_blank" class="bg-[#7289da] hover:bg-[#5b6eae] px-6 py-3 rounded-full font-bold transition">
-                Join Server
-              </a>
-            </div>
+            <h3 class="text-xl font-bold text-purple-400 mb-4">Discord</h3>
+            <p class="text-gray-400 mb-6">Strategic planning, voice chats, and exclusive member benefits.</p>
+            <a href="#" target="_blank" class="action-btn bg-gradient-to-r from-purple-400 to-purple-600">
+              Join Server
+            </a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Call to Action -->
-    <div class="text-center mt-16 mb-8">
-      <div class="glass p-8 rounded-xl">
-        <h2 class="text-3xl font-bold mb-4 police-glow">Ready to Join the Revolution?</h2>
-        <p class="text-xl mb-8">Be part of the community whale. Your voice matters!</p>
-        <div class="flex flex-wrap justify-center gap-4">
-          <a href="#vote" class="vote-btn px-8 py-4 rounded-full font-bold text-lg shadow-lg">
-            <i class="fas fa-vote-yea mr-2"></i> Vote on Next Pump
-          </a>
-          <a href="https://t.me/wonk_meme" target="_blank" class="bg-[#0088cc] hover:bg-[#0077b5] px-8 py-4 rounded-full font-bold text-lg shadow-lg transition">
-            <i class="fab fa-telegram mr-2"></i> Join Community
-          </a>
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-blue-500 border-opacity-30">
+      <div class="container mx-auto max-w-6xl">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="flex items-center mb-6 md:mb-0">
+            <img src="wonk-logo.png" alt="WONK" class="w-10 h-10 rounded-full mr-3">
+            <div>
+              <div class="text-xl font-bold glow-blue">WONK Protocol</div>
+              <div class="text-gray-400 text-sm">Community Driven • Rug-Pull Free</div>
+            </div>
+          </div>
+          
+          <div class="flex space-x-6 text-gray-400">
+            <a href="#" class="hover:text-blue-400 transition">Privacy Policy</a>
+            <a href="#" class="hover:text-blue-400 transition">Terms of Service</a>
+            <a href="#" class="hover:text-blue-400 transition">Contact</a>
+          </div>
+        </div>
+        
+        <div class="text-center mt-8 pt-8 border-t border-gray-700">
+          <p class="text-gray-400">© 2024 WONK Protocol. Building the future of community-driven crypto.</p>
         </div>
       </div>
-    </div>
-
-  </div>
-
-  <!-- Footer -->
-  <footer class="glass mt-16 py-8">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <div class="flex flex-col md:flex-row justify-between items-center">
-        <div class="mb-4 md:mb-0">
-          <img src="wonk-logo.png" alt="Wonk Logo" class="w-8 h-8 rounded-full inline-block mr-2">
-          <span class="font-bold">© 2024 Wonk Meme Coin. Community Driven.</span>
-        </div>
-        <div class="flex space-x-4">
-          <a href="#" class="text-gray-400 hover:text-white transition">Privacy</a>
-          <a href="#" class="text-gray-400 hover:text-white transition">Terms</a>
-          <a href="#" class="text-gray-400 hover:text-white transition">Contact</a>
-        </div>
-      </div>
-    </div>
-  </footer>
+    </footer>
+  </main>
 
   <!-- JavaScript -->
   <script>
-    // Particles.js configuration
+    // Sound System
+    let soundEnabled = true;
+    let audioContext;
+    
+    // Initialize Audio Context
+    function initAudio() {
+      try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      } catch (e) {
+        console.log('Web Audio API not supported');
+      }
+    }
+
+    // Sound Effects
+    function playSound(type) {
+      if (!soundEnabled || !audioContext) return;
+      
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      switch(type) {
+        case 'click':
+          oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+          oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+          oscillator.start(audioContext.currentTime);
+          oscillator.stop(audioContext.currentTime + 0.1);
+          break;
+        case 'vote':
+          oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+          oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.2);
+          gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+          oscillator.start(audioContext.currentTime);
+          oscillator.stop(audioContext.currentTime + 0.2);
+          break;
+        case 'welcome':
+          // Welcome sound sequence
+          const frequencies = [440, 554, 659, 880];
+          frequencies.forEach((freq, index) => {
+            const osc = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            osc.connect(gain);
+            gain.connect(audioContext.destination);
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0.1, audioContext.currentTime + index * 0.2);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + index * 0.2 + 0.3);
+            osc.start(audioContext.currentTime + index * 0.2);
+            osc.stop(audioContext.currentTime + index * 0.2 + 0.3);
+          });
+          break;
+      }
+    }
+
+    // Sound Toggle
+    document.getElementById('soundToggle').addEventListener('click', function() {
+      soundEnabled = !soundEnabled;
+      const icon = document.getElementById('soundIcon');
+      if (soundEnabled) {
+        icon.className = 'fas fa-volume-up glow-blue';
+        playSound('click');
+      } else {
+        icon.className = 'fas fa-volume-mute glow-gold';
+      }
+    });
+
+    // Particles.js Configuration
     particlesJS("particles-js", {
       particles: {
-        number: { value: 80, density: { enable: true, value_area: 800 } },
-        color: { value: "#ffffff" },
+        number: { value: 120, density: { enable: true, value_area: 800 } },
+        color: { value: ["#00d4ff", "#ffd700", "#0099cc"] },
         shape: {
           type: "circle",
-          stroke: { width: 0, color: "#000000" },
-          polygon: { nb_sides: 5 }
+          stroke: { width: 0, color: "#000000" }
         },
         opacity: {
-          value: 0.5,
-          random: false,
-          anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false }
+          value: 0.6,
+          random: true,
+          anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
         },
         size: {
           value: 3,
           random: true,
-          anim: { enable: false, speed: 40, size_min: 0.1, sync: false }
+          anim: { enable: true, speed: 2, size_min: 0.1, sync: false }
         },
         line_linked: {
           enable: true,
           distance: 150,
-          color: "#ffffff",
+          color: "#00d4ff",
           opacity: 0.4,
           width: 1
         },
         move: {
           enable: true,
-          speed: 6,
+          speed: 2,
           direction: "none",
           random: false,
           straight: false,
           out_mode: "out",
-          bounce: false,
-          attract: { enable: false, rotateX: 600, rotateY: 1200 }
+          bounce: false
         }
       },
       interactivity: {
@@ -851,101 +1309,184 @@
           resize: true
         },
         modes: {
-          grab: { distance: 400, line_linked: { opacity: 1 } },
-          bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
-          repulse: { distance: 200, duration: 0.4 },
-          push: { particles_nb: 4 },
-          remove: { particles_nb: 2 }
+          repulse: { distance: 100, duration: 0.4 },
+          push: { particles_nb: 4 }
         }
       },
       retina_detect: true
     });
 
-    // Counter animations
+    // Loading Screen
     window.addEventListener('load', function() {
-      // Community counter
-      const communityCounter = new CountUp('community-counter', 0, 15420, 0, 2.5);
-      communityCounter.start();
-
-      // Growth counter
-      const growthCounter = new CountUp('growth-counter', 0, 847, 0, 2.5);
-      growthCounter.start();
-
-      // Burned counter
-      const burnedCounter = new CountUp('burned-counter', 0, 50, 0, 2.5);
-      burnedCounter.start();
-
-      // Vote counter
-      const voteCounter = new CountUp('vote-counter', 0, 5000, 0, 2.5);
-      voteCounter.start();
+      setTimeout(() => {
+        document.getElementById('loadingScreen').style.opacity = '0';
+        setTimeout(() => {
+          document.getElementById('loadingScreen').style.display = 'none';
+          playSound('welcome');
+          showBotMessage();
+        }, 500);
+      }, 2000);
     });
 
-    // Mobile menu toggle
-    document.getElementById('mobile-menu-button').addEventListener('click', function() {
-      const mobileMenu = document.getElementById('mobile-menu');
-      mobileMenu.classList.toggle('hidden');
-    });
+    // Bot Messages
+    const botMessages = [
+      "Welcome to WONK! 🔥",
+      "Community decides everything! 🗳️",
+      "Let's pump together! 🚀",
+      "$WONK to the moon! 🌙",
+      "The whale is us! 🐋"
+    ];
 
-    // Timeline animation on scroll
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver(function(entries) {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.timeline-item').forEach(item => {
-      observer.observe(item);
-    });
-
-    // Voting functions
-    function voteForToken(tokenId) {
-      // Here you would implement the actual voting logic
-      // For now, we'll just show an alert
-      alert(`Thanks for voting for ${tokenId}! Your vote has been recorded.`);
+    function showBotMessage() {
+      const bubble = document.getElementById('botMessage');
+      let messageIndex = 0;
       
-      // You could integrate with a blockchain voting system here
-      // Example: call smart contract function, update database, etc.
+      setInterval(() => {
+        bubble.style.opacity = '0';
+        setTimeout(() => {
+          bubble.textContent = botMessages[messageIndex];
+          bubble.style.opacity = '1';
+          messageIndex = (messageIndex + 1) % botMessages.length;
+        }, 300);
+      }, 4000);
+      
+      // Show first message
+      setTimeout(() => {
+        bubble.style.opacity = '1';
+      }, 1000);
     }
 
-    // Copy to clipboard function
-    function copyToClipboard(elementId, text) {
-      navigator.clipboard.writeText(text).then(function() {
-        alert('Address copied to clipboard!');
-      }).catch(function(err) {
-        console.error('Could not copy text: ', err);
-      });
-    }
+    // Mobile Menu
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+      playSound('click');
+    });
 
-    // Smooth scrolling for navigation links
+    // Smooth Scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const targetId = this.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
-        
-        if (targetElement) {
-          targetElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
+        playSound('click');
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
     });
 
-    // Add scroll effect to navbar
+    // Voting Functions
+    const contracts = {
+      winner: "0x742d35Cc6634C0532925a3b8D0C1d0c9b",
+      moonshot: "0xA1B2C3D4E5F6789012345678901234567890ABCD",
+      diamond: "0xB2C3D4E5F67891A0123456789012345678901BCD",
+      lightning: "0xC3D4E5F67891AB012345678901234567890CDEF"
+    };
+
+    function vote(tokenId) {
+      playSound('vote');
+      
+      // Visual feedback
+      event.target.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        event.target.style.transform = 'scale(1)';
+      }, 150);
+      
+      // Show voting confirmation
+      const notification = document.createElement('div');
+      notification.className = 'fixed top-24 right-6 glass-panel p-4 rounded-lg z-50 transform translate-x-full transition-transform duration-300';
+      notification.innerHTML = `
+        <div class="flex items-center space-x-3">
+          <i class="fas fa-vote-yea text-green-400"></i>
+          <span>Vote recorded for ${tokenId.toUpperCase()}!</span>
+        </div>
+      `;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+      }, 100);
+      
+      setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 3000);
+    }
+
+    function copyContract(tokenId) {
+      const contract = contracts[tokenId];
+      navigator.clipboard.writeText(contract).then(() => {
+        playSound('click');
+        
+        // Show copy notification
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-24 right-6 glass-panel p-4 rounded-lg z-50 transform translate-x-full transition-transform duration-300';
+        notification.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-copy text-blue-400"></i>
+            <span>Contract copied!</span>
+          </div>
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        setTimeout(() => {
+          notification.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            document.body.removeChild(notification);
+          }, 300);
+        }, 2000);
+      });
+    }
+
+    // Download Whitepaper
+    function downloadWhitepaper() {
+      playSound('click');
+      // Here you would implement actual whitepaper download
+      alert('Whitepaper download will be available soon!');
+    }
+
+    // Real-time Dashboard Updates
+    function updateDashboard() {
+      // Simulate real-time price updates
+      const priceElement = document.getElementById('currentPrice');
+      const currentPrice = parseFloat(priceElement.textContent.replace('$', ''));
+      const change = (Math.random() - 0.5) * 0.00001;
+      const newPrice = Math.max(0.001, currentPrice + change);
+      
+      priceElement.textContent = `$${newPrice.toFixed(5)}`;
+      
+      // Update market cap
+      const mcElement = document.getElementById('marketCap');
+      const newMC = (newPrice * 950000000).toLocaleString();
+      mcElement.textContent = `$${newMC}`;
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      initAudio();
+      
+      // Update dashboard every 5 seconds
+      setInterval(updateDashboard, 5000);
+      
+      // Add click sounds to all buttons
+      document.querySelectorAll('button, .action-btn, .nav-item').forEach(element => {
+        element.addEventListener('click', () => playSound('click'));
+      });
+    });
+
+    // Navbar scroll effect
     window.addEventListener('scroll', function() {
-      const navbar = document.querySelector('nav');
+      const navbar = document.querySelector('header');
       if (window.scrollY > 100) {
-        navbar.style.backgroundColor = 'rgba(10, 37, 64, 0.95)';
+        navbar.style.background = 'rgba(5, 8, 16, 0.95)';
       } else {
-        navbar.style.backgroundColor = 'rgba(10, 37, 64, 0.8)';
+        navbar.style.background = 'linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%)';
       }
     });
   </script>
