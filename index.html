@@ -11,7 +11,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.8/countUp.min.js"></script>
-  
+  <!-- Authentication Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.15.0/firebase-app-compat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.15.0/firebase-auth-compat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.15.0/firebase-firestore-compat.min.js"></script>
+  <script src="database.js"></script>
+  <script src="auth.js"></script>
   <style>
     :root {
       --primary-blue: #00d4ff;
@@ -1490,6 +1495,29 @@
       }
     });
   </script>
+<!-- Authentication Modal -->
+<div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-[9999]">
+  <div class="glass-panel p-8 rounded-3xl max-w-md w-full mx-4">
+    <h2 class="text-2xl font-bold text-center mb-6 glow-blue">Login to WONK</h2>
+    <div class="space-y-4">
+      <button id="phantomLogin" class="action-btn w-full">
+        <i class="fas fa-wallet mr-2"></i>
+        Login with Phantom
+      </button>
+      <button id="googleLogin" class="action-btn w-full bg-gradient-to-r from-red-500 to-red-600">
+        <i class="fab fa-google mr-2"></i>
+        Login with Google
+      </button>
+    </div>
+    <button id="closeAuth" class="text-gray-400 hover:text-white mt-4 w-full text-center">
+      Close
+    </button>
+  </div>
+</div>
 
+<!-- User Dashboard (Hidden by default) -->
+<div id="userDashboard" class="hidden">
+  <!-- Dashboard content will be loaded by auth.js -->
+</div>
 </body>
 </html>
