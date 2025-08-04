@@ -1523,3 +1523,26 @@
 </div>
 </body>
 </html>
+
+
+  <!-- Auth Modal -->
+  <div id="authModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+    <div class="glass-panel p-8 rounded-3xl text-center relative w-11/12 max-w-md">
+      <button id="closeAuth" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+      <h2 class="text-3xl font-bold glow-blue mb-6">Login / Sign Up</h2>
+      <p class="text-gray-300 mb-8">Connect your wallet or Google account to get started.</p>
+      
+      <div class="space-y-4">
+        <button id="phantomLogin" class="action-btn w-full flex items-center justify-center">
+          <i class="fab fa-ethereum mr-3"></i>
+          Connect Phantom Wallet
+        </button>
+        <button id="googleLogin" class="action-btn w-full flex items-center justify-center">
+          <i class="fab fa-google mr-3"></i>
+          Sign in with Google
+        </button>
+      </div>
+    </div>
+  </div>
+
+
