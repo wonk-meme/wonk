@@ -35,6 +35,16 @@ function setupEventListeners() {
   if (closeAuthBtn) {
     closeAuthBtn.addEventListener('click', hideAuthModal);
   }
+
+  const loginBtn = document.getElementById('loginBtn');
+  if (loginBtn) {
+    loginBtn.addEventListener('click', showAuthModal);
+  }
+
+  const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+  if (mobileLoginBtn) {
+    mobileLoginBtn.addEventListener('click', showAuthModal);
+  }
   
   if (authModal) {
     authModal.addEventListener('click', (e) => {
