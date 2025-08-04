@@ -326,23 +326,144 @@ class WonkDatabase {
     }
   }
 
-  // Backup user data
-  async exportUserData(userId) {
+  // Admin Functions
+  async addCrypto(cryptoData) {
     try {
-      const [user, votes, transactions] = await Promise.all([
-        this.getUser(userId),
-        this.votes.where('userId', '==', userId).get(),
-        this.transactions.where('userId', '==', userId).get()
-      ]);
+      const cryptoRef = this.cryptos.doc(cryptoData.name);
+      await cryptoRef.set({
+        ...cryptoData,
+        totalVotes: 0,
+        active: true,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      console.log('Crypto added successfully:', cryptoData.name);
+      return cryptoData.name;
+    } catch (error) {
+      console.error('Error adding crypto:', error);
+      throw error;
+    }
+  }
 
+  async updateCrypto(cryptoName, updateData) {
+    try {
+      await this.cryptos.doc(cryptoName).update({
+        ...updateData,
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      console.log('Crypto updated successfully:', cryptoName);
+    } catch (error) {
+      console.error('Error updating crypto:', error);
+      throw error;
+    }
+  }
+
+  async deleteCrypto(cryptoName) {
+    try {
+      await this.cryptos.doc(cryptoName).delete();
+      console.log('Crypto deleted successfully:', cryptoName);
+    } catch (error) {
+      console.error('Error deleting crypto:', error);
+      throw error;
+    }
+  }
+
+  async getAllUsers(limit = 100) {
+    try {
+      const usersSnapshot = await this.users
+        .orderBy('joinDate', 'desc')
+        .limit(limit)
+        .get();
+      
+      return usersSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+    } catch (error) {
+      console.error('Error getting all users:', error);
+      throw error;
+    }
+  }
+
+  async deleteUser(userId) {
+    try {
+      const batch = this.db.batch();
+      
+      // Delete user document
+      batch.delete(this.users.doc(userId));
+      
+      // Delete user's votes
+      const userVotesSnapshot = await this.votes.where('userId', '==', userId).get();
+      userVotesSnapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+      
+      // Delete user's transactions
+      const userTransactionsSnapshot = await this.transactions.where('userId', '==', userId).get();
+      userTransactionsSnapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+      
+      await batch.commit();
+      console.log('User deleted successfully:', userId);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      throw error;
+    }
+  }
+
+  async resetAllVotes() {
+    try {
+      const batch = this.db.batch();
+      
+      // Reset crypto vote counts
+      const cryptosSnapshot = await this.cryptos.get();
+      cryptosSnapshot.docs.forEach(doc => {
+        batch.update(doc.ref, { totalVotes: 0 });
+      });
+      
+      // Delete all vote records
+      const votesSnapshot = await this.votes.get();
+      votesSnapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+      
+      await batch.commit();
+      console.log('All votes reset successfully');
+    } catch (error) {
+      console.error('Error resetting votes:', error);
+      throw error;
+    }
+  }
+
+  // System Settings
+  async updateSystemSettings(settings) {
+    try {
+      const settingsRef = this.db.collection('settings').doc('system');
+      await settingsRef.set({
+        ...settings,
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+      console.log('System settings updated successfully');
+    } catch (error) {
+      console.error('Error updating system settings:', error);
+      throw error;
+    }
+  }
+
+  async getSystemSettings() {
+    try {
+      const settingsDoc = await this.db.collection('settings').doc('system').get();
+      if (settingsDoc.exists) {
+        return settingsDoc.data();
+      }
       return {
-        user: user,
-        votes: votes.docs.map(doc => doc.data()),
-        transactions: transactions.docs.map(doc => doc.data()),
-        exportDate: new Date().toISOString()
+        voteCost: 10,
+        defaultPoints: 1000,
+        votingEnabled: true
       };
     } catch (error) {
-      console.error('Error exporting user data:', error);
+      console.error('Error getting system settings:', error);
       throw error;
     }
   }
