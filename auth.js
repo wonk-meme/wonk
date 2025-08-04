@@ -1,110 +1,149 @@
-// Firebase Configuration
-const firebaseConfig = {
-  apiKey: "demo-key",
-  authDomain: "demo.firebaseapp.com", 
-  projectId: "demo-project",
-  storageBucket: "demo.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "demo-app-id"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-
 // User State
 let currentUser = null;
 let userPoints = 0;
 
-// DOM Elements - will be set after DOM loads
+// DOM Elements
 let authModal, userDashboard, phantomLoginBtn, googleLoginBtn, closeAuthBtn;
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
-  // Set DOM elements after page loads
   authModal = document.getElementById('authModal');
   userDashboard = document.getElementById('userDashboard');
   phantomLoginBtn = document.getElementById('phantomLogin');
   googleLoginBtn = document.getElementById('googleLogin');
   closeAuthBtn = document.getElementById('closeAuth');
   
-  initializeAuth();
+  console.log('Auth elements loaded:', {
+    authModal: !!authModal,
+    userDashboard: !!userDashboard,
+    phantomLoginBtn: !!phantomLoginBtn,
+    googleLoginBtn: !!googleLoginBtn,
+    closeAuthBtn: !!closeAuthBtn
+  });
+  
   setupEventListeners();
 });
 
-// Initialize Authentication
-function initializeAuth() {
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      currentUser = user;
-      loadUserDashboard();
-      hideAuthModal();
-    } else {
-      currentUser = null;
-      showAuthModal();
-      hideDashboard();
-    }
-  });
-}
-
 // Setup Event Listeners
 function setupEventListeners() {
-  phantomLoginBtn.addEventListener('click', loginWithPhantom);
-  googleLoginBtn.addEventListener('click', loginWithGoogle);
-  closeAuthBtn.addEventListener('click', hideAuthModal);
+  if (phantomLoginBtn) {
+    phantomLoginBtn.addEventListener('click', loginWithPhantom);
+  }
+  if (googleLoginBtn) {
+    googleLoginBtn.addEventListener('click', loginWithGoogle);
+  }
+  if (closeAuthBtn) {
+    closeAuthBtn.addEventListener('click', hideAuthModal);
+  }
   
-  // Close modal when clicking outside
-  authModal.addEventListener('click', (e) => {
-    if (e.target === authModal) {
-      hideAuthModal();
-    }
-  });
+  if (authModal) {
+    authModal.addEventListener('click', (e) => {
+      if (e.target === authModal) {
+        hideAuthModal();
+      }
+    });
+  }
 }
 
 // Phantom Wallet Login
 async function loginWithPhantom() {
   try {
+    // Check if we're on mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      // On mobile, try to open Phantom app
+      const phantomAppUrl = 'https://phantom.app/ul/browse/' + encodeURIComponent(window.location.href);
+      window.open(phantomAppUrl, '_blank');
+      showInfoMessage('Opening Phantom app... Please connect your wallet there.');
+      return;
+    }
+    
+    // Desktop: Check for Phantom extension
     if (!window.solana || !window.solana.isPhantom) {
-      alert('Please install Phantom Wallet first');
+      showInfoMessage('Phantom Wallet not detected. Please install the Phantom extension.');
       window.open('https://phantom.app/', '_blank');
       return;
     }
 
+    // Connect to Phantom
     const response = await window.solana.connect();
     const publicKey = response.publicKey.toString();
     
-    // Create custom token for Firebase Auth
-    const customToken = await createCustomToken(publicKey, 'phantom');
-    await auth.signInWithCustomToken(customToken);
+    currentUser = {
+      uid: publicKey,
+      email: null,
+      displayName: `Phantom-${publicKey.substring(0, 8)}`,
+      photoURL: null,
+      walletAddress: publicKey,
+      loginMethod: 'phantom'
+    };
     
+    loadUserDashboard();
+    hideAuthModal();
     showSuccessMessage('Successfully logged in with Phantom');
   } catch (error) {
     console.error('Phantom login error:', error);
-    showErrorMessage('Error logging in with Phantom');
+    if (error.code === 4001) {
+      showErrorMessage('Connection cancelled by user');
+    } else {
+      showErrorMessage('Failed to connect to Phantom wallet');
+    }
   }
 }
 
 // Google Login
 async function loginWithGoogle() {
   try {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const result = await auth.signInWithPopup(provider);
+    // Initialize Firebase Auth if not already done
+    if (!firebase.auth().currentUser) {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.addScope('email');
+      provider.addScope('profile');
+      
+      const result = await firebase.auth().signInWithPopup(provider);
+      const user = result.user;
+      
+      currentUser = {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName || 'Google User',
+        photoURL: user.photoURL,
+        walletAddress: null,
+        loginMethod: 'google'
+      };
+    } else {
+      // User already signed in
+      const user = firebase.auth().currentUser;
+      currentUser = {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName || 'Google User',
+        photoURL: user.photoURL,
+        walletAddress: null,
+        loginMethod: 'google'
+      };
+    }
+    
+    loadUserDashboard();
+    hideAuthModal();
     showSuccessMessage('Successfully logged in with Google');
   } catch (error) {
     console.error('Google login error:', error);
-    showErrorMessage('Error logging in with Google');
+    if (error.code === 'auth/popup-closed-by-user') {
+      showErrorMessage('Login cancelled by user');
+    } else if (error.code === 'auth/popup-blocked') {
+      showErrorMessage('Popup blocked. Please allow popups for this site.');
+    } else {
+      showErrorMessage('Error logging in with Google. Please try again.');
+    }
   }
-}
-
-// Create Custom Token (should be implemented on server in real app)
-async function createCustomToken(uid, provider) {
-  // This is a demo function - in real app this should be done on server
-  // For demo purposes only
-  return `custom_token_${uid}_${provider}_${Date.now()}`;
 }
 
 // Load User Dashboard
 function loadUserDashboard() {
+  if (!userDashboard) return;
+  
   userDashboard.innerHTML = `
     <div class="fixed top-0 left-0 w-full h-full bg-gradient-to-b from-gray-900 to-black z-40">
       <!-- Header -->
@@ -181,78 +220,109 @@ function loadUserDashboard() {
 
 // Hide Dashboard
 function hideDashboard() {
-  userDashboard.classList.add('hidden');
+  if (userDashboard) {
+    userDashboard.classList.add('hidden');
+  }
 }
 
 // Show Auth Modal
 function showAuthModal() {
-  authModal.classList.remove('hidden');
-  authModal.classList.add('flex');
+  if (authModal) {
+    authModal.classList.remove('hidden');
+    authModal.classList.add('flex');
+  }
 }
 
 // Hide Auth Modal
 function hideAuthModal() {
-  authModal.classList.add('hidden');
-  authModal.classList.remove('flex');
+  if (authModal) {
+    authModal.classList.add('hidden');
+    authModal.classList.remove('flex');
+  }
 }
 
 // Load User Points
 async function loadUserPoints() {
   try {
-    // Get user data from database
-    let userData = await wonkDB.getUser(currentUser.uid);
-    
-    if (!userData) {
-      // Create new user if doesn't exist
-      userData = await wonkDB.createUser(currentUser.uid, {
-        email: currentUser.email,
-        displayName: currentUser.displayName,
-        photoURL: currentUser.photoURL,
-        walletAddress: currentUser.walletAddress || null,
-        loginMethod: currentUser.loginMethod || 'unknown'
-      });
+    if (window.wonkDB && currentUser) {
+      let userData = await wonkDB.getUser(currentUser.uid);
+      
+      if (!userData) {
+        userData = await wonkDB.createUser(currentUser.uid, {
+          email: currentUser.email,
+          displayName: currentUser.displayName,
+          photoURL: currentUser.photoURL,
+          walletAddress: currentUser.walletAddress || null,
+          loginMethod: currentUser.loginMethod || 'unknown'
+        });
+      } else {
+        await wonkDB.updateLastLogin(currentUser.uid);
+      }
+      
+      userPoints = userData.points || 1000;
+      
+      const pointsDisplay = document.getElementById('userPointsDisplay');
+      if (pointsDisplay) {
+        pointsDisplay.textContent = userPoints.toLocaleString();
+      }
+
+      startUserDataListener();
     } else {
-      // Update last login
-      await wonkDB.updateLastLogin(currentUser.uid);
+      const savedPoints = localStorage.getItem(`user_points_${currentUser.uid}`);
+      userPoints = savedPoints ? parseInt(savedPoints) : 1000;
+      
+      const pointsDisplay = document.getElementById('userPointsDisplay');
+      if (pointsDisplay) {
+        pointsDisplay.textContent = userPoints.toLocaleString();
+      }
     }
-    
-    userPoints = userData.points || 1000;
+  } catch (error) {
+    console.error('Error loading user points:', error);
+    userPoints = 1000;
     
     const pointsDisplay = document.getElementById('userPointsDisplay');
     if (pointsDisplay) {
       pointsDisplay.textContent = userPoints.toLocaleString();
     }
-
-    // Start listening to user data changes
-    startUserDataListener();
-  } catch (error) {
-    console.error('Error loading user points:', error);
-    userPoints = 1000; // Fallback
   }
 }
 
 // Save User Points
 async function saveUserPoints() {
   try {
-    await wonkDB.updateUserPoints(currentUser.uid, userPoints);
+    if (window.wonkDB && currentUser) {
+      await wonkDB.updateUserPoints(currentUser.uid, userPoints);
+    } else {
+      localStorage.setItem(`user_points_${currentUser?.uid || 'demo'}`, userPoints.toString());
+    }
   } catch (error) {
     console.error('Error saving user points:', error);
-    // Fallback to localStorage
-    localStorage.setItem(`user_points_${currentUser.uid}`, userPoints.toString());
+    localStorage.setItem(`user_points_${currentUser?.uid || 'demo'}`, userPoints.toString());
   }
 }
 
 // Load Voting Cards
 async function loadVotingCards() {
   try {
-    const cryptos = await wonkDB.getCryptos();
-    const votingCards = document.getElementById('votingCards');
+    let cryptos;
     
-    if (!votingCards || cryptos.length === 0) {
-      // Fallback to default cryptos if database fails
-      loadDefaultVotingCards();
-      return;
+    if (window.wonkDB) {
+      cryptos = await wonkDB.getCryptos();
     }
+    
+    if (!cryptos || cryptos.length === 0) {
+      cryptos = [
+        { name: 'MOONSHOT', icon: '🚀', color: 'blue', totalVotes: 2150 },
+        { name: 'DIAMOND', icon: '💎', color: 'green', totalVotes: 1250 },
+        { name: 'LIGHTNING', icon: '⚡', color: 'purple', totalVotes: 750 },
+        { name: 'ROCKET', icon: '🌙', color: 'yellow', totalVotes: 890 },
+        { name: 'FIRE', icon: '🔥', color: 'red', totalVotes: 1120 },
+        { name: 'STAR', icon: '⭐', color: 'orange', totalVotes: 680 }
+      ];
+    }
+
+    const votingCards = document.getElementById('votingCards');
+    if (!votingCards) return;
 
     votingCards.innerHTML = cryptos.map(crypto => `
       <div class="glass-panel p-6 rounded-2xl hover:scale-105 transition-all duration-300 cursor-pointer" onclick="voteForCrypto('${crypto.name}', 10)">
@@ -290,7 +360,6 @@ async function loadVotingCards() {
     `).join('');
   } catch (error) {
     console.error('Error loading voting cards:', error);
-    loadDefaultVotingCards();
   }
 }
 
@@ -302,27 +371,25 @@ async function voteForCrypto(cryptoName, cost) {
   }
 
   try {
-    // Record vote in database
-    await wonkDB.recordVote(currentUser.uid, cryptoName, cost);
+    if (window.wonkDB && currentUser) {
+      await wonkDB.recordVote(currentUser.uid, cryptoName, cost);
+      await wonkDB.recordTransaction(currentUser.uid, 'vote', cost, {
+        cryptoName: cryptoName,
+        action: 'vote_cast'
+      });
+    }
     
-    // Update local points (will be synced via listener)
     userPoints -= cost;
+    await saveUserPoints();
     
-    // Update display immediately
     const pointsDisplay = document.getElementById('userPointsDisplay');
     if (pointsDisplay) {
       pointsDisplay.textContent = userPoints.toLocaleString();
     }
-
-    // Record transaction
-    await wonkDB.recordTransaction(currentUser.uid, 'vote', cost, {
-      cryptoName: cryptoName,
-      action: 'vote_cast'
-    });
     
+    addVoteToFeed(currentUser.uid, cryptoName);
     showSuccessMessage(`Successfully voted for ${cryptoName}!`);
     
-    // Refresh voting cards to show updated vote counts
     setTimeout(() => {
       loadVotingCards();
     }, 1000);
@@ -336,34 +403,66 @@ async function voteForCrypto(cryptoName, cost) {
 // Start Live Votes Feed
 function startLiveVotesFeed() {
   const liveVotesFeed = document.getElementById('liveVotesFeed');
+  if (!liveVotesFeed) return;
   
-  // Listen to real-time votes from database
-  const unsubscribe = wonkDB.listenToRecentVotes((votes) => {
-    liveVotesFeed.innerHTML = votes.map(vote => `
+  if (window.wonkDB) {
+    const unsubscribe = wonkDB.listenToRecentVotes((votes) => {
+      liveVotesFeed.innerHTML = votes.map(vote => `
+        <div class="flex items-center justify-between p-3 mb-2 bg-black bg-opacity-30 rounded-lg animate-fade-in">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
+              <i class="fas fa-user text-xs"></i>
+            </div>
+            <div>
+              <div class="text-sm font-bold text-blue-400">${vote.userId.substring(0, 8)}...</div>
+              <div class="text-xs text-gray-400">Voted successfully</div>
+            </div>
+          </div>
+          <div class="text-xs text-gray-400">
+            ${vote.timestamp ? formatTimeAgo(vote.timestamp.toDate ? vote.timestamp.toDate().getTime() : Date.now()) : 'Just now'}
+          </div>
+        </div>
+      `).join('');
+    }, 20);
+
+    window.votesListener = unsubscribe;
+  } else {
+    const initialVotes = [
+      { userId: 'user001', timestamp: Date.now() - 300000 },
+      { userId: 'user002', timestamp: Date.now() - 250000 },
+      { userId: 'user003', timestamp: Date.now() - 200000 },
+      { userId: 'user004', timestamp: Date.now() - 150000 },
+      { userId: 'user005', timestamp: Date.now() - 100000 }
+    ];
+
+    liveVotesFeed.innerHTML = initialVotes.map(vote => `
       <div class="flex items-center justify-between p-3 mb-2 bg-black bg-opacity-30 rounded-lg animate-fade-in">
         <div class="flex items-center space-x-3">
           <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
             <i class="fas fa-user text-xs"></i>
           </div>
           <div>
-            <div class="text-sm font-bold text-blue-400">${vote.userId.substring(0, 8)}...</div>
+            <div class="text-sm font-bold text-blue-400">${vote.userId}</div>
             <div class="text-xs text-gray-400">Voted successfully</div>
           </div>
         </div>
         <div class="text-xs text-gray-400">
-          ${vote.timestamp ? formatTimeAgo(vote.timestamp.toDate ? vote.timestamp.toDate().getTime() : Date.now()) : 'Just now'}
+          ${formatTimeAgo(vote.timestamp)}
         </div>
       </div>
     `).join('');
-  }, 20);
 
-  // Store unsubscribe function for cleanup
-  window.votesListener = unsubscribe;
+    setInterval(() => {
+      const randomUserId = 'user' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+      addVoteToFeed(randomUserId);
+    }, Math.random() * 10000 + 5000);
+  }
 }
 
 // Add Vote to Live Feed
 function addVoteToFeed(userId, cryptoName = null) {
   const liveVotesFeed = document.getElementById('liveVotesFeed');
+  if (!liveVotesFeed) return;
   
   const voteElement = document.createElement('div');
   voteElement.className = 'flex items-center justify-between p-3 mb-2 bg-black bg-opacity-30 rounded-lg animate-fade-in';
@@ -384,7 +483,6 @@ function addVoteToFeed(userId, cryptoName = null) {
   
   liveVotesFeed.insertBefore(voteElement, liveVotesFeed.firstChild);
   
-  // Remove old votes (keep only 20)
   const votes = liveVotesFeed.children;
   if (votes.length > 20) {
     liveVotesFeed.removeChild(votes[votes.length - 1]);
@@ -466,21 +564,20 @@ async function purchasePoints(points, solAmount) {
       return;
     }
 
-    // In real app, implement actual SOL transaction here
-    // For demo, we'll simulate the purchase
     showSuccessMessage(`Successfully purchased ${points.toLocaleString()} points!`);
     
     userPoints += points;
     
-    // Save to database
-    await wonkDB.updateUserPoints(currentUser.uid, userPoints);
-    
-    // Record transaction
-    await wonkDB.recordTransaction(currentUser.uid, 'purchase', points, {
-      solAmount: solAmount,
-      package: `${points.toLocaleString()} Points`,
-      paymentMethod: 'phantom'
-    });
+    if (window.wonkDB && currentUser) {
+      await wonkDB.updateUserPoints(currentUser.uid, userPoints);
+      await wonkDB.recordTransaction(currentUser.uid, 'purchase', points, {
+        solAmount: solAmount,
+        package: `${points.toLocaleString()} Points`,
+        paymentMethod: 'phantom'
+      });
+    } else {
+      await saveUserPoints();
+    }
     
     const pointsDisplay = document.getElementById('userPointsDisplay');
     if (pointsDisplay) {
@@ -496,7 +593,44 @@ async function purchasePoints(points, solAmount) {
 
 // Logout Function
 function logout() {
-  auth.signOut();
+  cleanupListeners();
+  currentUser = null;
+  hideDashboard();
+  showAuthModal();
+  showSuccessMessage('Logged out successfully');
+}
+
+// Start user data listener
+function startUserDataListener() {
+  if (window.wonkDB && currentUser) {
+    const unsubscribe = wonkDB.listenToUserData(currentUser.uid, (userData) => {
+      if (userData && userData.points !== userPoints) {
+        userPoints = userData.points;
+        const pointsDisplay = document.getElementById('userPointsDisplay');
+        if (pointsDisplay) {
+          pointsDisplay.classList.add('points-update');
+          pointsDisplay.textContent = userPoints.toLocaleString();
+          setTimeout(() => {
+            pointsDisplay.classList.remove('points-update');
+          }, 500);
+        }
+      }
+    });
+    
+    window.userDataListener = unsubscribe;
+  }
+}
+
+// Cleanup listeners when user logs out
+function cleanupListeners() {
+  if (window.votesListener) {
+    window.votesListener();
+    window.votesListener = null;
+  }
+  if (window.userDataListener) {
+    window.userDataListener();
+    window.userDataListener = null;
+  }
 }
 
 // Utility Functions
@@ -520,7 +654,9 @@ function showToast(message, type) {
   setTimeout(() => {
     toast.style.opacity = '0';
     setTimeout(() => {
-      document.body.removeChild(toast);
+      if (document.body.contains(toast)) {
+        document.body.removeChild(toast);
+      }
     }, 300);
   }, 3000);
 }
@@ -551,5 +687,85 @@ style.textContent = `
   .animate-fade-in {
     animation: fade-in 0.5s ease-out;
   }
+
+  .points-update {
+    animation: pointsGlow 0.5s ease-in-out;
+  }
+
+  @keyframes pointsGlow {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); filter: brightness(1.3); }
+    100% { transform: scale(1); }
+  }
 `;
 document.head.appendChild(style);
+	
+
+
+// New Login Button Event Listeners
+const desktopLoginBtn = document.getElementById("loginBtn");
+const mobileLoginBtn = document.getElementById("mobileLoginBtn");
+
+if (desktopLoginBtn) {
+  desktopLoginBtn.addEventListener("click", showAuthModal);
+}
+
+if (mobileLoginBtn) {
+  mobileLoginBtn.addEventListener("click", showAuthModal);
+}
+
+
+
+// Helper function to show info messages
+function showInfoMessage(message) {
+  const notification = document.createElement('div');
+  notification.className = 'fixed top-4 right-4 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg z-[10000] animate-fade-in';
+  notification.innerHTML = `
+    <div class="flex items-center space-x-2">
+      <i class="fas fa-info-circle"></i>
+      <span>${message}</span>
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.remove();
+  }, 5000);
+}
+
+// Update existing message functions to be more consistent
+function showSuccessMessage(message) {
+  const notification = document.createElement('div');
+  notification.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-[10000] animate-fade-in';
+  notification.innerHTML = `
+    <div class="flex items-center space-x-2">
+      <i class="fas fa-check-circle"></i>
+      <span>${message}</span>
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+}
+
+function showErrorMessage(message) {
+  const notification = document.createElement('div');
+  notification.className = 'fixed top-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-[10000] animate-fade-in';
+  notification.innerHTML = `
+    <div class="flex items-center space-x-2">
+      <i class="fas fa-exclamation-circle"></i>
+      <span>${message}</span>
+    </div>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.remove();
+  }, 5000);
+}
+
