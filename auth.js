@@ -59,7 +59,7 @@ function setupEventListeners() {
 async function loginWithPhantom() {
   try {
     console.log("Attempting Phantom login...");
-    // Check if we\'re on mobile
+    // Check if we\"re on mobile
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
     if (isMobile) {
@@ -112,13 +112,20 @@ async function loginWithPhantom() {
 async function loginWithGoogle() {
   try {
     console.log("Attempting Google login...");
-    // Initialize Firebase Auth if not already done
+    // Ensure Firebase Auth is initialized
+    if (!firebase.auth) {
+      console.error("Firebase Auth not initialized. Make sure Firebase SDK is loaded and initialized.");
+      showErrorMessage("Firebase Auth not ready. Please try again later.");
+      return;
+    }
+
     if (!firebase.auth().currentUser) {
       console.log("No current Firebase user. Initiating Google sign-in popup.");
       const provider = new firebase.auth.GoogleAuthProvider();
       provider.addScope("email");
       provider.addScope("profile");
       
+      console.log("Calling signInWithPopup...");
       const result = await firebase.auth().signInWithPopup(provider);
       const user = result.user;
       console.log("Google login successful. User:", user);
@@ -131,6 +138,16 @@ async function loginWithGoogle() {
         walletAddress: null,
         loginMethod: "google"
       };
+
+      // Attempt to create user in Firestore
+      if (window.wonkDB) {
+        console.log("Attempting to create/get user in Firestore...");
+        await window.wonkDB.createUser(currentUser.uid, currentUser);
+        console.log("User record in Firestore processed.");
+      } else {
+        console.warn("wonkDB not available. User will not be saved to Firestore.");
+      }
+
     } else {
       console.log("Firebase user already signed in.");
       // User already signed in
@@ -155,8 +172,10 @@ async function loginWithGoogle() {
       showErrorMessage("Login cancelled by user");
     } else if (error.code === "auth/popup-blocked") {
       showErrorMessage("Popup blocked. Please allow popups for this site.");
+    } else if (error.code === "auth/network-request-failed") {
+      showErrorMessage("Network error. Please check your internet connection.");
     } else {
-      showErrorMessage("Error logging in with Google. Please try again.");
+      showErrorMessage(`Error logging in with Google: ${error.message}. Please try again.`);
     }
   }
 }
@@ -460,176 +479,6 @@ function startLiveVotesFeed() {
   } else {
     console.log("wonkDB not available. Using dummy live votes feed.");
     const initialVotes = [
-      { userId: "user001", timestamp: Date.now() - 300000 },
-      { userId: "user002", timestamp: Date.now() - 250000 },
-      { userId: "user003", timestamp: Date.now() - 200000 },
-      { userId: "user004", timestamp: Date.now() - 150000 },
-      { userId: "user005", timestamp: Date.now() - 100000 }
-    ];
-
-    liveVotesFeed.innerHTML = initialVotes.map(vote => `
-      <div class="flex items-center justify-between p-3 mb-2 bg-black bg-opacity-30 rounded-lg animate-fade-in">
-        <div class="flex items-center space-x-3">
-          <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-            <i class="fas fa-user text-xs"></i>
-          </div>
-          <div>
-            <div class="text-sm font-bold text-blue-400">${vote.userId}</div>
-            <div class="text-xs text-gray-400">Voted successfully</div>
-          </div>
-        </div>
-        <div class="text-xs text-gray-400">
-          ${formatTimeAgo(vote.timestamp)}
-        </div>
-      </div>
-    `).join("");
-
-    setInterval(() => {
-      const randomUserId = "user" + Math.floor(Math.random() * 1000).toString().padStart(3, "0");
-      addVoteToFeed(randomUserId);
-    }, Math.random() * 10000 + 5000);
-  }
-}
-
-// Add Vote to Live Feed
-function addVoteToFeed(userId, cryptoName = null) {
-  const liveVotesFeed = document.getElementById("liveVotesFeed");
-  if (!liveVotesFeed) return;
-  
-  const voteElement = document.createElement("div");
-  voteElement.className = "flex items-center justify-between p-3 mb-2 bg-black bg-opacity-30 rounded-lg animate-fade-in";
-  voteElement.innerHTML = `
-    <div class="flex items-center space-x-3">
-      <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-        <i class="fas fa-user text-xs"></i>
-      </div>
-      <div>
-        <div class="text-sm font-bold text-blue-400">${userId.substring(0, 8)}...</div>
-        <div class="text-xs text-gray-400">Voted successfully ${cryptoName ? `for ${cryptoName}` : ""}</div>
-      </div>
-    </div>
-    <div class="text-xs text-gray-400">
-      Just now
-    </div>
-  `;
-  
-  if (liveVotesFeed.firstChild) {
-    liveVotesFeed.insertBefore(voteElement, liveVotesFeed.firstChild);
-  } else {
-    liveVotesFeed.appendChild(voteElement);
-  }
-
-  // Keep only the last 20 votes
-  while (liveVotesFeed.children.length > 20) {
-    liveVotesFeed.removeChild(liveVotesFeed.lastChild);
-  }
-}
-
-// Helper functions for messages
-function showInfoMessage(message) {
-  console.log("INFO:", message);
-  // In a real app, you\'d display this to the user (e.g., a toast notification)
-}
-
-function showSuccessMessage(message) {
-  console.log("SUCCESS:", message);
-  // In a real app, you\'d display this to the user
-}
-
-function showErrorMessage(message) {
-  console.error("ERROR:", message);
-  // In a real app, you\'d display this to the user
-}
-
-// Format time ago
-function formatTimeAgo(timestamp) {
-  const seconds = Math.floor((Date.now() - timestamp) / 1000);
-
-  let interval = seconds / 31536000;
-  if (interval > 1) {
-    return Math.floor(interval) + " years ago";
-  }
-  interval = seconds / 2592000;
-  if (interval > 1) {
-    return Math.floor(interval) + " months ago";
-  }
-  interval = seconds / 86400;
-  if (interval > 1) {
-    return Math.floor(interval) + " days ago";
-  }
-  interval = seconds / 3600;
-  if (interval > 1) {
-    return Math.floor(interval) + " hours ago";
-  }
-  interval = seconds / 60;
-  if (interval > 1) {
-    return Math.floor(interval) + " minutes ago";
-  }
-  return Math.floor(seconds) + " seconds ago";
-}
-
-// Start user data listener
-function startUserDataListener() {
-  if (window.wonkDB && currentUser) {
-    window.wonkDB.listenToUserData(currentUser.uid, (userData) => {
-      if (userData) {
-        userPoints = userData.points || 0;
-        const pointsDisplay = document.getElementById("userPointsDisplay");
-        if (pointsDisplay) {
-          pointsDisplay.textContent = userPoints.toLocaleString();
-        }
-      }
-    });
-  }
-}
-
-// Logout function
-function logout() {
-  currentUser = null;
-  userPoints = 0;
-  hideDashboard();
-  showAuthModal(); // Show login modal again after logout
-  showInfoMessage("Logged out successfully.");
-}
-
-// Firebase Initialization (Add your Firebase config here)
-// For security, do NOT hardcode sensitive API keys in client-side code.
-// Use environment variables or a secure backend to provide these.
-const firebaseConfig = {
-  apiKey: "AIzaSyCzlBb9sBqEeC1vGAf8B46P1xqugHWLNac",
-  authDomain: "wonk-protocol-dao.firebaseapp.com",
-  projectId: "wonk-protocol-dao",
-  storageBucket: "wonk-protocol-dao.firebasestorage.app",
-  messagingSenderId: "1076417054275",
-  appId: "1:1076417054275:web:38f61f6edc9c5b885df6f6",
-  measurementId: "G-TV9TLNZWCM"
-};
-
-// Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
-// Optional: Firebase Auth state observer
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    // User is signed in.
-    currentUser = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName || "Google User",
-      photoURL: user.photoURL,
-      walletAddress: null, // Google login doesn\'t provide wallet address
-      loginMethod: "google"
-    };
-    loadUserDashboard();
-    hideAuthModal();
-    showSuccessMessage("Automatically logged in with Google");
-  } else {
-    // User is signed out.
-    currentUser = null;
-    hideDashboard();
-  }
-});
-
+      { userId: "user001", timestamp: Date.now(
+(Content truncated due to size limit. Use page ranges or line ranges to read remaining content)
 
