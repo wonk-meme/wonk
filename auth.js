@@ -460,25 +460,5 @@ function startLiveVotesFeed() {
       liveVotesFeed.innerHTML = votes.map(vote => `
         <div class="flex items-center justify-between p-3 mb-2 bg-black bg-opacity-30 rounded-lg animate-fade-in">
           <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-              <i class="fas fa-user text-xs"></i>
-            </div>
-            <div>
-              <div class="text-sm font-bold text-blue-400">${vote.userId.substring(0, 8)}...</div>
-              <div class="text-xs text-gray-400">Voted successfully</div>
-            </div>
-          </div>
-          <div class="text-xs text-gray-400">
-            ${vote.timestamp ? formatTimeAgo(vote.timestamp.toDate ? vote.timestamp.toDate().getTime() : Date.now()) : "Just now"}
-          </div>
-        </div>
-      `).join("");
-    }, 20);
-
-    window.votesListener = unsubscribe;
-  } else {
-    console.log("wonkDB not available. Using dummy live votes feed.");
-    const initialVotes = [
-      { userId: "user001", timestamp: Date.now(
+            <div class="w-8 h-8 bg-gradient-to-b
 (Content truncated due to size limit. Use page ranges or line ranges to read remaining content)
-
