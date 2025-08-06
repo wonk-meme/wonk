@@ -540,7 +540,8 @@
         </div>
       </div>
     </section>
-<!-- WONK Bot Dashboard -->
+
+    <!-- WONK Bot Dashboard -->
     <section class="py-20 px-6">
       <div class="container mx-auto max-w-6xl">
         <h2 class="text-4xl font-bold text-center mb-16 glow-gold font-mono">WONK BURN BOT</h2>
@@ -552,1021 +553,417 @@
               <div class="bot-head relative">
                 <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center border-2 border-blue-300 shadow-lg">
                   <div class="bot-eyes flex space-x-2">
-                    <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                    <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
+                    <div class="w-4 h-4 bg-white rounded-full"></div>
+                    <div class="w-4 h-4 bg-white rounded-full"></div>
                   </div>
                 </div>
-                <!-- Bot Speech Bubble -->
-                <div class="speech-bubble absolute -left-48 -top-8 bg-blue-900 text-white p-3 rounded-lg text-sm max-w-40 opacity-0 animate-bounce-in" id="botMessage">
-                  Welcome to WONK! 🔥
-                </div>
+                <div class="bot-antenna absolute -top-2 left-1/2 -translate-x-1/2 w-1 h-6 bg-gray-400 rounded-b-full"></div>
+                <div class="bot-antenna-tip absolute -top-4 left-1/2 -translate-x-1/2 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+              </div>
+              <div class="bot-body w-20 h-24 bg-gray-700 rounded-b-full mt-2 relative">
+                <div class="bot-arm left-arm absolute -left-4 top-8 w-4 h-16 bg-gray-600 rounded-full"></div>
+                <div class="bot-arm right-arm absolute -right-4 top-8 w-4 h-16 bg-gray-600 rounded-full"></div>
+                <div class="bot-wheel absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-8 bg-gray-800 rounded-b-full"></div>
               </div>
             </div>
           </div>
 
-          <!-- Advanced Dashboard -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            <!-- Total Supply -->
-            <div class="glass-dark p-6 rounded-2xl text-center">
-              <div class="text-blue-400 text-sm font-mono mb-2">TOTAL SUPPLY</div>
-              <div class="text-3xl font-bold glow-blue" id="totalSupply">1,000,000,000</div>
-              <div class="text-xs text-gray-400 mt-1">WONK</div>
-            </div>
+          <p class="text-lg mb-6 text-gray-300 leading-relaxed">
+            The WONK Burn Bot is an innovative feature designed to enhance the value and scarcity of WONK tokens. This automated system actively participates in the market, strategically acquiring and burning WONK tokens to reduce the total supply over time.
+          </p>
+          <p class="text-lg mb-6 text-gray-300 leading-relaxed">
+            By reducing the circulating supply, the Burn Bot creates a deflationary pressure, which can positively impact the token's price and benefit all WONK holders. This mechanism is transparent and verifiable on the blockchain, ensuring trust and accountability.
+          </p>
+          <p class="text-lg mb-8 text-gray-300 leading-relaxed">
+            The bot's operations are governed by smart contracts, ensuring fairness and preventing manipulation. It's a testament to WONK's commitment to building a sustainable and valuable ecosystem for its community.
+          </p>
 
-            <!-- Circulating Supply -->
-            <div class="glass-dark p-6 rounded-2xl text-center">
-              <div class="text-gold-400 text-sm font-mono mb-2">CIRCULATING SUPPLY</div>
-              <div class="text-3xl font-bold glow-gold" id="circulatingSupply">950,000,000</div>
-              <div class="text-xs text-gray-400 mt-1">WONK</div>
-            </div>
-
-            <!-- Market Cap -->
-            <div class="glass-dark p-6 rounded-2xl text-center">
-              <div class="text-green-400 text-sm font-mono mb-2">MARKET CAP</div>
-              <div class="text-3xl font-bold text-green-400" id="marketCap">$2,450,000</div>
-              <div class="text-xs text-gray-400 mt-1">USD</div>
-            </div>
-
-            <!-- Burned Amount -->
-            <div class="glass-dark p-6 rounded-2xl text-center">
-              <div class="text-red-400 text-sm font-mono mb-2">TOKENS BURNED</div>
-              <div class="text-3xl font-bold text-red-400" id="burnedAmount">50,000,000</div>
-              <div class="text-xs text-gray-400 mt-1">WONK (5%)</div>
-            </div>
-
-            <!-- Current Price -->
-            <div class="glass-dark p-6 rounded-2xl text-center">
-              <div class="text-purple-400 text-sm font-mono mb-2">CURRENT PRICE</div>
-              <div class="text-3xl font-bold text-purple-400" id="currentPrice">$0.00245</div>
-              <div class="text-xs text-green-400 mt-1">+12.5%</div>
-            </div>
-
-            <!-- Next Burn Progress -->
-            <div class="glass-dark p-6 rounded-2xl text-center">
-              <div class="text-orange-400 text-sm font-mono mb-2">NEXT BURN AT</div>
-              <div class="text-2xl font-bold text-orange-400">$10M MC</div>
-              <div class="w-full bg-gray-700 rounded-full h-3 mt-3">
-                <div class="bg-gradient-to-r from-orange-400 to-red-500 h-3 rounded-full" style="width: 24.5%"></div>
-              </div>
-              <div class="text-xs text-gray-400 mt-1">24.5% Complete</div>
-            </div>
-          </div>
-
-          <!-- Burn Schedule -->
-          <div class="bg-black bg-opacity-50 rounded-2xl p-6 mb-6">
-            <h3 class="text-xl font-bold text-center mb-4 glow-gold">BURN SCHEDULE</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="flex justify-between items-center py-2">
-                <span class="text-red-400">🔥 5% at $1M MC</span>
-                <span class="text-green-400 font-bold">✓ COMPLETED</span>
-              </div>
-              <div class="flex justify-between items-center py-2">
-                <span class="text-orange-400">🔥 5% at $10M MC</span>
-                <span class="text-yellow-400 font-bold loading-dots">LOADING</span>
-              </div>
-              <div class="flex justify-between items-center py-2">
-                <span class="text-yellow-400">🔥 15% at $50M MC</span>
-                <span class="text-gray-400">PENDING</span>
-              </div>
-              <div class="flex justify-between items-center py-2">
-                <span class="text-blue-400">🔥 6% at $100M MC</span>
-                <span class="text-gray-400">PENDING</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Real-time Graph Simulation -->
-          <div class="bg-black bg-opacity-70 rounded-2xl p-6">
-            <div class="flex justify-between items-center mb-4">
-              <h3 class="text-lg font-bold glow-blue">LIVE CHART</h3>
-              <div class="text-green-400 text-sm">🟢 LIVE</div>
-            </div>
-            <div class="chart-container h-32 relative overflow-hidden rounded-lg bg-gray-900">
-              <canvas id="priceChart" class="w-full h-full"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Community Voting Section -->
-    <section id="voting" class="py-20 px-6 bg-gradient-to-b from-transparent to-blue-900 bg-opacity-10">
-      <div class="container mx-auto max-w-6xl">
-        <h2 class="text-4xl font-bold text-center mb-4 glow-blue font-mono">COMMUNITY VOTING</h2>
-        <p class="text-center text-xl mb-16 text-gray-300">Vote for the next token to pump! Community decides everything.</p>
-
-        <!-- Winner Display -->
-        <div class="glass-panel p-8 rounded-3xl mb-12 text-center">
-          <h3 class="text-2xl font-bold mb-6 glow-gold">🏆 CURRENT WINNER 🏆</h3>
-          <div class="glass-dark p-6 rounded-2xl inline-block min-w-80">
-            <div class="flex items-center justify-center mb-4">
-              <div class="w-16 h-16 bg-gradient-to-br from-gold-400 to-yellow-500 rounded-full flex items-center justify-center text-2xl font-bold">
-                🎯
-              </div>
-              <div class="ml-4 text-left">
-                <h4 class="text-2xl font-bold glow-gold" id="winnerName">MEMECOIN</h4>
-                <p class="text-gray-400">Leading with 65% votes</p>
-              </div>
-            </div>
-            <div class="bg-gray-800 p-4 rounded-lg">
-              <div class="text-sm text-gray-400 mb-2">CONTRACT ADDRESS:</div>
-              <div class="flex items-center justify-between bg-black p-3 rounded-lg">
-                <span class="font-mono text-sm text-blue-400 truncate" id="winnerContract">0x742d35Cc6634C0532925a3b8D0C1d0c9b</span>
-                <button class="action-btn-small ml-2" onclick="copyContract('winner')">
-                  <i class="fas fa-copy"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Voting Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Token 1 -->
-          <div class="glass-panel p-6 rounded-2xl hover:scale-105 transition-all duration-300">
-            <div class="text-center mb-4">
-              <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-3">
-                🚀
-              </div>
-              <h4 class="text-xl font-bold glow-blue">MOONSHOT</h4>
-              <p class="text-gray-400 text-sm">The Next Big Thing</p>
-            </div>
-            
-            <div class="mb-4">
-              <div class="flex justify-between text-sm mb-2">
-                <span>Votes: 2,150</span>
-                <span>35%</span>
-              </div>
-              <div class="w-full bg-gray-700 rounded-full h-3">
-                <div class="bg-gradient-to-r from-blue-400 to-blue-600 h-3 rounded-full transition-all duration-500" style="width: 35%"></div>
-              </div>
-            </div>
-
-            <div class="bg-black bg-opacity-50 p-3 rounded-lg mb-4">
-              <div class="text-xs text-gray-400 mb-1">CONTRACT:</div>
-              <div class="flex items-center justify-between">
-                <span class="font-mono text-xs text-blue-400 truncate">0xA1B2C3D4E5F6789...</span>
-                <button class="text-blue-400 hover:text-blue-300 ml-2" onclick="copyContract('moonshot')">
-                  <i class="fas fa-copy text-sm"></i>
-                </button>
-              </div>
-            </div>
-
-            <button class="action-btn w-full" onclick="vote('moonshot')">
-              <i class="fas fa-vote-yea mr-2"></i>
-              VOTE
+          <div class="flex flex-wrap justify-center gap-4">
+            <button class="action-btn">
+              <i class="fas fa-chart-line mr-2"></i>
+              View Burn Stats
             </button>
-          </div>
-
-          <!-- Token 2 -->
-          <div class="glass-panel p-6 rounded-2xl hover:scale-105 transition-all duration-300">
-            <div class="text-center mb-4">
-              <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-3">
-                💎
-              </div>
-              <h4 class="text-xl font-bold text-green-400">DIAMOND</h4>
-              <p class="text-gray-400 text-sm">Hodlers Paradise</p>
-            </div>
-            
-            <div class="mb-4">
-              <div class="flex justify-between text-sm mb-2">
-                <span>Votes: 1,250</span>
-                <span>20%</span>
-              </div>
-              <div class="w-full bg-gray-700 rounded-full h-3">
-                <div class="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all duration-500" style="width: 20%"></div>
-              </div>
-            </div>
-
-            <div class="bg-black bg-opacity-50 p-3 rounded-lg mb-4">
-              <div class="text-xs text-gray-400 mb-1">CONTRACT:</div>
-              <div class="flex items-center justify-between">
-                <span class="font-mono text-xs text-green-400 truncate">0xB2C3D4E5F67891A...</span>
-                <button class="text-green-400 hover:text-green-300 ml-2" onclick="copyContract('diamond')">
-                  <i class="fas fa-copy text-sm"></i>
-                </button>
-              </div>
-            </div>
-
-            <button class="action-btn w-full bg-gradient-to-r from-green-400 to-green-600" onclick="vote('diamond')">
-              <i class="fas fa-vote-yea mr-2"></i>
-              VOTE
-            </button>
-          </div>
-
-          <!-- Token 3 -->
-          <div class="glass-panel p-6 rounded-2xl hover:scale-105 transition-all duration-300">
-            <div class="text-center mb-4">
-              <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-3">
-                ⚡
-              </div>
-              <h4 class="text-xl font-bold text-purple-400">LIGHTNING</h4>
-              <p class="text-gray-400 text-sm">Fast & Furious</p>
-            </div>
-            
-            <div class="mb-4">
-              <div class="flex justify-between text-sm mb-2">
-                <span>Votes: 750</span>
-                <span>12%</span>
-              </div>
-              <div class="w-full bg-gray-700 rounded-full h-3">
-                <div class="bg-gradient-to-r from-purple-400 to-purple-600 h-3 rounded-full transition-all duration-500" style="width: 12%"></div>
-              </div>
-            </div>
-
-            <div class="bg-black bg-opacity-50 p-3 rounded-lg mb-4">
-              <div class="text-xs text-gray-400 mb-1">CONTRACT:</div>
-              <div class="flex items-center justify-between">
-                <span class="font-mono text-xs text-purple-400 truncate">0xC3D4E5F67891AB2...</span>
-                <button class="text-purple-400 hover:text-purple-300 ml-2" onclick="copyContract('lightning')">
-                  <i class="fas fa-copy text-sm"></i>
-                </button>
-              </div>
-            </div>
-
-            <button class="action-btn w-full bg-gradient-to-r from-purple-400 to-purple-600" onclick="vote('lightning')">
-              <i class="fas fa-vote-yea mr-2"></i>
-              VOTE
+            <button class="action-btn">
+              <i class="fas fa-robot mr-2"></i>
+              Bot Whitepaper
             </button>
           </div>
         </div>
-
-        <!-- Voting Stats -->
-        <div class="mt-16 glass-dark p-8 rounded-2xl">
-          <h3 class="text-2xl font-bold text-center mb-8 glow-gold">VOTING STATISTICS</h3>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <div class="text-3xl font-bold glow-blue" id="totalVotes">6,150</div>
-              <div class="text-gray-400">Total Votes</div>
-            </div>
-            <div>
-              <div class="text-3xl font-bold glow-gold" id="activeVoters">2,847</div>
-              <div class="text-gray-400">Active Voters</div>
-            </div>
-            <div>
-              <div class="text-3xl font-bold text-green-400" id="completedPumps">12</div>
-              <div class="text-gray-400">Successful Pumps</div>
-            </div>
-            <div>
-              <div class="text-3xl font-bold text-red-400">72h</div>
-              <div class="text-gray-400">Time Remaining</div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-20 px-6">
+    <!-- Tokenomics Section -->
+    <section id="tokenomics" class="py-20 px-6">
       <div class="container mx-auto max-w-6xl">
-        <h2 class="text-4xl font-bold text-center mb-16 glow-blue font-mono">ABOUT WONK</h2>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div class="glass-panel p-8 rounded-3xl">
-            <h3 class="text-2xl font-bold mb-6 glow-gold">The Community Whale</h3>
-            <p class="text-gray-300 leading-relaxed mb-6">
-              WONK represents a revolutionary approach to cryptocurrency - where the community becomes the whale. 
-              No more inside trading, no more market manipulation by big players. Here, small traders unite to 
-              become a force as powerful as any whale.
-            </p>
-            <p class="text-gray-300 leading-relaxed mb-6">
-              Through transparent voting and collective decision-making, WONK holders determine which projects 
-              to support, when to launch new initiatives, and how to grow the ecosystem together.
-            </p>
-            <div class="flex flex-wrap gap-4">
-              <div class="bg-blue-900 bg-opacity-50 px-4 py-2 rounded-full text-sm">
-                <i class="fas fa-users mr-2"></i>Community Driven
-              </div>
-              <div class="bg-gold-900 bg-opacity-50 px-4 py-2 rounded-full text-sm">
-                <i class="fas fa-shield-alt mr-2"></i>Rug-Pull Free
-              </div>
-              <div class="bg-green-900 bg-opacity-50 px-4 py-2 rounded-full text-sm">
-                <i class="fas fa-vote-yea mr-2"></i>Democratic
-              </div>
-            </div>
-          </div>
-
-          <div class="glass-panel p-8 rounded-3xl">
-            <h3 class="text-2xl font-bold mb-6 glow-gold">Our Mission</h3>
-            <div class="space-y-4">
-              <div class="flex items-start space-x-4">
-                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <i class="fas fa-target text-sm"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-blue-400">Unite Small Traders</h4>
-                  <p class="text-gray-400 text-sm">Bring together individual investors to create collective market power.</p>
-                </div>
-              </div>
-              
-              <div class="flex items-start space-x-4">
-                <div class="w-8 h-8 bg-gold-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <i class="fas fa-handshake text-sm"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-gold-400">Fair Market Access</h4>
-                  <p class="text-gray-400 text-sm">Democratize access to profitable trading opportunities for everyone.</p>
-                </div>
-              </div>
-              
-              <div class="flex items-start space-x-4">
-                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <i class="fas fa-rocket text-sm"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-green-400">Sustainable Growth</h4>
-                  <p class="text-gray-400 text-sm">Build long-term value through strategic burns and community rewards.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Additional Styles -->
-    <style>
-      .action-btn-small {
-        padding: 8px 12px;
-        background: linear-gradient(45deg, var(--primary-blue), var(--secondary-blue));
-        border: 1px solid var(--primary-blue);
-        border-radius: 15px;
-        color: white;
-        font-size: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-
-      .action-btn-small:hover {
-        background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
-        border-color: var(--primary-gold);
-        box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-      }
-
-      .loading-dots::after {
-        content: '...';
-        animation: dots 1.5s steps(4, end) infinite;
-      }
-
-      @keyframes dots {
-        0%, 20% { content: '.'; }
-        40% { content: '..'; }
-        60%, 100% { content: '...'; }
-      }
-
-      .speech-bubble::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        right: -8px;
-        transform: translateY(-50%);
-        border: 8px solid transparent;
-        border-left-color: #1e3a8a;
-      }
-
-      .animate-bounce-in {
-        animation: bounceIn 2s ease-out;
-      }
-
-      @keyframes bounceIn {
-        0% { opacity: 0; transform: scale(0.3); }
-        50% { opacity: 1; transform: scale(1.05); }
-        70% { transform: scale(0.9); }
-        100% { opacity: 1; transform: scale(1); }
-      }
-    </style>
-<!-- Tokenomics Section -->
-    <section id="tokenomics" class="py-20 px-6 bg-gradient-to-b from-blue-900 bg-opacity-10 to-transparent">
-      <div class="container mx-auto max-w-6xl">
-        <h2 class="text-4xl font-bold text-center mb-16 glow-gold font-mono">TOKENOMICS</h2>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <!-- Token Distribution -->
-          <div class="glass-panel p-8 rounded-3xl">
-            <h3 class="text-2xl font-bold mb-8 text-center glow-blue">Token Distribution</h3>
-            <div class="space-y-6">
-              <div class="flex justify-between items-center p-4 bg-black bg-opacity-30 rounded-lg">
-                <span class="text-lg">Total Supply</span>
-                <span class="text-xl font-bold glow-gold">1,000,000,000 WONK</span>
-              </div>
-              <div class="flex justify-between items-center p-4 bg-black bg-opacity-30 rounded-lg">
-                <span class="text-lg">Developer Wallet</span>
-                <span class="text-xl font-bold text-green-400">0%</span>
-              </div>
-              <div class="flex justify-between items-center p-4 bg-black bg-opacity-30 rounded-lg">
-                <span class="text-lg">Community Allocation</span>
-                <span class="text-xl font-bold glow-blue">100%</span>
-              </div>
-              <div class="flex justify-between items-center p-4 bg-black bg-opacity-30 rounded-lg">
-                <span class="text-lg">Transaction Tax</span>
-                <span class="text-xl font-bold text-orange-400">1.2%</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Burn Schedule Visual -->
-          <div class="glass-panel p-8 rounded-3xl">
-            <h3 class="text-2xl font-bold mb-8 text-center glow-gold">Burn Roadmap</h3>
-            <div class="space-y-4">
-              <div class="burn-milestone completed">
-                <div class="flex justify-between items-center mb-2">
-                  <span class="text-green-400">🔥 5% at $1M MC</span>
-                  <span class="text-green-400 font-bold">✓ DONE</span>
-                </div>
-                <div class="w-full bg-gray-700 rounded-full h-2">
-                  <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
-                </div>
-              </div>
-              
-              <div class="burn-milestone active">
-                <div class="flex justify-between items-center mb-2">
-                  <span class="text-orange-400">🔥 5% at $10M MC</span>
-                  <span class="text-orange-400 font-bold">24.5%</span>
-                </div>
-                <div class="w-full bg-gray-700 rounded-full h-2">
-                  <div class="bg-orange-500 h-2 rounded-full animate-pulse" style="width: 24.5%"></div>
-                </div>
-              </div>
-              
-              <div class="burn-milestone">
-                <div class="flex justify-between items-center mb-2">
-                  <span class="text-yellow-400">🔥 15% at $50M MC</span>
-                  <span class="text-gray-400">PENDING</span>
-                </div>
-                <div class="w-full bg-gray-700 rounded-full h-2">
-                  <div class="bg-gray-600 h-2 rounded-full" style="width: 0%"></div>
-                </div>
-              </div>
-              
-              <div class="burn-milestone">
-                <div class="flex justify-between items-center mb-2">
-                  <span class="text-blue-400">🔥 6% at $100M MC</span>
-                  <span class="text-gray-400">PENDING</span>
-                </div>
-                <div class="w-full bg-gray-700 rounded-full h-2">
-                  <div class="bg-gray-600 h-2 rounded-full" style="width: 0%"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Whitepaper Section -->
-    <section id="whitepaper" class="py-20 px-6">
-      <div class="container mx-auto max-w-4xl">
-        <h2 class="text-4xl font-bold text-center mb-16 glow-blue font-mono">WHITEPAPER</h2>
-        
+        <h2 class="text-4xl font-bold text-center mb-16 glow-blue font-mono">TOKENOMICS</h2>
         <div class="glass-panel p-8 rounded-3xl">
-          <div class="text-center mb-12">
-            <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-gold-400 rounded-full flex items-center justify-center mx-auto mb-6">
-              <i class="fas fa-file-alt text-3xl text-white"></i>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 class="text-2xl font-bold glow-gold mb-4">Supply Distribution</h3>
+              <ul class="list-disc list-inside text-lg space-y-2 text-gray-300">
+                <li>Total Supply: 1,000,000,000 WONK</li>
+                <li>Community Rewards: 40%</li>
+                <li>Liquidity Pool: 30%</li>
+                <li>Development Fund: 15%</li>
+                <li>Marketing & Partnerships: 10%</li>
+                <li>Team & Advisors: 5%</li>
+              </ul>
             </div>
-            <h3 class="text-3xl font-bold glow-gold mb-4">WONK Protocol Whitepaper</h3>
-            <p class="text-xl text-gray-300">The Complete Guide to Community-Driven Cryptocurrency</p>
+            <div>
+              <h3 class="text-2xl font-bold glow-gold mb-4">Token Utility</h3>
+              <ul class="list-disc list-inside text-lg space-y-2 text-gray-300">
+                <li>Governance: Vote on key project decisions</li>
+                <li>Staking: Earn rewards by staking WONK</li>
+                <li>Transaction Fees: Reduced fees within the ecosystem</li>
+                <li>Exclusive Access: Unlock premium features and content</li>
+                <li>Burning Mechanism: Deflationary pressure through token burns</li>
+              </ul>
+            </div>
           </div>
+          <div class="mt-12 text-center">
+            <p class="text-xl font-bold glow-blue mb-4">Current Circulating Supply:</p>
+            <p id="circulatingSupply" class="text-5xl font-bold glow-gold">Calculating...</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-          <div class="space-y-8">
-            <!-- Executive Summary -->
-            <div class="glass-dark p-6 rounded-2xl">
-              <h4 class="text-xl font-bold glow-blue mb-4">Executive Summary</h4>
-              <p class="text-gray-300 leading-relaxed">
-                WONK Protocol introduces a revolutionary paradigm in cryptocurrency where community governance 
-                drives all major decisions. Unlike traditional tokens controlled by developers or whales, 
-                WONK empowers small investors to collectively become market makers through transparent voting 
-                mechanisms and strategic token burns.
-              </p>
-            </div>
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="py-20 px-6">
+      <div class="container mx-auto max-w-6xl">
+        <h2 class="text-4xl font-bold text-center mb-16 glow-gold font-mono">ROADMAP</h2>
+        <div class="glass-panel p-8 rounded-3xl">
+          <div class="relative">
+            <!-- Timeline Line -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-primary-blue to-primary-gold rounded-full"></div>
 
-            <!-- Key Features -->
-            <div class="glass-dark p-6 rounded-2xl">
-              <h4 class="text-xl font-bold glow-gold mb-4">Key Features</h4>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-black bg-opacity-50 p-4 rounded-lg">
-                  <h5 class="font-bold text-blue-400 mb-2">🗳️ Democratic Voting</h5>
-                  <p class="text-gray-400 text-sm">Community votes on pump targets and project decisions</p>
+            <!-- Roadmap Items -->
+            <div class="space-y-12">
+              <!-- Q1 2024 -->
+              <div class="flex items-center justify-between flex-col md:flex-row">
+                <div class="md:w-5/12 text-right">
+                  <h3 class="text-2xl font-bold glow-blue">Q1 2024: Foundation & Launch</h3>
+                  <ul class="list-disc list-inside text-lg text-gray-300 mt-2">
+                    <li>Project Concept & Whitepaper V1</li>
+                    <li>Smart Contract Development & Audit</li>
+                    <li>Website Launch & Community Building</li>
+                    <li>Initial Liquidity Offering (ILO)</li>
+                  </ul>
                 </div>
-                <div class="bg-black bg-opacity-50 p-4 rounded-lg">
-                  <h5 class="font-bold text-green-400 mb-2">🔥 Strategic Burns</h5>
-                  <p class="text-gray-400 text-sm">Milestone-based token burning reduces supply</p>
+                <div class="md:w-1/12 flex justify-center">
+                  <div class="w-6 h-6 bg-primary-gold rounded-full border-2 border-primary-blue shadow-lg"></div>
                 </div>
-                <div class="bg-black bg-opacity-50 p-4 rounded-lg">
-                  <h5 class="font-bold text-purple-400 mb-2">💎 Holder Rewards</h5>
-                  <p class="text-gray-400 text-sm">Monthly rewards for long-term holders</p>
+                <div class="md:w-5/12"></div>
+              </div>
+
+              <!-- Q2 2024 -->
+              <div class="flex items-center justify-between flex-col md:flex-row-reverse">
+                <div class="md:w-5/12 text-left">
+                  <h3 class="text-2xl font-bold glow-blue">Q2 2024: Platform Expansion</h3>
+                  <ul class="list-disc list-inside text-lg text-gray-300 mt-2">
+                    <li>Decentralized Voting Platform Launch</li>
+                    <li>Staking Platform Integration</li>
+                    <li>Partnerships & Collaborations</li>
+                    <li>Community Governance Module</li>
+                  </ul>
                 </div>
-                <div class="bg-black bg-opacity-50 p-4 rounded-lg">
-                  <h5 class="font-bold text-orange-400 mb-2">🛡️ Rug-Pull Protection</h5>
-                  <p class="text-gray-400 text-sm">0% developer allocation ensures security</p>
+                <div class="md:w-1/12 flex justify-center">
+                  <div class="w-6 h-6 bg-primary-gold rounded-full border-2 border-primary-blue shadow-lg"></div>
                 </div>
+                <div class="md:w-5/12"></div>
+              </div>
+
+              <!-- Q3 2024 -->
+              <div class="flex items-center justify-between flex-col md:flex-row">
+                <div class="md:w-5/12 text-right">
+                  <h3 class="text-2xl font-bold glow-blue">Q3 2024: Ecosystem Growth</h3>
+                  <ul class="list-disc list-inside text-lg text-gray-300 mt-2">
+                    <li>WONK Burn Bot Deployment</li>
+                    <li>NFT Integration & Marketplace</li>
+                    <li>Cross-chain Compatibility</li>
+                    <li>Mobile Application Development</li>
+                  </ul>
+                </div>
+                <div class="md:w-1/12 flex justify-center">
+                  <div class="w-6 h-6 bg-primary-gold rounded-full border-2 border-primary-blue shadow-lg"></div>
+                </div>
+                <div class="md:w-5/12"></div>
+              </div>
+
+              <!-- Q4 2024 -->
+              <div class="flex items-center justify-between flex-col md:flex-row-reverse">
+                <div class="md:w-5/12 text-left">
+                  <h3 class="text-2xl font-bold glow-blue">Q4 2024: Global Adoption</h3>
+                  <ul class="list-disc list-inside text-lg text-gray-300 mt-2">
+                    <li>Major Exchange Listings</li>
+                    <li>Global Marketing Campaigns</li>
+                    <li>Further Decentralization Efforts</li>
+                    <li>Community-driven Initiatives</li>
+                  </ul>
+                </div>
+                <div class="md:w-1/12 flex justify-center">
+                  <div class="w-6 h-6 bg-primary-gold rounded-full border-2 border-primary-blue shadow-lg"></div>
+                </div>
+                <div class="md:w-5/12"></div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <!-- Technical Specifications -->
-            <div class="glass-dark p-6 rounded-2xl">
-              <h4 class="text-xl font-bold glow-blue mb-4">Technical Specifications</h4>
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                <div>
-                  <div class="text-2xl font-bold glow-gold">SOL</div>
-                  <div class="text-gray-400 text-sm">Blockchain</div>
-                </div>
-                <div>
-                  <div class="text-2xl font-bold text-green-400">Solana</div>
-                  <div class="text-gray-400 text-sm">Token Standard</div>
-                </div>
-                <div>
-                  <div class="text-2xl font-bold text-blue-400">1.2%</div>
-                  <div class="text-gray-400 text-sm">Transaction Fee</div>
-                </div>
-              </div>
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-6">
+      <div class="container mx-auto max-w-6xl">
+        <h2 class="text-4xl font-bold text-center mb-16 glow-blue font-mono">CONTACT US</h2>
+        <div class="glass-panel p-8 rounded-3xl">
+          <form class="max-w-lg mx-auto space-y-6">
+            <div>
+              <label for="name" class="block text-gray-300 text-lg font-bold mb-2">Name</label>
+              <input type="text" id="name" name="name" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-primary-blue focus:ring focus:ring-primary-blue focus:ring-opacity-50 text-white" placeholder="Your Name">
             </div>
-
-            <!-- Roadmap -->
-            <div class="glass-dark p-6 rounded-2xl">
-              <h4 class="text-xl font-bold glow-gold mb-4">Development Roadmap</h4>
-              <div class="space-y-4">
-                <div class="flex items-center space-x-4">
-                  <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-check text-sm"></i>
-                  </div>
-                  <div>
-                    <h5 class="font-bold text-green-400">Phase 1: Launch ✓</h5>
-                    <p class="text-gray-400 text-sm">Token deployment, liquidity lock, community building</p>
-                  </div>
-                </div>
-                
-                <div class="flex items-center space-x-4">
-                  <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-clock text-sm"></i>
-                  </div>
-                  <div>
-                    <h5 class="font-bold text-orange-400">Phase 2: Voting System 🔄</h5>
-                    <p class="text-gray-400 text-sm">Democratic voting platform, first community decisions</p>
-                  </div>
-                </div>
-                
-                <div class="flex items-center space-x-4">
-                  <div class="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-hourglass text-sm"></i>
-                  </div>
-                  <div>
-                    <h5 class="font-bold text-gray-400">Phase 3: Expansion</h5>
-                    <p class="text-gray-400 text-sm">CEX listings, partnerships, ecosystem growth</p>
-                  </div>
-                </div>
-              </div>
+            <div>
+              <label for="email" class="block text-gray-300 text-lg font-bold mb-2">Email</label>
+              <input type="email" id="email" name="email" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-primary-blue focus:ring focus:ring-primary-blue focus:ring-opacity-50 text-white" placeholder="your@example.com">
             </div>
-
-            <!-- Download Button -->
-            <div class="text-center pt-8">
-              <button class="action-btn" onclick="downloadWhitepaper()">
-                <i class="fas fa-download mr-2"></i>
-                Download Full Whitepaper
+            <div>
+              <label for="message" class="block text-gray-300 text-lg font-bold mb-2">Message</label>
+              <textarea id="message" name="message" rows="5" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-primary-blue focus:ring focus:ring-primary-blue focus:ring-opacity-50 text-white" placeholder="Your message..."></textarea>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="action-btn">
+                <i class="fas fa-paper-plane mr-2"></i>
+                Send Message
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </section>
-
-    <!-- Community Section -->
-    <section id="community" class="py-20 px-6 bg-gradient-to-b from-transparent to-blue-900 bg-opacity-10">
-      <div class="container mx-auto max-w-6xl">
-        <h2 class="text-4xl font-bold text-center mb-16 glow-gold font-mono">JOIN THE REVOLUTION</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Telegram -->
-          <div class="glass-panel p-8 rounded-3xl text-center hover:scale-105 transition-all duration-300">
-            <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-              <i class="fab fa-telegram text-3xl text-white"></i>
-            </div>
-            <h3 class="text-xl font-bold glow-blue mb-4">Telegram</h3>
-            <p class="text-gray-400 mb-6">Join our main community hub for real-time discussions and voting coordination.</p>
-            <a href="https://t.me/wonk_meme" target="_blank" class="action-btn">
-              Join Community
-            </a>
-          </div>
-
-          <!-- Twitter -->
-          <div class="glass-panel p-8 rounded-3xl text-center hover:scale-105 transition-all duration-300">
-            <div class="w-20 h-20 bg-gradient-to-br from-sky-400 to-sky-600 rounded-full flex items-center justify-center mx-auto mb-6">
-              <i class="fab fa-twitter text-3xl text-white"></i>
-            </div>
-            <h3 class="text-xl font-bold text-sky-400 mb-4">Twitter</h3>
-            <p class="text-gray-400 mb-6">Follow us for updates, announcements, and community highlights.</p>
-            <a href="https://x.com/wonk_meme?s=09" target="_blank" class="action-btn bg-gradient-to-r from-sky-400 to-sky-600">
-              Follow Us
-            </a>
-          </div>
-
-          <!-- Discord -->
-          <div class="glass-panel p-8 rounded-3xl text-center hover:scale-105 transition-all duration-300">
-            <div class="w-20 h-20 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
-              <i class="fab fa-discord text-3xl text-white"></i>
-            </div>
-            <h3 class="text-xl font-bold text-purple-400 mb-4">Discord</h3>
-            <p class="text-gray-400 mb-6">Strategic planning, voice chats, and exclusive member benefits.</p>
-            <a href="#" target="_blank" class="action-btn bg-gradient-to-r from-purple-400 to-purple-600">
-              Join Server
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-12 px-6 border-t border-blue-500 border-opacity-30">
-      <div class="container mx-auto max-w-6xl">
-        <div class="flex flex-col md:flex-row justify-between items-center">
-          <div class="flex items-center mb-6 md:mb-0">
-            <img src="wonk-logo.png" alt="WONK" class="w-10 h-10 rounded-full mr-3">
-            <div>
-              <div class="text-xl font-bold glow-blue">WONK Protocol</div>
-              <div class="text-gray-400 text-sm">Community Driven • Rug-Pull Free</div>
-            </div>
-          </div>
-          
-          <div class="flex space-x-6 text-gray-400">
-            <a href="#" class="hover:text-blue-400 transition">Privacy Policy</a>
-            <a href="#" class="hover:text-blue-400 transition">Terms of Service</a>
-            <a href="#" class="hover:text-blue-400 transition">Contact</a>
-          </div>
-        </div>
-        
-        <div class="text-center mt-8 pt-8 border-t border-gray-700">
-          <p class="text-gray-400">© 2024 WONK Protocol. Building the future of community-driven crypto.</p>
-        </div>
-      </div>
-    </footer>
   </main>
 
-  <!-- JavaScript -->
-  <script>
-    // Sound System
-    let soundEnabled = true;
-    let audioContext;
-    
-    // Initialize Audio Context
-    function initAudio() {
-      try {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      } catch (e) {
-        console.log('Web Audio API not supported');
-      }
-    }
-
-    // Sound Effects
-    function playSound(type) {
-      if (!soundEnabled || !audioContext) return;
-      
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      switch(type) {
-        case 'click':
-          oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-          oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
-          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-          oscillator.start(audioContext.currentTime);
-          oscillator.stop(audioContext.currentTime + 0.1);
-          break;
-        case 'vote':
-          oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
-          oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.2);
-          gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-          oscillator.start(audioContext.currentTime);
-          oscillator.stop(audioContext.currentTime + 0.2);
-          break;
-        case 'welcome':
-          // Welcome sound sequence
-          const frequencies = [440, 554, 659, 880];
-          frequencies.forEach((freq, index) => {
-            const osc = audioContext.createOscillator();
-            const gain = audioContext.createGain();
-            osc.connect(gain);
-            gain.connect(audioContext.destination);
-            osc.frequency.value = freq;
-            gain.gain.setValueAtTime(0.1, audioContext.currentTime + index * 0.2);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + index * 0.2 + 0.3);
-            osc.start(audioContext.currentTime + index * 0.2);
-            osc.stop(audioContext.currentTime + index * 0.2 + 0.3);
-          });
-          break;
-      }
-    }
-
-    // Sound Toggle
-    document.getElementById('soundToggle').addEventListener('click', function() {
-      soundEnabled = !soundEnabled;
-      const icon = document.getElementById('soundIcon');
-      if (soundEnabled) {
-        icon.className = 'fas fa-volume-up glow-blue';
-        playSound('click');
-      } else {
-        icon.className = 'fas fa-volume-mute glow-gold';
-      }
-    });
-
-    // Particles.js Configuration
-    particlesJS("particles-js", {
-      particles: {
-        number: { value: 120, density: { enable: true, value_area: 800 } },
-        color: { value: ["#00d4ff", "#ffd700", "#0099cc"] },
-        shape: {
-          type: "circle",
-          stroke: { width: 0, color: "#000000" }
-        },
-        opacity: {
-          value: 0.6,
-          random: true,
-          anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
-        },
-        size: {
-          value: 3,
-          random: true,
-          anim: { enable: true, speed: 2, size_min: 0.1, sync: false }
-        },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: "#00d4ff",
-          opacity: 0.4,
-          width: 1
-        },
-        move: {
-          enable: true,
-          speed: 2,
-          direction: "none",
-          random: false,
-          straight: false,
-          out_mode: "out",
-          bounce: false
-        }
-      },
-      interactivity: {
-        detect_on: "canvas",
-        events: {
-          onhover: { enable: true, mode: "repulse" },
-          onclick: { enable: true, mode: "push" },
-          resize: true
-        },
-        modes: {
-          repulse: { distance: 100, duration: 0.4 },
-          push: { particles_nb: 4 }
-        }
-      },
-      retina_detect: true
-    });
-
-    // Loading Screen
-    window.addEventListener('load', function() {
-      setTimeout(() => {
-        document.getElementById('loadingScreen').style.opacity = '0';
-        setTimeout(() => {
-          document.getElementById('loadingScreen').style.display = 'none';
-          playSound('welcome');
-          showBotMessage();
-        }, 500);
-      }, 2000);
-    });
-
-    // Bot Messages
-    const botMessages = [
-      "Welcome to WONK! 🔥",
-      "Community decides everything! 🗳️",
-      "Let's pump together! 🚀",
-      "$WONK to the moon! 🌙",
-      "The whale is us! 🐋"
-    ];
-
-    function showBotMessage() {
-      const bubble = document.getElementById('botMessage');
-      let messageIndex = 0;
-      
-      setInterval(() => {
-        bubble.style.opacity = '0';
-        setTimeout(() => {
-          bubble.textContent = botMessages[messageIndex];
-          bubble.style.opacity = '1';
-          messageIndex = (messageIndex + 1) % botMessages.length;
-        }, 300);
-      }, 4000);
-      
-      // Show first message
-      setTimeout(() => {
-        bubble.style.opacity = '1';
-      }, 1000);
-    }
-
-    // Mobile Menu
-    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-      const menu = document.getElementById('mobileMenu');
-      menu.classList.toggle('hidden');
-      playSound('click');
-    });
-
-    // Smooth Scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        playSound('click');
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-
-    // Voting Functions
-    const contracts = {
-      winner: "0x742d35Cc6634C0532925a3b8D0C1d0c9b",
-      moonshot: "0xA1B2C3D4E5F6789012345678901234567890ABCD",
-      diamond: "0xB2C3D4E5F67891A0123456789012345678901BCD",
-      lightning: "0xC3D4E5F67891AB012345678901234567890CDEF"
-    };
-
-    function vote(tokenId) {
-      playSound('vote');
-      
-      // Visual feedback
-      event.target.style.transform = 'scale(0.95)';
-      setTimeout(() => {
-        event.target.style.transform = 'scale(1)';
-      }, 150);
-      
-      // Show voting confirmation
-      const notification = document.createElement('div');
-      notification.className = 'fixed top-24 right-6 glass-panel p-4 rounded-lg z-50 transform translate-x-full transition-transform duration-300';
-      notification.innerHTML = `
-        <div class="flex items-center space-x-3">
-          <i class="fas fa-vote-yea text-green-400"></i>
-          <span>Vote recorded for ${tokenId.toUpperCase()}!</span>
-        </div>
-      `;
-      document.body.appendChild(notification);
-      
-      setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-      }, 100);
-      
-      setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-          document.body.removeChild(notification);
-        }, 300);
-      }, 3000);
-    }
-
-    function copyContract(tokenId) {
-      const contract = contracts[tokenId];
-      navigator.clipboard.writeText(contract).then(() => {
-        playSound('click');
-        
-        // Show copy notification
-        const notification = document.createElement('div');
-        notification.className = 'fixed top-24 right-6 glass-panel p-4 rounded-lg z-50 transform translate-x-full transition-transform duration-300';
-        notification.innerHTML = `
-          <div class="flex items-center space-x-3">
-            <i class="fas fa-copy text-blue-400"></i>
-            <span>Contract copied!</span>
-          </div>
-        `;
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-          notification.style.transform = 'translateX(0)';
-        }, 100);
-        
-        setTimeout(() => {
-          notification.style.transform = 'translateX(100%)';
-          setTimeout(() => {
-            document.body.removeChild(notification);
-          }, 300);
-        }, 2000);
-      });
-    }
-
-    // Download Whitepaper
-    function downloadWhitepaper() {
-      playSound('click');
-      // Here you would implement actual whitepaper download
-      alert('Whitepaper download will be available soon!');
-    }
-
-    // Real-time Dashboard Updates
-    function updateDashboard() {
-      // Simulate real-time price updates
-      const priceElement = document.getElementById('currentPrice');
-      const currentPrice = parseFloat(priceElement.textContent.replace('$', ''));
-      const change = (Math.random() - 0.5) * 0.00001;
-      const newPrice = Math.max(0.001, currentPrice + change);
-      
-      priceElement.textContent = `$${newPrice.toFixed(5)}`;
-      
-      // Update market cap
-      const mcElement = document.getElementById('marketCap');
-      const newMC = (newPrice * 950000000).toLocaleString();
-      mcElement.textContent = `$${newMC}`;
-    }
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
-      initAudio();
-      
-      // Update dashboard every 5 seconds
-      setInterval(updateDashboard, 5000);
-      
-      // Add click sounds to all buttons
-      document.querySelectorAll('button, .action-btn, .nav-item').forEach(element => {
-        element.addEventListener('click', () => playSound('click'));
-      });
-    });
-
-    // Navbar scroll effect
-    window.addEventListener('scroll', function() {
-      const navbar = document.querySelector('header');
-      if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(5, 8, 16, 0.95)';
-      } else {
-        navbar.style.background = 'linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%)';
-      }
-    });
-  </script>
-<!-- Authentication Modal -->
-<div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-[9999]">
-  <div class="glass-panel p-8 rounded-3xl max-w-md w-full mx-4">
-    <h2 class="text-2xl font-bold text-center mb-6 glow-blue">Login to WONK</h2>
-    <div class="space-y-4">
-      <button id="phantomLogin" class="action-btn w-full">
-        <i class="fas fa-wallet mr-2"></i>
-        Login with Phantom
-      </button>
-      <button id="googleLogin" class="action-btn w-full bg-gradient-to-r from-red-500 to-red-600">
-        <i class="fab fa-google mr-2"></i>
-        Login with Google
-      </button>
+  <!-- Footer -->
+  <footer class="py-8 px-6 text-center text-gray-400 border-t border-gray-800">
+    <p>&copy; 2024 WONK. All rights reserved.</p>
+    <div class="flex justify-center space-x-6 mt-4">
+      <a href="#" class="text-gray-400 hover:text-primary-blue transition-colors"><i class="fab fa-twitter text-2xl"></i></a>
+      <a href="#" class="text-gray-400 hover:text-primary-blue transition-colors"><i class="fab fa-telegram text-2xl"></i></a>
+      <a href="#" class="text-gray-400 hover:text-primary-blue transition-colors"><i class="fab fa-discord text-2xl"></i></a>
     </div>
-    <button id="closeAuth" class="text-gray-400 hover:text-white mt-4 w-full text-center">
-      Close
-    </button>
-  </div>
-</div>
-
-<!-- User Dashboard (Hidden by default) -->
-<div id="userDashboard" class="hidden">
-  <!-- Dashboard content will be loaded by auth.js -->
-</div>
-</body>
-</html>
-
+  </footer>
 
   <!-- Auth Modal -->
   <div id="authModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-    <div class="glass-panel p-8 rounded-3xl text-center relative w-11/12 max-w-md">
-      <button id="closeAuth" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
-      <h2 class="text-3xl font-bold glow-blue mb-6">Login / Sign Up</h2>
-      <p class="text-gray-300 mb-8">Connect your wallet or Google account to get started.</p>
+    <div class="glass-panel p-8 rounded-3xl w-full max-w-md text-center relative">
+      <button id="closeModalBtn" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+      <h2 class="text-3xl font-bold glow-blue mb-6 font-mono">Login / Sign Up</h2>
       
       <div class="space-y-4">
-        <button id="phantomLogin" class="action-btn w-full flex items-center justify-center">
-          <i class="fab fa-ethereum mr-3"></i>
-          Connect Phantom Wallet
-        </button>
-        <button id="googleLogin" class="action-btn w-full flex items-center justify-center">
+        <button id="googleLoginBtn" class="action-btn w-full flex items-center justify-center">
           <i class="fab fa-google mr-3"></i>
           Sign in with Google
         </button>
+        <button id="phantomLoginBtn" class="action-btn w-full flex items-center justify-center">
+          <i class="fas fa-wallet mr-3"></i>
+          Sign in with Phantom
+        </button>
       </div>
+      <p class="text-gray-400 text-sm mt-6">By logging in, you agree to our <a href="#" class="text-primary-blue hover:underline">Terms of Service</a> and <a href="#" class="text-primary-blue hover:underline">Privacy Policy</a>.</p>
     </div>
   </div>
 
+  <script>
+    // Particles.js initialization
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": "#00d4ff"
+        },
+        "shape": {
+          "type": "circle",
+          "stroke": {
+            "width": 0,
+            "color": "#000000"
+          },
+          "polygon": {
+            "nb_sides": 5
+          },
+          "image": {
+            "src": "img/github.svg",
+            "width": 100,
+            "height": 100
+          }
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": false,
+          "anim": {
+            "enable": false,
+            "speed": 1,
+            "opacity_min": 0.1,
+            "sync": false
+          }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": {
+            "enable": false,
+            "speed": 40,
+            "size_min": 0.1,
+            "sync": false
+          }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#00d4ff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 6,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false,
+          "attract": {
+            "enable": false,
+            "rotateX": 600,
+            "rotateY": 1200
+          }
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "repulse"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          },
+          "resize": true
+        },
+        "modes": {
+          "grab": {
+            "distance": 400,
+            "line_linked": {
+              "opacity": 1
+            }
+          },
+          "bubble": {
+            "distance": 400,
+            "size": 40,
+            "duration": 2,
+            "opacity": 8,
+            "speed": 3
+          },
+          "repulse": {
+            "distance": 200,
+            "duration": 0.4
+          },
+          "push": {
+            "particles_nb": 4
+          },
+          "remove": {
+            "particles_nb": 2
+          }
+        }
+      },
+      "retina_detect": true
+    });
 
+    // Loading Screen
+    window.addEventListener('load', () => {
+      const loadingScreen = document.getElementById('loadingScreen');
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+      }, 500);
+    });
 
+    // Sound Toggle
+    const soundToggle = document.getElementById('soundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+    let isSoundOn = true; // Assume sound is on by default
 
-  <!-- Authentication Modal -->
-  <div id="authModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-    <div class="glass-panel p-8 rounded-2xl shadow-lg w-full max-w-md mx-4 relative">
-      <button id="closeModalBtn" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
-      <h2 class="text-3xl font-bold text-center mb-8 glow-blue">Login / Sign Up</h2>
-      
-      <div class="space-y-4">
-        <button id="googleLoginBtn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center transition duration-300">
-          <i class="fab fa-google mr-3"></i> Login with Google
-        </button>
-        <button id="phantomLoginBtn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center transition duration-300">
-          <i class="fas fa-wallet mr-3"></i> Login with Phantom
-        </button>
-      </div>
+    soundToggle.addEventListener('click', () => {
+      isSoundOn = !isSoundOn;
+      if (isSoundOn) {
+        soundIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+        soundIcon.classList.replace('glow-gold', 'glow-blue');
+        // Play sound (if any)
+      } else {
+        soundIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+        soundIcon.classList.replace('glow-blue', 'glow-gold');
+        // Mute sound (if any)
+      }
+    });
 
-      <p class="text-center text-gray-400 text-sm mt-6">
-        By logging in, you agree to our <a href="#" class="text-blue-400 hover:underline">Terms of Service</a> and <a href="#" class="text-blue-400 hover:underline">Privacy Policy</a>.
-      </p>
-    </div>
-  </div>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
 
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Login Modal
+    const authModal = document.getElementById('authModal');
+    const loginBtn = document.getElementById('loginBtn');
+    const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    loginBtn.addEventListener('click', () => {
+      authModal.classList.remove('hidden');
+    });
+
+    mobileLoginBtn.addEventListener('click', () => {
+      authModal.classList.remove('hidden');
+      mobileMenu.classList.add('hidden'); // Close mobile menu after clicking login
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      authModal.classList.add('hidden');
+    });
+
+    // Close modal if clicked outside
+    authModal.addEventListener('click', (e) => {
+      if (e.target === authModal) {
+        authModal.classList.add('hidden');
+      }
+    });
+
+    // Circulating Supply Counter (Example - replace with real data)
+    const circulatingSupplyElement = document.getElementById('circulatingSupply');
+    const endValue = 750000000; // Example value
+    const options = {
+      useEasing: true,
+      useGrouping: true,
+      separator: ',',
+      decimal: '.',
+      prefix: '',
+      suffix: ' WONK'
+    };
+    const demo = new CountUp(circulatingSupplyElement, endValue, options);
+    if (!demo.error) {
+      demo.start();
+    } else {
+      console.error(demo.error);
+    }
+  </script>
+</body>
+</html>
 
