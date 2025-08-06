@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WONK Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Firebase Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.15.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.15.0/firebase-auth-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.15.0/firebase-firestore-compat.min.js"></script>
+    
+    <!-- Web3 and Blockchain Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-blue: #00d4ff;
+            --secondary-blue: #0099cc;
+            --primary-gold: #ffd700;
+            --secondary-gold: #ffb347;
+            --dark-bg: #0a0e1a;
+            --darker-bg: #050810;
+            --glass-blue: rgba(0, 212, 255, 0.1);
+            --glass-gold: rgba(255, 215, 0, 0.1);
+            --success-green: #00ff88;
+            --error-red: #ff4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 50%, #1a0f2e 100%);
+            font-family: 'Rajdhani', sans-serif;
+            color: #ffffff;
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--glass-blue) 0%, var(--glass-gold) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .wallet-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .wallet-status {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 2px solid var(--primary-blue);
+            background: var(--glass-blue);
+            font-weight: 600;
+        }
+
+        .connected {
+            border-color: var(--success-green);
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--success-green);
+        }
+
+        .disconnected {
+            border-color: var(--error-red);
+            background: rgba(255, 68, 68, 0.1);
+            color: var(--error-red);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(135deg, var(--glass-blue) 0%, var(--glass-gold) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--primary-blue);
+            border-radius: 10px;
+            background: rgba(10, 14, 26, 0.8);
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: 2px solid var(--primary-blue);
+            border-radius: 25px;
+            background: linear-gradient(45deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            font-family: 'Orbitron', monospace;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, var(--error-red), #cc3333);
+            border-color: var(--error-red);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, var(--success-green), #00cc66);
+            border-color: var(--success-green);
+        }
+
+        .proposals-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid var(--primary-blue);
+            border-radius: 10px;
+            background: rgba(10, 14, 26, 0.8);
+            padding: 15px;
+        }
+
+        .proposal-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .proposal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .proposal-name {
+            font-weight: 600;
+            color: var(--primary-gold);
+        }
+
+        .proposal-votes {
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .proposal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--glass-blue) 0%, var(--glass-gold) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+
+        .error {
+            background: rgba(255, 68, 68, 0.1);
+            border: 2px solid var(--error-red);
+            color: var(--error-red);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .success {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid var(--success-green);
+            color: var(--success-green);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .wallet-info {
+                flex-direction: column;
+            }
+            
+            .proposal-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .proposal-actions {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="header">
+            <h1>لوحة تحكم WONK الإدارية</h1>
+            <p>إدارة المقترحات ونظام النقاط والإعدادات</p>
+            
+            <div class="wallet-info">
+                <div id="walletStatus" class="wallet-status disconnected">
+                    غير متصل بالمحفظة
+                </div>
+                <button id="connectWallet" class="btn">ربط المحفظة</button>
+                <div id="userAddress" class="wallet-status hidden"></div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div id="totalProposals" class="stat-value">0</div>
+                <div class="stat-label">إجمالي المقترحات</div>
+            </div>
+            <div class="stat-card">
+                <div id="activeProposals" class="stat-value">0</div>
+                <div class="stat-label">المقترحات النشطة</div>
+            </div>
+            <div class="stat-card">
+                <div id="totalVotes" class="stat-value">0</div>
+                <div class="stat-label">إجمالي الأصوات</div>
+            </div>
+            <div class="stat-card">
+                <div id="contractBalance" class="stat-value">0</div>
+                <div class="stat-label">رصيد العقد (ETH)</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Create Proposal Card -->
+            <div class="dashboard-card">
+                <h2 class="card-title">إنشاء مقترح جديد</h2>
+                
+                <div class="form-group">
+                    <label class="form-label" for="proposalName">اسم العملة المشفرة</label>
+                    <input type="text" id="proposalName" class="form-input" placeholder="مثال: Bitcoin">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="proposalDescription">الوصف</label>
+                    <textarea id="proposalDescription" class="form-textarea" placeholder="وصف تفصيلي للعملة المشفرة..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="proposalDuration">مدة التصويت (بالأيام)</label>
+                    <input type="number" id="proposalDuration" class="form-input" value="7" min="1" max="30">
+                </div>
+                
+                <button id="createProposal" class="btn btn-success">إنشاء المقترح</button>
+                
+                <div id="createProposalStatus"></div>
+            </div>
+
+            <!-- Manage Proposals Card -->
+            <div class="dashboard-card">
+                <h2 class="card-title">إدارة المقترحات</h2>
+                
+                <button id="refreshProposals" class="btn" style="margin-bottom: 20px;">تحديث القائمة</button>
+                
+                <div id="proposalsList" class="proposals-list">
+                    <div class="loading">جاري تحميل المقترحات...</div>
+                </div>
+            </div>
+
+            <!-- Point System Settings Card -->
+            <div class="dashboard-card">
+                <h2 class="card-title">إعدادات نظام النقاط</h2>
+                
+                <div class="form-group">
+                    <label class="form-label" for="pointPrice">سعر النقطة الواحدة (ETH)</label>
+                    <input type="number" id="pointPrice" class="form-input" step="0.001" placeholder="0.001">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="projectWallet">عنوان محفظة المشروع</label>
+                    <input type="text" id="projectWallet" class="form-input" placeholder="0x...">
+                </div>
+                
+                <button id="updatePointSettings" class="btn">تحديث الإعدادات</button>
+                
+                <div id="pointSettingsStatus"></div>
+            </div>
+
+            <!-- Voting Settings Card -->
+            <div class="dashboard-card">
+                <h2 class="card-title">إعدادات التصويت</h2>
+                
+                <div class="form-group">
+                    <label class="form-label" for="minDuration">الحد الأدنى لمدة التصويت (أيام)</label>
+                    <input type="number" id="minDuration" class="form-input" value="1" min="1">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="maxDuration">الحد الأقصى لمدة التصويت (أيام)</label>
+                    <input type="number" id="maxDuration" class="form-input" value="30" min="1">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="proposalFee">رسوم إنشاء المقترح (ETH)</label>
+                    <input type="number" id="proposalFee" class="form-input" step="0.001" value="0">
+                </div>
+                
+                <button id="updateVotingSettings" class="btn">تحديث إعدادات التصويت</button>
+                
+                <div id="votingSettingsStatus"></div>
+            </div>
+
+            <!-- Contract Management Card -->
+            <div class="dashboard-card">
+                <h2 class="card-title">إدارة العقد</h2>
+                
+                <div class="form-group">
+                    <button id="pauseContract" class="btn btn-danger">إيقاف العقد مؤقتاً</button>
+                    <button id="unpauseContract" class="btn btn-success">تفعيل العقد</button>
+                </div>
+                
+                <div class="form-group">
+                    <button id="withdrawFunds" class="btn">سحب الأموال</button>
+                </div>
+                
+                <div id="contractManagementStatus"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include database and blockchain integration scripts -->
+    <script src="database.js"></script>
+    <script src="blockchain_integration.js"></script>
+    
+    <script>
+        // Admin Dashboard JavaScript
+        class AdminDashboard {
+            constructor() {
+                this.web3 = null;
+                this.contract = null;
+                this.userAccount = null;
+                this.isOwner = false;
+                
+                this.init();
+            }
+
+            async init() {
+                await this.initializeWeb3();
+                this.setupEventListeners();
+                await this.loadStats();
+                await this.loadProposals();
+            }
+
+            async initializeWeb3() {
+                if (typeof window.ethereum !== 'undefined') {
+                    this.web3 = new Web3(window.ethereum);
+                    
+                    // Initialize contract if blockchain integration is available
+                    if (window.wonkBlockchain) {
+                        this.contract = window.wonkBlockchain.contract;
+                    }
+                } else {
+                    this.showError('يرجى تثبيت MetaMask أو محفظة Web3 أخرى');
+                }
+            }
+
+            setupEventListeners() {
+                document.getElementById('connectWallet').addEventListener('click', () => this.connectWallet());
+                document.getElementById('createProposal').addEventListener('click', () => this.createProposal());
+                document.getElementById('refreshProposals').addEventListener('click', () => this.loadProposals());
+                document.getElementById('updatePointSettings').addEventListener('click', () => this.updatePointSettings());
+                document.getElementById('updateVotingSettings').addEventListener('click', () => this.updateVotingSettings());
+                document.getElementById('pauseContract').addEventListener('click', () => this.pauseContract());
+                document.getElementById('unpauseContract').addEventListener('click', () => this.unpauseContract());
+                document.getElementById('withdrawFunds').addEventListener('click', () => this.withdrawFunds());
+            }
+
+            async connectWallet() {
+                try {
+                    if (!this.web3) {
+                        throw new Error('Web3 غير متاح');
+                    }
+
+                    const accounts = await window.ethereum.request({
+                        method: 'eth_requestAccounts'
+                    });
+
+                    if (accounts.length > 0) {
+                        this.userAccount = accounts[0];
+                        await this.checkOwnership();
+                        this.updateWalletUI();
+                        await this.loadStats();
+                    }
+                } catch (error) {
+                    console.error('خطأ في ربط المحفظة:', error);
+                    this.showError('فشل في ربط المحفظة: ' + error.message);
+                }
+            }
+
+            async checkOwnership() {
+                try {
+                    if (this.contract && this.userAccount) {
+                        const owner = await this.contract.methods.owner().call();
+                        this.isOwner = owner.toLowerCase() === this.userAccount.toLowerCase();
+                        
+                        if (!this.isOwner) {
+                            this.showError('تحذير: أنت لست مالك العقد. بعض الوظائف قد لا تكون متاحة.');
+                        }
+                    }
+                } catch (error) {
+                    console.error('خطأ في التحقق من الملكية:', error);
+                }
+            }
+
+            updateWalletUI() {
+                const walletStatus = document.getElementById('walletStatus');
+                const userAddress = document.getElementById('userAddress');
+                const connectButton = document.getElementById('connectWallet');
+
+                if (this.userAccount) {
+                    walletStatus.textContent = 'متصل';
+                    walletStatus.className = 'wallet-status connected';
+                    userAddress.textContent = this.formatAddress(this.userAccount);
+                    userAddress.classList.remove('hidden');
+                    connectButton.textContent = 'تغيير المحفظة';
+                } else {
+                    walletStatus.textContent = 'غير متصل';
+                    walletStatus.className = 'wallet-status disconnected';
+                    userAddress.classList.add('hidden');
+                    connectButton.textContent = 'ربط المحفظة';
+                }
+            }
+
+            formatAddress(address) {
+                return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+            }
+
+            async loadStats() {
+                try {
+                    if (!this.contract) {
+                        return;
+                    }
+
+                    const stats = await this.contract.methods.getStats().call();
+                    
+                    document.getElementById('totalProposals').textContent = stats.totalProposals;
+                    document.getElementById('activeProposals').textContent = stats.activeProposals;
+                    document.getElementById('totalVotes').textContent = stats.totalVotesCount;
+                    document.getElementById('contractBalance').textContent = 
+                        this.web3.utils.fromWei(stats.contractBalance, 'ether');
+                } catch (error) {
+                    console.error('خطأ في تحميل الإحصائيات:', error);
+                }
+            }
+
+            async loadProposals() {
+                const proposalsList = document.getElementById('proposalsList');
+                proposalsList.innerHTML = '<div class="loading">جاري تحميل المقترحات...</div>';
+
+                try {
+                    if (!this.contract) {
+                        proposalsList.innerHTML = '<div class="error">العقد الذكي غير متاح</div>';
+                        return;
+                    }
+
+                    const totalProposals = await this.contract.methods.getTotalProposals().call();
+                    
+                    if (totalProposals == 0) {
+                        proposalsList.innerHTML = '<div class="loading">لا توجد مقترحات حتى الآن</div>';
+                        return;
+                    }
+
+                    const proposals = await this.contract.methods.getProposals(0, totalProposals).call();
+                    
+                    proposalsList.innerHTML = '';
+                    
+                    proposals.forEach(proposal => {
+                        const proposalElement = this.createProposalElement(proposal);
+                        proposalsList.appendChild(proposalElement);
+                    });
+                } catch (error) {
+                    console.error('خطأ في تحميل المقترحات:', error);
+                    proposalsList.innerHTML = '<div class="error">فشل في تحميل المقترحات</div>';
+                }
+            }
+
+            createProposalElement(proposal) {
+                const div = document.createElement('div');
+                div.className = 'proposal-item';
+                
+                const isActive = proposal.active && 
+                    Date.now() / 1000 >= proposal.startTime && 
+                    Date.now() / 1000 <= proposal.endTime;
+                
+                div.innerHTML = `
+                    <div class="proposal-header">
+                        <div class="proposal-name">${proposal.name}</div>
+                        <div class="proposal-votes">${proposal.voteCount} صوت</div>
+                    </div>
+                    <div style="margin-bottom: 10px; color: #ccc;">
+                        ${proposal.description}
+                    </div>
+                    <div style="margin-bottom: 10px; font-size: 0.9rem; color: #999;">
+                        الحالة: ${isActive ? 'نشط' : 'غير نشط'} | 
+                        المنشئ: ${this.formatAddress(proposal.creator)}
+                    </div>
+                    <div class="proposal-actions">
+                        ${proposal.active ? 
+                            `<button class="btn btn-danger" onclick="adminDashboard.deactivateProposal(${proposal.id})">إلغاء تفعيل</button>` :
+                            '<span style="color: #666;">تم إلغاء التفعيل</span>'
+                        }
+                    </div>
+                `;
+                
+                return div;
+            }
+
+            async createProposal() {
+                const name = document.getElementById('proposalName').value.trim();
+                const description = document.getElementById('proposalDescription').value.trim();
+                const duration = parseInt(document.getElementById('proposalDuration').value);
+                const statusDiv = document.getElementById('createProposalStatus');
+
+                if (!name || !description || !duration) {
+                    this.showStatus(statusDiv, 'يرجى ملء جميع الحقول', 'error');
+                    return;
+                }
+
+                if (!this.contract || !this.userAccount) {
+                    this.showStatus(statusDiv, 'يرجى ربط المحفظة أولاً', 'error');
+                    return;
+                }
+
+                try {
+                    this.showStatus(statusDiv, 'جاري إنشاء المقترح...', 'loading');
+
+                    const result = await this.contract.methods.createProposal(name, description, duration)
+                        .send({ from: this.userAccount });
+
+                    this.showStatus(statusDiv, 'تم إنشاء المقترح بنجاح!', 'success');
+                    
+                    // Clear form
+                    document.getElementById('proposalName').value = '';
+                    document.getElementById('proposalDescription').value = '';
+                    document.getElementById('proposalDuration').value = '7';
+                    
+                    // Refresh data
+                    await this.loadStats();
+                    await this.loadProposals();
+                } catch (error) {
+                    console.error('خطأ في إنشاء المقترح:', error);
+                    this.showStatus(statusDiv, 'فشل في إنشاء المقترح: ' + error.message, 'error');
+                }
+            }
+
+            async deactivateProposal(proposalId) {
+                if (!confirm('هل أنت متأكد من إلغاء تفعيل هذا المقترح؟')) {
+                    return;
+                }
+
+                try {
+                    await this.contract.methods.deactivateProposal(proposalId)
+                        .send({ from: this.userAccount });
+                    
+                    await this.loadProposals();
+                    await this.loadStats();
+                } catch (error) {
+                    console.error('خطأ في إلغاء تفعيل المقترح:', error);
+                    this.showError('فشل في إلغاء تفعيل المقترح: ' + error.message);
+                }
+            }
+
+            async updatePointSettings() {
+                const price = document.getElementById('pointPrice').value;
+                const wallet = document.getElementById('projectWallet').value.trim();
+                const statusDiv = document.getElementById('pointSettingsStatus');
+
+                if (!price || !wallet) {
+                    this.showStatus(statusDiv, 'يرجى ملء جميع الحقول', 'error');
+                    return;
+                }
+
+                try {
+                    this.showStatus(statusDiv, 'جاري تحديث الإعدادات...', 'loading');
+
+                    const priceInWei = this.web3.utils.toWei(price, 'ether');
+                    
+                    await this.contract.methods.setPointPurchasePrice(priceInWei)
+                        .send({ from: this.userAccount });
+                    
+                    await this.contract.methods.setProjectWalletAddress(wallet)
+                        .send({ from: this.userAccount });
+
+                    this.showStatus(statusDiv, 'تم تحديث إعدادات النقاط بنجاح!', 'success');
+                } catch (error) {
+                    console.error('خطأ في تحديث إعدادات النقاط:', error);
+                    this.showStatus(statusDiv, 'فشل في تحديث الإعدادات: ' + error.message, 'error');
+                }
+            }
+
+            async updateVotingSettings() {
+                const minDuration = parseInt(document.getElementById('minDuration').value);
+                const maxDuration = parseInt(document.getElementById('maxDuration').value);
+                const fee = document.getElementById('proposalFee').value;
+                const statusDiv = document.getElementById('votingSettingsStatus');
+
+                if (!minDuration || !maxDuration) {
+                    this.showStatus(statusDiv, 'يرجى ملء جميع الحقول', 'error');
+                    return;
+                }
+
+                try {
+                    this.showStatus(statusDiv, 'جاري تحديث إعدادات التصويت...', 'loading');
+
+                    const minDurationSeconds = minDuration * 24 * 60 * 60;
+                    const maxDurationSeconds = maxDuration * 24 * 60 * 60;
+                    const feeInWei = fee ? this.web3.utils.toWei(fee, 'ether') : '0';
+
+                    await this.contract.methods.updateVotingSettings(
+                        minDurationSeconds, 
+                        maxDurationSeconds, 
+                        feeInWei
+                    ).send({ from: this.userAccount });
+
+                    this.showStatus(statusDiv, 'تم تحديث إعدادات التصويت بنجاح!', 'success');
+                } catch (error) {
+                    console.error('خطأ في تحديث إعدادات التصويت:', error);
+                    this.showStatus(statusDiv, 'فشل في تحديث الإعدادات: ' + error.message, 'error');
+                }
+            }
+
+            async pauseContract() {
+                if (!confirm('هل أنت متأكد من إيقاف العقد مؤقتاً؟')) {
+                    return;
+                }
+
+                try {
+                    await this.contract.methods.pause().send({ from: this.userAccount });
+                    this.showSuccess('تم إيقاف العقد مؤقتاً');
+                } catch (error) {
+                    console.error('خطأ في إيقاف العقد:', error);
+                    this.showError('فشل في إيقاف العقد: ' + error.message);
+                }
+            }
+
+            async unpauseContract() {
+                try {
+                    await this.contract.methods.unpause().send({ from: this.userAccount });
+                    this.showSuccess('تم تفعيل العقد');
+                } catch (error) {
+                    console.error('خطأ في تفعيل العقد:', error);
+                    this.showError('فشل في تفعيل العقد: ' + error.message);
+                }
+            }
+
+            async withdrawFunds() {
+                if (!confirm('هل أنت متأكد من سحب جميع الأموال من العقد؟')) {
+                    return;
+                }
+
+                try {
+                    await this.contract.methods.withdraw().send({ from: this.userAccount });
+                    this.showSuccess('تم سحب الأموال بنجاح');
+                    await this.loadStats();
+                } catch (error) {
+                    console.error('خطأ في سحب الأموال:', error);
+                    this.showError('فشل في سحب الأموال: ' + error.message);
+                }
+            }
+
+            showStatus(element, message, type) {
+                element.innerHTML = `<div class="${type}">${message}</div>`;
+                
+                if (type === 'success') {
+                    setTimeout(() => {
+                        element.innerHTML = '';
+                    }, 5000);
+                }
+            }
+
+            showError(message) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error';
+                errorDiv.textContent = message;
+                document.body.appendChild(errorDiv);
+                
+                setTimeout(() => {
+                    document.body.removeChild(errorDiv);
+                }, 5000);
+            }
+
+            showSuccess(message) {
+                const successDiv = document.createElement('div');
+                successDiv.className = 'success';
+                successDiv.textContent = message;
+                document.body.appendChild(successDiv);
+                
+                setTimeout(() => {
+                    document.body.removeChild(successDiv);
+                }, 5000);
+            }
+        }
+
+        // Initialize admin dashboard when page loads
+        let adminDashboard;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            adminDashboard = new AdminDashboard();
+        });
+    </script>
+</body>
+</html>
+
