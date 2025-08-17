@@ -1,661 +1,359 @@
-// User State
-let currentUser = null;
-let userPoints = 0;
-
-// DOM Elements
-let authModal, userDashboard, phantomLoginBtn, googleLoginBtn, closeAuthBtn;
-
-// Initialize when page loads
-document.addEventListener('DOMContentLoaded', function() {
-  authModal = document.getElementById('authModal');
-  userDashboard = document.getElementById('userDashboard');
-  phantomLoginBtn = document.getElementById('phantomLogin');
-  googleLoginBtn = document.getElementById('googleLogin');
-  closeAuthBtn = document.getElementById('closeAuth');
-  
-  console.log('Auth elements loaded:', {
-    authModal: !!authModal,
-    userDashboard: !!userDashboard,
-    phantomLoginBtn: !!phantomLoginBtn,
-    googleLoginBtn: !!googleLoginBtn,
-    closeAuthBtn: !!closeAuthBtn
-  });
-  
-  showAuthModal();
-  setupEventListeners();
-});
-
-// Setup Event Listeners
-function setupEventListeners() {
-  if (phantomLoginBtn) {
-    phantomLoginBtn.addEventListener('click', loginWithPhantom);
+// Database Management System
+class WonkDatabase {
+  constructor() {
+    this.db = firebase.firestore();
+    this.users = this.db.collection('users');
+    this.votes = this.db.collection('votes');
+    this.transactions = this.db.collection('transactions');
+    this.cryptos = this.db.collection('cryptos');
   }
-  if (googleLoginBtn) {
-    googleLoginBtn.addEventListener('click', loginWithGoogle);
+
+  // User Management
+  async createUser(userId, userData) {
+    try {
+      const userRef = this.users.doc(userId);
+      const defaultUserData = {
+        userId: userId,
+        email: userData.email || null,
+        displayName: userData.displayName || `User${userId.substring(0, 8)}`,
+        photoURL: userData.photoURL || null,
+        walletAddress: userData.walletAddress || null,
+        points: 1000,
+        totalVotes: 0,
+        totalSpent: 0,
+        joinDate: firebase.firestore.FieldValue.serverTimestamp(),
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+        loginMethod: userData.loginMethod || 'unknown',
+        isActive: true,
+        level: 1,
+        achievements: []
+      };
+
+      await userRef.set(defaultUserData, { merge: true });
+      console.log('User created successfully:', userId);
+      return defaultUserData;
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw error;
+    }
   }
-  if (closeAuthBtn) {
-    closeAuthBtn.addEventListener('click', hideAuthModal);
-  }
-  
-  if (authModal) {
-    authModal.addEventListener('click', (e) => {
-      if (e.target === authModal) {
-        hideAuthModal();
+
+  async getUser(userId) {
+    try {
+      const userDoc = await this.users.doc(userId).get();
+      if (userDoc.exists) {
+        return userDoc.data();
       }
-    });
-  }
-}
-
-// Phantom Wallet Login
-async function loginWithPhantom() {
-  try {
-    if (!window.solana || !window.solana.isPhantom) {
-      alert('Please install Phantom Wallet first');
-      window.open('https://phantom.app/', '_blank');
-      return;
+      return null;
+    } catch (error) {
+      console.error('Error getting user:', error);
+      throw error;
     }
-
-    const response = await window.solana.connect();
-    const publicKey = response.publicKey.toString();
-    
-    currentUser = {
-      uid: publicKey,
-      email: null,
-      displayName: `Phantom-${publicKey.substring(0, 8)}`,
-      photoURL: null,
-      walletAddress: publicKey,
-      loginMethod: 'phantom'
-    };
-    
-    loadUserDashboard();
-    hideAuthModal();
-    showSuccessMessage('Successfully logged in with Phantom');
-  } catch (error) {
-    console.error('Phantom login error:', error);
-    showErrorMessage('Connection cancelled or failed');
   }
-}
 
-// Google Login
-async function loginWithGoogle() {
-  try {
-    const randomId = 'google_' + Math.random().toString(36).substring(7);
-    
-    currentUser = {
-      uid: randomId,
-      email: 'user@example.com',
-      displayName: 'Google User',
-      photoURL: null,
-      walletAddress: null,
-      loginMethod: 'google'
-    };
-    
-    loadUserDashboard();
-    hideAuthModal();
-    showSuccessMessage('Successfully logged in with Google');
-  } catch (error) {
-    console.error('Google login error:', error);
-    showErrorMessage('Error logging in with Google');
+  async updateUser(userId, updateData) {
+    try {
+      await this.users.doc(userId).update({
+        ...updateData,
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      console.log('User updated successfully:', userId);
+    } catch (error) {
+      console.error('Error updating user:', error);
+      throw error;
+    }
   }
-}
 
-// Load User Dashboard
-function loadUserDashboard() {
-  if (!userDashboard) return;
-  
-  userDashboard.innerHTML = `
-    <div class="fixed top-0 left-0 w-full h-full bg-gradient-to-b from-gray-900 to-black z-40">
-      <!-- Header -->
-      <header class="cyber-header w-full">
-        <div class="container mx-auto px-6 py-4">
-          <div class="flex items-center justify-between">
-            <!-- Logo & Title -->
-            <div class="flex items-center">
-              <div class="logo-glow">
-                <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-xl font-bold">W</div>
-              </div>
-              <span class="ml-3 text-2xl font-bold glow-blue font-mono">WONK VOTE</span>
-            </div>
-
-            <!-- User Info & Points -->
-            <div class="flex items-center space-x-4">
-              <div class="glass-panel px-6 py-2 rounded-full">
-                <div class="flex items-center space-x-3">
-                  <div class="text-right">
-                    <div class="text-sm text-gray-400">Your Points</div>
-                    <div class="text-xl font-bold glow-gold" id="userPointsDisplay">${userPoints.toLocaleString()}</div>
-                  </div>
-                  <div class="w-10 h-10 bg-gradient-to-br from-gold-400 to-yellow-500 rounded-full flex items-center justify-center">
-                    <i class="fas fa-coins text-lg"></i>
-                  </div>
-                </div>
-              </div>
-              
-              <button onclick="buyPoints()" class="action-btn">
-                <i class="fas fa-plus mr-2"></i>
-                Buy Points
-              </button>
-              
-              <button onclick="logout()" class="nav-item">
-                <i class="fas fa-sign-out-alt mr-2"></i>
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <!-- Main Content -->
-      <main class="pt-24 pb-20 px-6">
-        <div class="container mx-auto max-w-6xl">
-          <!-- Voting Section -->
-          <div class="mb-12">
-            <h1 class="text-4xl font-bold text-center mb-4 glow-blue font-mono">CRYPTO VOTING ARENA</h1>
-            <p class="text-center text-xl mb-8 text-gray-300">Vote for your favorite crypto - Each vote costs 10 points</p>
-            
-            <!-- Voting Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12" id="votingCards">
-              <!-- Voting cards will be loaded here -->
-            </div>
-          </div>
-
-          <!-- Live Votes Feed -->
-          <div class="glass-panel p-6 rounded-3xl">
-            <h2 class="text-2xl font-bold text-center mb-6 glow-gold">LIVE VOTES FEED</h2>
-            <div class="h-96 overflow-y-auto" id="liveVotesFeed">
-              <!-- Live votes will be loaded here -->
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  `;
-  
-  userDashboard.classList.remove('hidden');
-  loadVotingCards();
-  startLiveVotesFeed();
-  loadUserPoints();
-}
-
-// Hide Dashboard
-function hideDashboard() {
-  if (userDashboard) {
-    userDashboard.classList.add('hidden');
+  async updateUserPoints(userId, newPoints) {
+    try {
+      await this.users.doc(userId).update({
+        points: newPoints,
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } catch (error) {
+      console.error('Error updating user points:', error);
+      throw error;
+    }
   }
-}
 
-// Show Auth Modal
-function showAuthModal() {
-  if (authModal) {
-    authModal.classList.remove('hidden');
-    authModal.classList.add('flex');
+  async updateLastLogin(userId) {
+    try {
+      await this.users.doc(userId).update({
+        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } catch (error) {
+      console.error('Error updating last login:', error);
+    }
   }
-}
 
-// Hide Auth Modal
-function hideAuthModal() {
-  if (authModal) {
-    authModal.classList.add('hidden');
-    authModal.classList.remove('flex');
-  }
-}
-
-// Load User Points
-async function loadUserPoints() {
-  try {
-    if (window.wonkDB && currentUser) {
-      let userData = await wonkDB.getUser(currentUser.uid);
+  // Voting System
+  async recordVote(userId, cryptoName, pointsCost) {
+    try {
+      const batch = this.db.batch();
       
-      if (!userData) {
-        userData = await wonkDB.createUser(currentUser.uid, {
-          email: currentUser.email,
-          displayName: currentUser.displayName,
-          photoURL: currentUser.photoURL,
-          walletAddress: currentUser.walletAddress || null,
-          loginMethod: currentUser.loginMethod || 'unknown'
-        });
-      } else {
-        await wonkDB.updateLastLogin(currentUser.uid);
-      }
-      
-      userPoints = userData.points || 1000;
-      
-      const pointsDisplay = document.getElementById('userPointsDisplay');
-      if (pointsDisplay) {
-        pointsDisplay.textContent = userPoints.toLocaleString();
-      }
-
-      startUserDataListener();
-    } else {
-      const savedPoints = localStorage.getItem(`user_points_${currentUser.uid}`);
-      userPoints = savedPoints ? parseInt(savedPoints) : 1000;
-      
-      const pointsDisplay = document.getElementById('userPointsDisplay');
-      if (pointsDisplay) {
-        pointsDisplay.textContent = userPoints.toLocaleString();
-      }
-    }
-  } catch (error) {
-    console.error('Error loading user points:', error);
-    userPoints = 1000;
-    
-    const pointsDisplay = document.getElementById('userPointsDisplay');
-    if (pointsDisplay) {
-      pointsDisplay.textContent = userPoints.toLocaleString();
-    }
-  }
-}
-
-// Save User Points
-async function saveUserPoints() {
-  try {
-    if (window.wonkDB && currentUser) {
-      await wonkDB.updateUserPoints(currentUser.uid, userPoints);
-    } else {
-      localStorage.setItem(`user_points_${currentUser?.uid || 'demo'}`, userPoints.toString());
-    }
-  } catch (error) {
-    console.error('Error saving user points:', error);
-    localStorage.setItem(`user_points_${currentUser?.uid || 'demo'}`, userPoints.toString());
-  }
-}
-
-// Load Voting Cards
-async function loadVotingCards() {
-  try {
-    let cryptos;
-    
-    if (window.wonkDB) {
-      cryptos = await wonkDB.getCryptos();
-    }
-    
-    if (!cryptos || cryptos.length === 0) {
-      cryptos = [
-        { name: 'MOONSHOT', icon: '🚀', color: 'blue', totalVotes: 2150 },
-        { name: 'DIAMOND', icon: '💎', color: 'green', totalVotes: 1250 },
-        { name: 'LIGHTNING', icon: '⚡', color: 'purple', totalVotes: 750 },
-        { name: 'ROCKET', icon: '🌙', color: 'yellow', totalVotes: 890 },
-        { name: 'FIRE', icon: '🔥', color: 'red', totalVotes: 1120 },
-        { name: 'STAR', icon: '⭐', color: 'orange', totalVotes: 680 }
-      ];
-    }
-
-    const votingCards = document.getElementById('votingCards');
-    if (!votingCards) return;
-
-    votingCards.innerHTML = cryptos.map(crypto => `
-      <div class="glass-panel p-6 rounded-2xl hover:scale-105 transition-all duration-300 cursor-pointer" onclick="voteForCrypto('${crypto.name}', 10)">
-        <div class="text-center mb-4">
-          <div class="w-16 h-16 bg-gradient-to-br from-${crypto.color}-400 to-${crypto.color}-600 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-3">
-            ${crypto.icon}
-          </div>
-          <h4 class="text-xl font-bold text-${crypto.color}-400">${crypto.name}</h4>
-          <p class="text-gray-400 text-sm">Community Choice</p>
-        </div>
-        
-        <div class="mb-4">
-          <div class="flex justify-between text-sm mb-2">
-            <span>Total Votes: ${(crypto.totalVotes || 0).toLocaleString()}</span>
-            <span class="text-${crypto.color}-400 font-bold">ACTIVE</span>
-          </div>
-          <div class="w-full bg-gray-700 rounded-full h-3">
-            <div class="bg-gradient-to-r from-${crypto.color}-400 to-${crypto.color}-600 h-3 rounded-full transition-all duration-500" style="width: ${Math.min((crypto.totalVotes || 0) / 30, 100)}%"></div>
-          </div>
-        </div>
-
-        <div class="bg-black bg-opacity-50 p-3 rounded-lg mb-4">
-          <div class="text-xs text-gray-400 mb-1">VOTE COST:</div>
-          <div class="flex items-center justify-between">
-            <span class="text-${crypto.color}-400 font-bold">10 POINTS</span>
-            <i class="fas fa-coins text-gold-400"></i>
-          </div>
-        </div>
-
-        <div class="action-btn w-full bg-gradient-to-r from-${crypto.color}-400 to-${crypto.color}-600 text-center">
-          <i class="fas fa-vote-yea mr-2"></i>
-          VOTE NOW
-        </div>
-      </div>
-    `).join('');
-  } catch (error) {
-    console.error('Error loading voting cards:', error);
-  }
-}
-
-// Vote for Crypto
-async function voteForCrypto(cryptoName, cost) {
-  if (userPoints < cost) {
-    showErrorMessage('Insufficient points! Please buy more points.');
-    return;
-  }
-
-  try {
-    if (window.wonkDB && currentUser) {
-      await wonkDB.recordVote(currentUser.uid, cryptoName, cost);
-      await wonkDB.recordTransaction(currentUser.uid, 'vote', cost, {
+      // Add vote record
+      const voteRef = this.votes.doc();
+      batch.set(voteRef, {
+        userId: userId,
         cryptoName: cryptoName,
-        action: 'vote_cast'
+        pointsCost: pointsCost,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        voteId: voteRef.id
       });
-    }
-    
-    userPoints -= cost;
-    await saveUserPoints();
-    
-    const pointsDisplay = document.getElementById('userPointsDisplay');
-    if (pointsDisplay) {
-      pointsDisplay.textContent = userPoints.toLocaleString();
-    }
-    
-    addVoteToFeed(currentUser.uid, cryptoName);
-    showSuccessMessage(`Successfully voted for ${cryptoName}!`);
-    
-    setTimeout(() => {
-      loadVotingCards();
-    }, 1000);
-    
-  } catch (error) {
-    console.error('Error voting:', error);
-    showErrorMessage('Failed to cast vote. Please try again.');
-  }
-}
 
-// Start Live Votes Feed
-function startLiveVotesFeed() {
-  const liveVotesFeed = document.getElementById('liveVotesFeed');
-  if (!liveVotesFeed) return;
-  
-  if (window.wonkDB) {
-    const unsubscribe = wonkDB.listenToRecentVotes((votes) => {
-      liveVotesFeed.innerHTML = votes.map(vote => `
-        <div class="flex items-center justify-between p-3 mb-2 bg-black bg-opacity-30 rounded-lg animate-fade-in">
-          <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-              <i class="fas fa-user text-xs"></i>
-            </div>
-            <div>
-              <div class="text-sm font-bold text-blue-400">${vote.userId.substring(0, 8)}...</div>
-              <div class="text-xs text-gray-400">Voted successfully</div>
-            </div>
-          </div>
-          <div class="text-xs text-gray-400">
-            ${vote.timestamp ? formatTimeAgo(vote.timestamp.toDate ? vote.timestamp.toDate().getTime() : Date.now()) : 'Just now'}
-          </div>
-        </div>
-      `).join('');
-    }, 20);
-
-    window.votesListener = unsubscribe;
-  } else {
-    const initialVotes = [
-      { userId: 'user001', timestamp: Date.now() - 300000 },
-      { userId: 'user002', timestamp: Date.now() - 250000 },
-      { userId: 'user003', timestamp: Date.now() - 200000 },
-      { userId: 'user004', timestamp: Date.now() - 150000 },
-      { userId: 'user005', timestamp: Date.now() - 100000 }
-    ];
-
-    liveVotesFeed.innerHTML = initialVotes.map(vote => `
-      <div class="flex items-center justify-between p-3 mb-2 bg-black bg-opacity-30 rounded-lg animate-fade-in">
-        <div class="flex items-center space-x-3">
-          <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-            <i class="fas fa-user text-xs"></i>
-          </div>
-          <div>
-            <div class="text-sm font-bold text-blue-400">${vote.userId}</div>
-            <div class="text-xs text-gray-400">Voted successfully</div>
-          </div>
-        </div>
-        <div class="text-xs text-gray-400">
-          ${formatTimeAgo(vote.timestamp)}
-        </div>
-      </div>
-    `).join('');
-
-    setInterval(() => {
-      const randomUserId = 'user' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-      addVoteToFeed(randomUserId);
-    }, Math.random() * 10000 + 5000);
-  }
-}
-
-// Add Vote to Live Feed
-function addVoteToFeed(userId, cryptoName = null) {
-  const liveVotesFeed = document.getElementById('liveVotesFeed');
-  if (!liveVotesFeed) return;
-  
-  const voteElement = document.createElement('div');
-  voteElement.className = 'flex items-center justify-between p-3 mb-2 bg-black bg-opacity-30 rounded-lg animate-fade-in';
-  voteElement.innerHTML = `
-    <div class="flex items-center space-x-3">
-      <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-        <i class="fas fa-user text-xs"></i>
-      </div>
-      <div>
-        <div class="text-sm font-bold text-blue-400">${userId.substring(0, 8)}...</div>
-        <div class="text-xs text-gray-400">Voted successfully</div>
-      </div>
-    </div>
-    <div class="text-xs text-gray-400">
-      Just now
-    </div>
-  `;
-  
-  liveVotesFeed.insertBefore(voteElement, liveVotesFeed.firstChild);
-  
-  const votes = liveVotesFeed.children;
-  if (votes.length > 20) {
-    liveVotesFeed.removeChild(votes[votes.length - 1]);
-  }
-}
-
-// Buy Points Function
-function buyPoints() {
-  showBuyPointsModal();
-}
-
-// Show Buy Points Modal
-function showBuyPointsModal() {
-  const modal = document.createElement('div');
-  modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]';
-  modal.innerHTML = `
-    <div class="glass-panel p-8 rounded-3xl max-w-md w-full mx-4">
-      <h2 class="text-2xl font-bold text-center mb-6 glow-gold">Buy Points</h2>
-      <div class="space-y-4">
-        <div class="glass-dark p-4 rounded-lg cursor-pointer hover:scale-105 transition-all" onclick="purchasePoints(1000, 0.1)">
-          <div class="flex justify-between items-center">
-            <div>
-              <div class="text-lg font-bold text-blue-400">1,000 Points</div>
-              <div class="text-sm text-gray-400">Basic Package</div>
-            </div>
-            <div class="text-xl font-bold glow-gold">0.1 SOL</div>
-          </div>
-        </div>
-        
-        <div class="glass-dark p-4 rounded-lg cursor-pointer hover:scale-105 transition-all" onclick="purchasePoints(5000, 0.45)">
-          <div class="flex justify-between items-center">
-            <div>
-              <div class="text-lg font-bold text-green-400">5,000 Points</div>
-              <div class="text-sm text-gray-400">Popular Choice</div>
-            </div>
-            <div class="text-xl font-bold glow-gold">0.45 SOL</div>
-          </div>
-        </div>
-        
-        <div class="glass-dark p-4 rounded-lg cursor-pointer hover:scale-105 transition-all" onclick="purchasePoints(10000, 0.8)">
-          <div class="flex justify-between items-center">
-            <div>
-              <div class="text-lg font-bold text-purple-400">10,000 Points</div>
-              <div class="text-sm text-gray-400">Best Value</div>
-            </div>
-            <div class="text-xl font-bold glow-gold">0.8 SOL</div>
-          </div>
-        </div>
-      </div>
-      <button onclick="closeBuyPointsModal()" class="text-gray-400 hover:text-white mt-6 w-full text-center">
-        Cancel
-      </button>
-    </div>
-  `;
-  
-  modal.onclick = (e) => {
-    if (e.target === modal) {
-      document.body.removeChild(modal);
-    }
-  };
-  
-  document.body.appendChild(modal);
-  window.currentBuyModal = modal;
-}
-
-// Close Buy Points Modal
-function closeBuyPointsModal() {
-  if (window.currentBuyModal) {
-    document.body.removeChild(window.currentBuyModal);
-    window.currentBuyModal = null;
-  }
-}
-
-// Purchase Points
-async function purchasePoints(points, solAmount) {
-  try {
-    if (!window.solana || !window.solana.isPhantom) {
-      alert('Phantom Wallet is required for purchases');
-      return;
-    }
-
-    showSuccessMessage(`Successfully purchased ${points.toLocaleString()} points!`);
-    
-    userPoints += points;
-    
-    if (window.wonkDB && currentUser) {
-      await wonkDB.updateUserPoints(currentUser.uid, userPoints);
-      await wonkDB.recordTransaction(currentUser.uid, 'purchase', points, {
-        solAmount: solAmount,
-        package: `${points.toLocaleString()} Points`,
-        paymentMethod: 'phantom'
+      // Update user stats
+      const userRef = this.users.doc(userId);
+      batch.update(userRef, {
+        totalVotes: firebase.firestore.FieldValue.increment(1),
+        totalSpent: firebase.firestore.FieldValue.increment(pointsCost),
+        points: firebase.firestore.FieldValue.increment(-pointsCost)
       });
-    } else {
-      await saveUserPoints();
+
+      // Update crypto vote count
+      const cryptoRef = this.cryptos.doc(cryptoName);
+      batch.update(cryptoRef, {
+        totalVotes: firebase.firestore.FieldValue.increment(1),
+        lastVoted: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+
+      await batch.commit();
+      console.log('Vote recorded successfully');
+      return voteRef.id;
+    } catch (error) {
+      console.error('Error recording vote:', error);
+      throw error;
     }
-    
-    const pointsDisplay = document.getElementById('userPointsDisplay');
-    if (pointsDisplay) {
-      pointsDisplay.textContent = userPoints.toLocaleString();
-    }
-    
-    closeBuyPointsModal();
-  } catch (error) {
-    console.error('Purchase error:', error);
-    showErrorMessage('Purchase failed. Please try again.');
   }
-}
 
-// Logout Function
-function logout() {
-  cleanupListeners();
-  currentUser = null;
-  hideDashboard();
-  showAuthModal();
-  showSuccessMessage('Logged out successfully');
-}
+  async getRecentVotes(limit = 50) {
+    try {
+      const votesSnapshot = await this.votes
+        .orderBy('timestamp', 'desc')
+        .limit(limit)
+        .get();
+      
+      return votesSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+    } catch (error) {
+      console.error('Error getting recent votes:', error);
+      throw error;
+    }
+  }
 
-// Start user data listener
-function startUserDataListener() {
-  if (window.wonkDB && currentUser) {
-    const unsubscribe = wonkDB.listenToUserData(currentUser.uid, (userData) => {
-      if (userData && userData.points !== userPoints) {
-        userPoints = userData.points;
-        const pointsDisplay = document.getElementById('userPointsDisplay');
-        if (pointsDisplay) {
-          pointsDisplay.classList.add('points-update');
-          pointsDisplay.textContent = userPoints.toLocaleString();
-          setTimeout(() => {
-            pointsDisplay.classList.remove('points-update');
-          }, 500);
-        }
+  // Transaction Management
+  async recordTransaction(userId, type, amount, details) {
+    try {
+      const transactionRef = this.transactions.doc();
+      await transactionRef.set({
+        userId: userId,
+        type: type,
+        amount: amount,
+        details: details,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        transactionId: transactionRef.id,
+        status: 'completed'
+      });
+
+      console.log('Transaction recorded:', transactionRef.id);
+      return transactionRef.id;
+    } catch (error) {
+      console.error('Error recording transaction:', error);
+      throw error;
+    }
+  }
+
+  async getUserTransactions(userId, limit = 20) {
+    try {
+      const transactionsSnapshot = await this.transactions
+        .where('userId', '==', userId)
+        .orderBy('timestamp', 'desc')
+        .limit(limit)
+        .get();
+      
+      return transactionsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+    } catch (error) {
+      console.error('Error getting user transactions:', error);
+      throw error;
+    }
+  }
+
+  // Crypto Management
+  async initializeCryptos() {
+    try {
+      const cryptos = [
+        { name: 'MOONSHOT', icon: '🚀', color: 'blue', totalVotes: 0, active: true },
+        { name: 'DIAMOND', icon: '💎', color: 'green', totalVotes: 0, active: true },
+        { name: 'LIGHTNING', icon: '⚡', color: 'purple', totalVotes: 0, active: true },
+        { name: 'ROCKET', icon: '🌙', color: 'yellow', totalVotes: 0, active: true },
+        { name: 'FIRE', icon: '🔥', color: 'red', totalVotes: 0, active: true },
+        { name: 'STAR', icon: '⭐', color: 'orange', totalVotes: 0, active: true }
+      ];
+
+      const batch = this.db.batch();
+      
+      for (const crypto of cryptos) {
+        const cryptoRef = this.cryptos.doc(crypto.name);
+        batch.set(cryptoRef, {
+          ...crypto,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+      }
+
+      await batch.commit();
+      console.log('Cryptos initialized successfully');
+    } catch (error) {
+      console.error('Error initializing cryptos:', error);
+      throw error;
+    }
+  }
+
+  async getCryptos() {
+    try {
+      const cryptosSnapshot = await this.cryptos
+        .where('active', '==', true)
+        .orderBy('totalVotes', 'desc')
+        .get();
+      
+      return cryptosSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+    } catch (error) {
+      console.error('Error getting cryptos:', error);
+      throw error;
+    }
+  }
+
+  // Statistics
+  async getGlobalStats() {
+    try {
+      const [usersSnapshot, votesSnapshot, transactionsSnapshot] = await Promise.all([
+        this.users.get(),
+        this.votes.get(),
+        this.transactions.where('type', '==', 'purchase').get()
+      ]);
+
+      return {
+        totalUsers: usersSnapshot.size,
+        totalVotes: votesSnapshot.size,
+        totalTransactions: transactionsSnapshot.size,
+        timestamp: new Date()
+      };
+    } catch (error) {
+      console.error('Error getting global stats:', error);
+      throw error;
+    }
+  }
+
+  // Real-time listeners
+  listenToRecentVotes(callback, limit = 20) {
+    return this.votes
+      .orderBy('timestamp', 'desc')
+      .limit(limit)
+      .onSnapshot(snapshot => {
+        const votes = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        callback(votes);
+      });
+  }
+
+  listenToUserData(userId, callback) {
+    return this.users.doc(userId).onSnapshot(doc => {
+      if (doc.exists) {
+        callback(doc.data());
       }
     });
-    
-    window.userDataListener = unsubscribe;
+  }
+
+  listenToCryptoStats(callback) {
+    return this.cryptos
+      .where('active', '==', true)
+      .onSnapshot(snapshot => {
+        const cryptos = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        callback(cryptos);
+      });
+  }
+
+  // Leaderboard
+  async getTopVoters(limit = 10) {
+    try {
+      const topVotersSnapshot = await this.users
+        .where('totalVotes', '>', 0)
+        .orderBy('totalVotes', 'desc')
+        .limit(limit)
+        .get();
+      
+      return topVotersSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+    } catch (error) {
+      console.error('Error getting top voters:', error);
+      throw error;
+    }
+  }
+
+  // Data cleanup and maintenance
+  async cleanupOldVotes(daysOld = 30) {
+    try {
+      const cutoffDate = new Date();
+      cutoffDate.setDate(cutoffDate.getDate() - daysOld);
+      
+      const oldVotesSnapshot = await this.votes
+        .where('timestamp', '<', cutoffDate)
+        .get();
+      
+      const batch = this.db.batch();
+      oldVotesSnapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+      
+      await batch.commit();
+      console.log(`Cleaned up ${oldVotesSnapshot.size} old votes`);
+    } catch (error) {
+      console.error('Error cleaning up old votes:', error);
+    }
+  }
+
+  // Backup user data
+  async exportUserData(userId) {
+    try {
+      const [user, votes, transactions] = await Promise.all([
+        this.getUser(userId),
+        this.votes.where('userId', '==', userId).get(),
+        this.transactions.where('userId', '==', userId).get()
+      ]);
+
+      return {
+        user: user,
+        votes: votes.docs.map(doc => doc.data()),
+        transactions: transactions.docs.map(doc => doc.data()),
+        exportDate: new Date().toISOString()
+      };
+    } catch (error) {
+      console.error('Error exporting user data:', error);
+      throw error;
+    }
   }
 }
 
-// Cleanup listeners when user logs out
-function cleanupListeners() {
-  if (window.votesListener) {
-    window.votesListener();
-    window.votesListener = null;
-  }
-  if (window.userDataListener) {
-    window.userDataListener();
-    window.userDataListener = null;
-  }
-}
+// Initialize database instance
+const wonkDB = new WonkDatabase();
 
-// Utility Functions
-function showSuccessMessage(message) {
-  showToast(message, 'success');
-}
+// Initialize cryptos on first load
+wonkDB.initializeCryptos().catch(console.error);
 
-function showErrorMessage(message) {
-  showToast(message, 'error');
-}
-
-function showToast(message, type) {
-  const toast = document.createElement('div');
-  toast.className = `fixed top-4 right-4 z-[9999] p-4 rounded-lg text-white font-bold transition-all duration-300 ${
-    type === 'success' ? 'bg-green-600' : 'bg-red-600'
-  }`;
-  toast.textContent = message;
-  
-  document.body.appendChild(toast);
-  
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    setTimeout(() => {
-      if (document.body.contains(toast)) {
-        document.body.removeChild(toast);
-      }
-    }, 300);
-  }, 3000);
-}
-
-function formatTimeAgo(timestamp) {
-  const now = Date.now();
-  const diff = now - timestamp;
-  const minutes = Math.floor(diff / 60000);
-  
-  if (minutes < 1) return 'Just now';
-  if (minutes < 60) return `${minutes}m ago`;
-  
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
-  
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
-}
-
-// CSS Animations
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .animate-fade-in {
-    animation: fade-in 0.5s ease-out;
-  }
-
-  .points-update {
-    animation: pointsGlow 0.5s ease-in-out;
-  }
-
-  @keyframes pointsGlow {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); filter: brightness(1.3); }
-    100% { transform: scale(1); }
-  }
-`;
-document.head.appendChild(style);
+// Export for global use
+window.wonkDB = wonkDB;
 	
