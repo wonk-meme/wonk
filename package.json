@@ -1,0 +1,67 @@
+{
+  "name": "wonk-protocol-bot",
+  "version": "1.0.0",
+  "description": "Wonk Protocol - Advanced Telegram Voting Bot with AI Persona and IP Verification",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "nodemon bot.js",
+    "test": "jest",
+    "setup": "node setup.js",
+    "deploy": "pm2 start ecosystem.config.js"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "voting",
+    "cryptocurrency",
+    "solana",
+    "ai",
+    "n8n",
+    "defi"
+  ],
+  "author": "Wonk Protocol Team",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.12.2",
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "google-auth-library": "^10.3.0",
+    "google-spreadsheet": "^5.0.2",
+    "helmet": "^7.1.0",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.6.0",
+    "multer": "^2.0.0",
+    "node-cron": "^3.0.3",
+    "node-telegram-bot-api": "^0.63.0",
+    "rate-limiter-flexible": "^7.3.1",
+    "redis": "^4.6.10",
+    "sharp": "^0.32.6",
+    "superagent": "^10.2.2",
+    "uuid": "^9.0.0",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "prettier": "^3.1.0",
+    "supertest": "^7.1.3"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wonk-protocol/telegram-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wonk-protocol/telegram-bot/issues"
+  },
+  "homepage": "https://github.com/wonk-protocol/telegram-bot#readme"
+}
